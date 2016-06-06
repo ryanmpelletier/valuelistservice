@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd ">
+
+	<!-- Initialization for data source -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/valueslist" />
+		<property name="username" value="root" />
+		<property name="password" value="test" />
+	</bean>
+
+	<bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+	 	<constructor-arg ref="dataSource"/> <!-- class does not have setDataSource method... -->
+	</bean>
+
+	<bean id="velocityQueryParameterMapper" class="com.pelletier.valuelist.transformer.VelocityQueryParameterMapper" />
+
+	<bean id="defaultJdbcDataAdapter" class="com.pelletier.valuelist.adapter.jdbc.DefaultJdbcDataAdapter">
+		<property name="sql">
+			<value>SELECT * FROM test #if($intField) WHERE intField = :intField#end</value>
+			<!-- this is really what you want, Spring will put in the value of intField from a parameter map -->
+		</property>
+		<property name="queryParameterMapper" ref="velocityQueryParameterMapper" />
+		<property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate" />
+	</bean>
+
+
+	<bean id="valueListService"
+		class="com.pelletier.valuelist.DefaultValuesListService">
+		<property name="adapters">
+			<map>
+				<entry key="query1" value-ref="defaultJdbcDataAdapter" />
+			</map>
+		</property>
+	</bean>
+
+</beans>
