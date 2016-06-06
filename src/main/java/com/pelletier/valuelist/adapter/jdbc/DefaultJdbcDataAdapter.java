@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import com.pelletier.valuelist.DataAdapter;
 import com.pelletier.valuelist.DefaultValues;
+import com.pelletier.valuelist.DefaultValuesInfo;
 import com.pelletier.valuelist.Values;
 import com.pelletier.valuelist.ValuesInfo;
 import com.pelletier.valuelist.paging.PagingSupport;
@@ -33,8 +34,25 @@ public class DefaultJdbcDataAdapter implements DataAdapter<Map<String, Object>> 
 			 * take them out of ValuesInfo and stick them on the query params. This, however, is why I do 
 			 * not want to have the ValuesInfo object on the request. to me it is too much of a hassle. 
 			 */
+			
+			//Default paging is also supported up here.
+			
+			/*
+			 * At this point I still probably need to update totalCount. Total count is not the number they
+			 * asked for, but the total number in the database I believe. This is different from my original 
+			 * understanding that the totalCount was actually used to help cache support.
+			 * 
+			 * How do I avoid count querying, it seems like I will need to do it every time in case someone deleted
+			 * or inserted since I last checked?
+			 */
+			
 			results = namedParameterJdbcTemplate.queryForList(pagingSupport.getPagedQuery(sqlWithParams), params);
+			return new DefaultValues(results, valuesInfo);
 		}else{
+			//in this case I return valuesInfo because the user did not supply me with one
+
+			int totalCount = 1000;	//this will actually be found with an extra query, which sucks. 
+			DefaultValuesInfo defaultValuesInfo = new DefaultValuesInfo(totalCount, 0, totalCount);
 			results = namedParameterJdbcTemplate.queryForList(sqlWithParams, params);
 		}
 		
