@@ -19,6 +19,7 @@ public class VelocityQueryParameterMapper implements QueryParameterMapper {
 			velocityContext.put(key, params.get(key));
 		}
 		
+	
 		StringWriter stringWriter = new StringWriter();
 		
 		//this takes an extra string argument that I don't really care about

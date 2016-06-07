@@ -6,5 +6,5 @@ import java.util.Map;
  * 
  */
 public interface DataAdapter<T> {
-	public Values<T> query(Map<String,Object> params, ValuesInfo valuesInfo);
+	public Values<T> query(Map<String,Object> params, PagingInfo valuesInfo);
 }
