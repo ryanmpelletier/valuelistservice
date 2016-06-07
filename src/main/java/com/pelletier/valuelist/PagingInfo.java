@@ -12,7 +12,7 @@ package com.pelletier.valuelist;
  * I think it would add too much complexity if its flexibility were taken advantage of.
  * 
  */
-public interface ValuesInfo {
+public interface PagingInfo {
 	
 	public int getTotalCount();
 	public int getPage();

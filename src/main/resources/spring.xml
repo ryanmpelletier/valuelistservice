@@ -13,23 +13,25 @@
 	</bean>
 
 	<bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
-	 	<constructor-arg ref="dataSource"/> <!-- class does not have setDataSource method... -->
+		<constructor-arg ref="dataSource" /> <!-- class does not have setDataSource method... -->
 	</bean>
+
+	<bean id="pagingSupport" class="com.pelletier.valuelist.paging.MySQLPagingSupport"/>
 
 	<bean id="velocityQueryParameterMapper" class="com.pelletier.valuelist.transformer.VelocityQueryParameterMapper" />
 
 	<bean id="defaultJdbcDataAdapter" class="com.pelletier.valuelist.adapter.jdbc.DefaultJdbcDataAdapter">
 		<property name="sql">
-			<value>SELECT * FROM test #if($intField) WHERE intField = :intField#end</value>
+			<value>SELECT * FROM test #if($intField) WHERE intField > -1 order by intField#end</value>
 			<!-- this is really what you want, Spring will put in the value of intField from a parameter map -->
 		</property>
 		<property name="queryParameterMapper" ref="velocityQueryParameterMapper" />
 		<property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate" />
+		<property name="pagingSupport" ref="pagingSupport"/>
 	</bean>
 
 
-	<bean id="valueListService"
-		class="com.pelletier.valuelist.DefaultValuesListService">
+	<bean id="valueListService" class="com.pelletier.valuelist.DefaultValuesListService">
 		<property name="adapters">
 			<map>
 				<entry key="query1" value-ref="defaultJdbcDataAdapter" />

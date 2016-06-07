@@ -14,5 +14,5 @@ public interface Values<T> {
 	/*
 	 * This is information about the request, such as paging, total items info, etc.
 	 */
-	ValuesInfo getValuesInfo();
+	PagingInfo getValuesInfo();
 }
