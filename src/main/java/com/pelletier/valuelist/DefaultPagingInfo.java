@@ -1,5 +1,14 @@
 package com.pelletier.valuelist;
 
+
+/**
+ * 
+ * @author Ryan Pelletier
+ * 
+ * The Default PagingInfo implementation. 
+ * This simply stores total results, page, and number of results per page.
+ * This type of object is used both in the request and response (if paging is supported)
+ */
 public class DefaultPagingInfo implements PagingInfo {
 	
 	private int totalCount;

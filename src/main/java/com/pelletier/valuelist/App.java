@@ -1,7 +1,6 @@
 package com.pelletier.valuelist;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.context.ApplicationContext;
@@ -10,31 +9,26 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
  * Author: Ryan Pelletier
  *
- * This will be used to test the service, we will get the bean from the
- * application context.
+ * Simple main class example for using ValueListService
  */
 public class App {
 	public static void main(String[] args) {
+		
+		final int PAGE_NUMBER = 1;
+		final int NUMBER_PER_PAGE = 10;
+		
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
-
 		ValueListService valueListService = (ValueListService) applicationContext.getBean("valueListService");
 
 		Map<String, Object> queryParams = new HashMap<String, Object>();
-		queryParams.put("intField", new Integer(5));
 		Values<Map<String, Object>> result = null;
 		try {
-			result = (Values<Map<String, Object>>) valueListService.getValuesList("query1", queryParams,new DefaultPagingInfo(5, 2));
-			List<Map<String, Object>> resultSet = result.getValues();
-			PagingInfo valuesInfo = result.getValuesInfo();
+			result = (Values<Map<String, Object>>) valueListService.getValuesList("query", queryParams,new DefaultPagingInfo(PAGE_NUMBER, NUMBER_PER_PAGE));
+			System.out.println(result);
 			
-		} catch (RuntimeException e) {
+		} catch (RuntimeException e) {	
 			e.printStackTrace();
 		}		
 	}
 }
 
-
-//System.out.println(resultSet);
-//System.out.println("Total Count:" + valuesInfo.getTotalCount());
-//System.out.println("Page:" + valuesInfo.getPage());
-//System.out.println("Number Per Page:" + valuesInfo.getNumberPerPage());

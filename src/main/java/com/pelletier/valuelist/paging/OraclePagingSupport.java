@@ -6,6 +6,11 @@ import com.pelletier.valuelist.PagingInfo;
  * 
  * 	Provides pagination support for Oracle Databases
  * 
+ *  Pre and post SQL can be injected, note that post SQL must have place-holders pageNumber and numberPerPage
+ * 
+ *  Note: This hasn't been tested.
+ * 
+ * 
  * @author Ryan Pelletier
  *
  */
@@ -14,7 +19,7 @@ import com.pelletier.valuelist.PagingInfo;
 public class OraclePagingSupport implements PagingSupport {
 	
 	private String pagedQueryPreSql = "SELECT * FROM (SELECT INNER.*, ROWNUM as RECORDNUM FROM (";
-	private String pagedQueryPostSql = ") INNER ) WRAPPED WHERE WRAPPED.RECORDNUM BETWEEN (([pagingPage]-1)*[pagingNumberPer]+1) AND (([pagingPage]-1)*[pagingNumberPer]+[pagingNumberPer])";
+	private String pagedQueryPostSql = ") INNER ) WRAPPED WHERE WRAPPED.RECORDNUM BETWEEN (([pageNumber]-1)*[numberPerPage]+1) AND (([pageNumber]-1)*[numberPerPage]+[numberPerPage])";
 
 	@Override
 	public String getCountQuery(String query) {
@@ -23,7 +28,7 @@ public class OraclePagingSupport implements PagingSupport {
 
 	@Override
 	public String getPagedQuery(String query, PagingInfo pagingInfo) {
-		return pagedQueryPreSql + query + pagedQueryPostSql;
+    	return pagedQueryPreSql + query + pagedQueryPostSql.replace("pageNumber",new Integer(pagingInfo.getPage()).toString()).replace("numberPerPage",new Integer(pagingInfo.getNumberPerPage()).toString());
 	}
 
 	public void setPagedQueryPreSql(String pagedQueryPreSql) {
