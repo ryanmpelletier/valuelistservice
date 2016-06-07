@@ -2,6 +2,12 @@ package com.pelletier.valuelist.paging;
 
 import com.pelletier.valuelist.PagingInfo;
 
+/**
+ * 
+ * @author Ryan Pelletier
+ *
+ *	Provides pagination support for MySQL databases.
+ */
 
 public class MySQLPagingSupport implements PagingSupport {
 	

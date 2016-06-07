@@ -27,13 +27,14 @@ public class App {
 			List<Map<String, Object>> resultSet = result.getValues();
 			PagingInfo valuesInfo = result.getValuesInfo();
 			
-			
-//			System.out.println(resultSet);
-//			System.out.println("Total Count:" + valuesInfo.getTotalCount());
-//			System.out.println("Page:" + valuesInfo.getPage());
-//			System.out.println("Number Per Page:" + valuesInfo.getNumberPerPage());
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 		}		
 	}
 }
+
+
+//System.out.println(resultSet);
+//System.out.println("Total Count:" + valuesInfo.getTotalCount());
+//System.out.println("Page:" + valuesInfo.getPage());
+//System.out.println("Number Per Page:" + valuesInfo.getNumberPerPage());

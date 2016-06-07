@@ -2,6 +2,15 @@ package com.pelletier.valuelist.paging;
 
 import com.pelletier.valuelist.PagingInfo;
 
+/**
+ * 
+ * 	Provides pagination support for Oracle Databases
+ * 
+ * @author Ryan Pelletier
+ *
+ */
+
+
 public class OraclePagingSupport implements PagingSupport {
 	
 	private String pagedQueryPreSql = "SELECT * FROM (SELECT INNER.*, ROWNUM as RECORDNUM FROM (";
