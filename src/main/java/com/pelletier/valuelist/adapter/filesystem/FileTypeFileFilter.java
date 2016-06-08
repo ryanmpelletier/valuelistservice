@@ -8,7 +8,7 @@ import java.util.Map;
 public class FileTypeFileFilter implements FileFilter{
 	
 	//key and default value for query, likely I will want to have an Abstract class of this to 
-	//suppor the idea of key and defaultValue being able to be configured in Spring
+	//support the idea of key and defaultValue being able to be configured in Spring
 	private String key = "type";
 	private String defaultValue;
 

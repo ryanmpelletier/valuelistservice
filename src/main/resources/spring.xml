@@ -46,6 +46,7 @@
 		</property>
 	</bean>
 	
+	<!-- if name is a key, create a name filefilter and filter results on that -->
 	<bean id="defaultFileSystemAdapter" class="com.pelletier.valuelist.adapter.filesystem.DefaultFileSystemAdapter">
 		<property name="path" value="."/>
 		<property name="baseDirectory" value="C:\Users\578993\Desktop\testDir"/>

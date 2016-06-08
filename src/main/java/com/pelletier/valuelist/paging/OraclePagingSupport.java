@@ -29,7 +29,7 @@ public class OraclePagingSupport implements PagingSupport {
 	public String getPagedQuery(String query, PagingInfo pagingInfo) {
     	return "SELECT * FROM (SELECT INNER.*, ROWNUM as RECORDNUM FROM (" + 
 				query + 
-				String.format(") INNER ) WRAPPED WHERE WRAPPED.RECORDNUM BETWEEN ((%1$s-1)*%2$s+1) AND ((%1$s-1)*%2$s + %2$s)", new Integer(pagingInfo.getPage()).toString(),new Integer(pagingInfo.getNumberPerPage()).toString());
+				String.format(") INNER ) WRAPPED WHERE WRAPPED.RECORDNUM BETWEEN ((%1$s-1)*%2$s+1) AND (%1$s)*%2$s", new Integer(pagingInfo.getPage()).toString(),new Integer(pagingInfo.getNumberPerPage()).toString());
 	}
 
 }

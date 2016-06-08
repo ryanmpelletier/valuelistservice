@@ -1,7 +1,10 @@
 package com.pelletier.valuelist.adapter.filesystem;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -48,16 +51,33 @@ public class DefaultFileSystemAdapter implements DataAdapter<List<File>> {
 
 		List<File> files;
 		if(params.get("path") != null){
-			files = new LinkedList<File>(Arrays.asList(new File((String) baseDirectory + params.get("path")).listFiles()));
+			files = new LinkedList<File>(Arrays.asList(new File((String) baseDirectory + params.get("path")).listFiles(new FileFilter() {
+
+			
+				@Override
+				public boolean accept(File pathname) {
+					String test = "test";
+
+					// TODO Do everything in here
+					return false;
+				}
+			})));
 		}else{
 			files = new LinkedList<File>(Arrays.asList(new File(baseDirectory + path).listFiles()));
 		}
 		params.put("page", pagingInfo.getPage());
 		params.put("numberPerPage", pagingInfo.getNumberPerPage());
+		Collections.sort(files, new Comparator<File>(){
 
-		if(fileFilter != null){
-			fileFilter.filter(files, params);
-		}
+			@Override
+			public int compare(File o1, File o2) {
+				// TODO -1,0,1
+				File file = new File();
+				file.compareT();
+				return 0;
+			}
+			
+		});
 		
 		//now we apply and go through filters	
 		pagingInfo.setTotalCount(files.size());
