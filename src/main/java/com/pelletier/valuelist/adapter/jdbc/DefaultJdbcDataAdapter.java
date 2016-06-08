@@ -54,19 +54,16 @@ public class DefaultJdbcDataAdapter implements DataAdapter<Map<String, Object>> 
 			
 			//create PagingInfo object to be returned to client
 
-			pagingInfo.setTotalCount(namedParameterJdbcTemplate.queryForObject(pagingSupport.getCountQuery(sqlWithParams), params, Integer.class));
-			
-			//get query necessary for paging
-			String pagedQuery = pagingSupport.getPagedQuery(sqlWithParams, pagingInfo);
+			pagingInfo.setTotalCount(namedParameterJdbcTemplate.queryForObject(pagingSupport.getCountQuery(sqlWithParams), params, Integer.class));			
 			
 			//run paging query with query parameters
-			results = namedParameterJdbcTemplate.queryForList(pagedQuery, params);
+			results = namedParameterJdbcTemplate.queryForList(pagingSupport.getPagedQuery(sqlWithParams, pagingInfo), params);
 			
-			return new DefaultValues(results, pagingInfo);
+			return new DefaultValues<Map<String, Object>>(results, pagingInfo);
 		} else {
 			results = namedParameterJdbcTemplate.queryForList(sqlWithParams, params);			
 			//if they didn't do pagination, we don't return info about pagination
-			return new DefaultValues(results, null);
+			return new DefaultValues<Map<String, Object>>(results, null);
 		}
 
 	}

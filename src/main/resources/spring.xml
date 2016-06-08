@@ -29,12 +29,16 @@
 		<property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate" />
 		<property name="pagingSupport" ref="pagingSupport"/>
 	</bean>
+	
+	<bean id="defaultFileSystemAdapter" class="com.pelletier.valuelist.adapter.filesystem.DefaultFileSystemAdapter">
+	</bean>
 
 
 	<bean id="valueListService" class="com.pelletier.valuelist.DefaultValuesListService">
 		<property name="adapters">
 			<map>
 				<entry key="query" value-ref="defaultJdbcDataAdapter" />
+				<entry key="query2" value-ref="defaultFileSystemAdapter"/>
 			</map>
 		</property>
 	</bean>
