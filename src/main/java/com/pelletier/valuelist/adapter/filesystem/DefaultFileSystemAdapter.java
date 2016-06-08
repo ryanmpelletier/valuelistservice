@@ -22,6 +22,8 @@ import com.pelletier.valuelist.Values;
 
 public class DefaultFileSystemAdapter implements DataAdapter<List<File>> {
 	
+	private String defaultPath = ".";
+	
 	/**
 	 * @param params
 	 * 	User must supply param "path" with String of path to list Files from
@@ -30,7 +32,7 @@ public class DefaultFileSystemAdapter implements DataAdapter<List<File>> {
 	public Values<List<File>> query(Map<String, Object> params, PagingInfo pagingInfo) {
 		if(params.get("path") == null){
 			//It would be nice to log some stuff here
-			params.put("path", ".");
+			params.put("path", defaultPath);
 		}
 		File[] files = new File((String) params.get("path")).listFiles();
 		pagingInfo.setTotalCount(files.length);
@@ -38,5 +40,11 @@ public class DefaultFileSystemAdapter implements DataAdapter<List<File>> {
 		pagingInfo.setNumberPerPage(files.length);
 		return new DefaultValues(Arrays.<File>asList(files), pagingInfo);
 	}
+
+	public void setDefaultPath(String defaultPath) {
+		this.defaultPath = defaultPath;
+	}
+	
+	
 
 }

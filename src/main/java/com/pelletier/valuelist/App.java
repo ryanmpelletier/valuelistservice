@@ -23,7 +23,6 @@ public class App {
 		ValueListService valueListService = (ValueListService) applicationContext.getBean("valueListService");
 
 		Map<String, Object> queryParams = new HashMap<String, Object>();
-		queryParams.put("path", "C:\\Users\\578993");
 		Values<List<File>> result = null;
 		try {
 			PagingInfo pagingInfo = new PagingInfo();
