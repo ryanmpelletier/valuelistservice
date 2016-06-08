@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import com.pelletier.valuelist.DataAdapter;
-import com.pelletier.valuelist.DefaultPagingInfo;
+import com.pelletier.valuelist.PagingInfo;
 import com.pelletier.valuelist.DefaultValues;
 import com.pelletier.valuelist.PagingInfo;
 import com.pelletier.valuelist.Values;
@@ -53,10 +53,8 @@ public class DefaultJdbcDataAdapter implements DataAdapter<Map<String, Object>> 
 		if (pagingSupport != null && pagingInfo != null) {
 			
 			//create PagingInfo object to be returned to client
-			DefaultPagingInfo defaultPagingInfo = new DefaultPagingInfo();
-			defaultPagingInfo.setNumberPerPage(pagingInfo.getNumberPerPage());
-			defaultPagingInfo.setPage(pagingInfo.getPage());
-			defaultPagingInfo.setTotalCount(namedParameterJdbcTemplate.queryForObject(pagingSupport.getCountQuery(sqlWithParams), params, Integer.class));
+
+			pagingInfo.setTotalCount(namedParameterJdbcTemplate.queryForObject(pagingSupport.getCountQuery(sqlWithParams), params, Integer.class));
 			
 			//get query necessary for paging
 			String pagedQuery = pagingSupport.getPagedQuery(sqlWithParams, pagingInfo);
@@ -64,7 +62,7 @@ public class DefaultJdbcDataAdapter implements DataAdapter<Map<String, Object>> 
 			//run paging query with query parameters
 			results = namedParameterJdbcTemplate.queryForList(pagedQuery, params);
 			
-			return new DefaultValues(results, defaultPagingInfo);
+			return new DefaultValues(results, pagingInfo);
 		} else {
 			results = namedParameterJdbcTemplate.queryForList(sqlWithParams, params);			
 			//if they didn't do pagination, we don't return info about pagination
