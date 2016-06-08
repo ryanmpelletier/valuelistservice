@@ -23,7 +23,11 @@ public class App {
 		Map<String, Object> queryParams = new HashMap<String, Object>();
 		Values<Map<String, Object>> result = null;
 		try {
-			result = (Values<Map<String, Object>>) valueListService.getValuesList("query", queryParams,new DefaultPagingInfo(PAGE_NUMBER, NUMBER_PER_PAGE));
+			PagingInfo pagingInfo = new PagingInfo();
+			pagingInfo.setNumberPerPage(NUMBER_PER_PAGE);
+			pagingInfo.setPage(PAGE_NUMBER);
+			
+			result = (Values<Map<String, Object>>) valueListService.getValuesList("query", queryParams,pagingInfo);
 			System.out.println(result);
 			
 		} catch (RuntimeException e) {	
