@@ -18,13 +18,13 @@ import com.pelletier.valuelist.PagingInfo;
 
 public class OraclePagingSupport implements PagingSupport {
 
-	private String pagedQueryPostSql = ") INNER ) WRAPPED WHERE WRAPPED.RECORDNUM BETWEEN (([pageNumber]-1)*[numberPerPage]+1) AND (([pageNumber]-1)*[numberPerPage]+[numberPerPage])";
-
 	@Override
 	public String getCountQuery(String query) {
 		return "SELECT count(*) FROM (" + query + ")";
 	}
 
+		
+	//I think this query string can be simplified, but I would like to double check with Matt.
 	@Override
 	public String getPagedQuery(String query, PagingInfo pagingInfo) {
     	return "SELECT * FROM (SELECT INNER.*, ROWNUM as RECORDNUM FROM (" + 
