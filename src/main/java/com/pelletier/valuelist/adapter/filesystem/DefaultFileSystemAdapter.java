@@ -3,7 +3,6 @@ package com.pelletier.valuelist.adapter.filesystem;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,50 +36,67 @@ public class DefaultFileSystemAdapter implements DataAdapter<List<File>> {
 	
 	private String path = "/";
 	private String baseDirectory = ".";
-	private FileFilter fileFilter;
 	
 	/**
 	 * @param params
 	 * 	User must supply param "path" with String of path to list Files from
 	 */
 	@Override
-	public Values<List<File>> query(Map<String, Object> params, PagingInfo pagingInfo) {
+	public Values<List<File>> query(final Map<String, Object> params, PagingInfo pagingInfo) {
+		String absolutePath = baseDirectory + ((params.get("path") != null) ? params.get("path") : path);  
 		
-		//I am trying to figure out how to do my paging info as a filter,
-		//I would also really like to figure out how to filter using java's FileFilter
-
-		List<File> files;
-		if(params.get("path") != null){
-			files = new LinkedList<File>(Arrays.asList(new File((String) baseDirectory + params.get("path")).listFiles(new FileFilter() {
-
-			
-				@Override
-				public boolean accept(File pathname) {
-					String test = "test";
-
-					// TODO Do everything in here
-					return false;
+		//filter
+		List<File> files = new LinkedList<File>(Arrays.asList(new File(absolutePath).listFiles(new FileFilter() {
+			@Override
+			public boolean accept(File file) {
+				if(params.get("regex") != null){
+					return file.getAbsolutePath().matches((String) params.get("regex"));
 				}
-			})));
-		}else{
-			files = new LinkedList<File>(Arrays.asList(new File(baseDirectory + path).listFiles()));
-		}
-		params.put("page", pagingInfo.getPage());
-		params.put("numberPerPage", pagingInfo.getNumberPerPage());
-		Collections.sort(files, new Comparator<File>(){
+				return true;
+			}
+		})));
+		
+		pagingInfo.setTotalCount(files.size());
+		
+		
+		/*
+		 * I should be able to sort by name OR by date.
+		 * I cannot sort by both. If both params are included, files will only be
+		 * sorted by name.
+		 */
+		
+		//sort
+		files.sort(new Comparator<File>() {
 
 			@Override
-			public int compare(File o1, File o2) {
-				// TODO -1,0,1
-				File file = new File();
-				file.compareT();
+			public int compare(File file1, File file2) {
+				if(params.get("name") != null){
+					if(((String) params.get("name")).equalsIgnoreCase("ASC")){
+						return file1.compareTo(file2);
+					}else if(((String) params.get("name")).equalsIgnoreCase("DESC")){
+						return file2.compareTo(file1);
+					}else{
+						return 0;
+					}
+				}else if(params.get("date") != null){
+					if(((String) params.get("date")).equalsIgnoreCase("ASC")){
+						return (int)(file1.lastModified() - file2.lastModified());
+					}else if(((String) params.get("date")).equalsIgnoreCase("DESC")){
+						return (int)(file2.lastModified() - file1.lastModified());
+					}else{
+						return 0;
+					}
+				}
 				return 0;
 			}
 			
 		});
 		
-		//now we apply and go through filters	
-		pagingInfo.setTotalCount(files.size());
+		//page
+		if(pagingInfo != null){
+			FilePager.filter(files, pagingInfo);
+		}
+				
 		return new DefaultValues(files, pagingInfo);
 	}
 
@@ -91,12 +107,5 @@ public class DefaultFileSystemAdapter implements DataAdapter<List<File>> {
 	public void setPath(String path) {
 		this.path = path;
 	}
-
-	public void setFileFilter(FileFilter fileFilter) {
-		this.fileFilter = fileFilter;
-	}
-	
-	
-	
 
 }

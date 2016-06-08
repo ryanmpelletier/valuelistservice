@@ -29,28 +29,11 @@
 		<property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate" />
 		<property name="pagingSupport" ref="pagingSupport"/>
 	</bean>
-	
-	<bean id="fileTypeFileFilter" class="com.pelletier.valuelist.adapter.filesystem.FileTypeFileFilter">
-		<property name="key" value="type"/>
-		<property name="defaultValue" value="txt"/>
-	</bean>
-	
-	<bean id="pagingFileFilter" class="com.pelletier.valuelist.adapter.filesystem.PagingFileFilter"/>
-	
-	<bean id="fileFilterChain" class="com.pelletier.valuelist.adapter.filesystem.FileFilterChain">
-		<property name="fileFilters">
-			<list>
-<!-- 				<ref bean="fileTypeFileFilter"/>
- -->				<ref bean="pagingFileFilter"/>
-		    </list>
-		</property>
-	</bean>
-	
+
 	<!-- if name is a key, create a name filefilter and filter results on that -->
 	<bean id="defaultFileSystemAdapter" class="com.pelletier.valuelist.adapter.filesystem.DefaultFileSystemAdapter">
-		<property name="path" value="."/>
+		<property name="path" value="/"/>
 		<property name="baseDirectory" value="C:\Users\578993\Desktop\testDir"/>
-		<property name="fileFilter" ref="fileFilterChain"/>
 	</bean>
 
 

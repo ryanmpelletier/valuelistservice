@@ -3,17 +3,17 @@ package com.pelletier.valuelist.adapter.filesystem;
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-public class PagingFileFilter implements FileFilter {
+import com.pelletier.valuelist.PagingInfo;
 
-	@Override
-	public void filter(List<File> files, Map<String, Object> params) {		
+public class FilePager{
+
+	public static void filter(List<File> files, PagingInfo pagingInfo) {		
 		int count = 0;
 		Iterator<File> iterator = files.iterator();
 		
-		int firstItem = ((int) params.get("page") - 1) * (int) params.get("numberPerPage");
-		int lastItem = firstItem + (int) params.get("numberPerPage");
+		int firstItem = (pagingInfo.getPage() - 1) * pagingInfo.getNumberPerPage();
+		int lastItem = firstItem + pagingInfo.getNumberPerPage();
 		
 		while(iterator.hasNext()){
 			iterator.next();
