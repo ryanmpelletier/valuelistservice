@@ -17,7 +17,7 @@ public class App {
 	public static void main(String[] args) {
 		
 		final int PAGE_NUMBER = 1;
-		final int NUMBER_PER_PAGE = 10;
+		final int NUMBER_PER_PAGE = 4;
 		
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
 		ValueListService valueListService = (ValueListService) applicationContext.getBean("valueListService");

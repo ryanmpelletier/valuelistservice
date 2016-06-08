@@ -46,23 +46,21 @@ public class DefaultFileSystemAdapter implements DataAdapter<List<File>> {
 		//I am trying to figure out how to do my paging info as a filter,
 		//I would also really like to figure out how to filter using java's FileFilter
 
-		
 		List<File> files;
 		if(params.get("path") != null){
 			files = new LinkedList<File>(Arrays.asList(new File((String) baseDirectory + params.get("path")).listFiles()));
 		}else{
-			files = new LinkedList<File>(Arrays.asList(new File(path).listFiles()));
+			files = new LinkedList<File>(Arrays.asList(new File(baseDirectory + path).listFiles()));
 		}
-		
+		params.put("page", pagingInfo.getPage());
+		params.put("numberPerPage", pagingInfo.getNumberPerPage());
+
 		if(fileFilter != null){
 			fileFilter.filter(files, params);
 		}
 		
 		//now we apply and go through filters	
-//		pagingInfo.setTotalCount(files.length);
-//		pagingInfo.setPage(1);
-//		pagingInfo.setNumberPerPage(files.length);
-		
+		pagingInfo.setTotalCount(files.size());
 		return new DefaultValues(files, pagingInfo);
 	}
 
@@ -77,6 +75,7 @@ public class DefaultFileSystemAdapter implements DataAdapter<List<File>> {
 	public void setFileFilter(FileFilter fileFilter) {
 		this.fileFilter = fileFilter;
 	}
+	
 	
 	
 
