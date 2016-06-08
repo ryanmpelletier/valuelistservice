@@ -2,6 +2,7 @@ package com.pelletier.valuelist.adapter.filesystem;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,13 +17,24 @@ import com.pelletier.valuelist.Values;
  * 
  * Paging is not supported.
  * 
+ * 
+ * The user should be able to configure fileFilters to apply
+ * to the files which are retrieved. 
+ * So basically what will happen, we get the path, and get our
+ * list of files.
+ * 
+ * Then after we get the list of files, we pass it through the filter chain
+ * file filter will be an interface which has one method, filter
+ * 
  * @author Ryan Pelletier
  *
  */
 
 public class DefaultFileSystemAdapter implements DataAdapter<List<File>> {
 	
-	private String defaultPath = ".";
+	private String path = "/";
+	private String baseDirectory = ".";
+	private FileFilter fileFilter;
 	
 	/**
 	 * @param params
@@ -30,19 +42,40 @@ public class DefaultFileSystemAdapter implements DataAdapter<List<File>> {
 	 */
 	@Override
 	public Values<List<File>> query(Map<String, Object> params, PagingInfo pagingInfo) {
-		if(params.get("path") == null){
-			//It would be nice to log some stuff here
-			params.put("path", defaultPath);
+		
+		//I am trying to figure out how to do my paging info as a filter,
+		//I would also really like to figure out how to filter using java's FileFilter
+
+		
+		List<File> files;
+		if(params.get("path") != null){
+			files = new LinkedList<File>(Arrays.asList(new File((String) baseDirectory + params.get("path")).listFiles()));
+		}else{
+			files = new LinkedList<File>(Arrays.asList(new File(path).listFiles()));
 		}
-		File[] files = new File((String) params.get("path")).listFiles();
-		pagingInfo.setTotalCount(files.length);
-		pagingInfo.setPage(1);
-		pagingInfo.setNumberPerPage(files.length);
-		return new DefaultValues(Arrays.<File>asList(files), pagingInfo);
+		
+		if(fileFilter != null){
+			fileFilter.filter(files, params);
+		}
+		
+		//now we apply and go through filters	
+//		pagingInfo.setTotalCount(files.length);
+//		pagingInfo.setPage(1);
+//		pagingInfo.setNumberPerPage(files.length);
+		
+		return new DefaultValues(files, pagingInfo);
 	}
 
-	public void setDefaultPath(String defaultPath) {
-		this.defaultPath = defaultPath;
+	public void setBaseDirectory(String baseDirectory) {
+		this.baseDirectory = baseDirectory;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public void setFileFilter(FileFilter fileFilter) {
+		this.fileFilter = fileFilter;
 	}
 	
 	

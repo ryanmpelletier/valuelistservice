@@ -30,8 +30,23 @@
 		<property name="pagingSupport" ref="pagingSupport"/>
 	</bean>
 	
+	<bean id="fileTypeFileFilter" class="com.pelletier.valuelist.adapter.filesystem.FileTypeFileFilter">
+		<property name="key" value="type"/>
+		<property name="defaultValue" value="txt"/>
+	</bean>
+	
+	<bean id="fileFilterChain" class="com.pelletier.valuelist.adapter.filesystem.FileFilterChain">
+		<property name="fileFilters">
+			<list>
+				<ref bean="fileTypeFileFilter"/>
+	         </list>
+		</property>
+	</bean>
+	
 	<bean id="defaultFileSystemAdapter" class="com.pelletier.valuelist.adapter.filesystem.DefaultFileSystemAdapter">
-		<property name="defaultPath" value="."/>
+		<property name="path" value="."/>
+		<property name="baseDirectory" value="C:\Users\578993\workspace\valuelistservice"/>
+		<property name="fileFilter" ref="fileFilterChain"/>
 	</bean>
 
 

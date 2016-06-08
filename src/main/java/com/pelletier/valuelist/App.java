@@ -23,13 +23,14 @@ public class App {
 		ValueListService valueListService = (ValueListService) applicationContext.getBean("valueListService");
 
 		Map<String, Object> queryParams = new HashMap<String, Object>();
+//		queryParams.put("type", "gitignore");
 		Values<List<File>> result = null;
 		try {
 			PagingInfo pagingInfo = new PagingInfo();
 			pagingInfo.setNumberPerPage(NUMBER_PER_PAGE);
 			pagingInfo.setPage(PAGE_NUMBER);
 			
-			result = (Values<List<File>>) valueListService.getValuesList("query2", queryParams,pagingInfo);
+			result = (Values<List<File>>) valueListService.getValuesList("query2", queryParams, pagingInfo);
 			System.out.println(result);
 			
 		} catch (RuntimeException e) {	
