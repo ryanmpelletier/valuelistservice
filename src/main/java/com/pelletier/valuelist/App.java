@@ -22,7 +22,7 @@ public class App {
 		ValueListService valueListService = (ValueListService) applicationContext.getBean("valueListService");
 
 		Map<String, Object> queryParams = new HashMap<String, Object>();
-//		queryParams.put("intField", new Integer(0));
+		queryParams.put("intField", new Integer(14));
 //		queryParams.put("regex", ".*\\.xml");
 //		queryParams.put("name", "desc");
 //		queryParams.put("date", "asc");

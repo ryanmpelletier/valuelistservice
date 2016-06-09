@@ -23,15 +23,18 @@
 	
 	<!-- defaultJdbcRowMapper -->
 	<bean id="defaultJdbcRowMapper" class="com.pelletier.valuelist.adapter.jdbc.DefaultJdbcRowMapper" />
+	
+	<!-- testPOJOMapper -->
+	<bean id="testPOJOMapper" class="com.pelletier.valuelist.adapter.jdbc.TestPOJOMapper" />
 
 	<bean id="defaultJdbcDataAdapter" class="com.pelletier.valuelist.adapter.jdbc.DefaultJdbcDataAdapter">
 		<property name="sql">
-			<value>SELECT * FROM test #if($date) WHERE time &lt; :date#end</value>
+			<value>SELECT * FROM test #if($intField) WHERE intField = :intField#end</value>
 		</property>
 		<property name="queryParameterMapper" ref="velocityQueryParameterMapper" />
 		<property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate" />
 		<property name="pagingSupport" ref="pagingSupport"/>
-		<property name="rowMapper" ref="defaultJdbcRowMapper"/>
+		<property name="rowMapper" ref="testPOJOMapper"/>
 	</bean>
 
 	<!-- if name is a key, create a name filefilter and filter results on that -->
