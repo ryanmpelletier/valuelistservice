@@ -15,12 +15,13 @@ public class App {
 	public static void main(String[] args) {
 		
 		final int PAGE_NUMBER = 1;
-		final int NUMBER_PER_PAGE = 11;
+		final int NUMBER_PER_PAGE = 2;
 		
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
 		ValueListService valueListService = (ValueListService) applicationContext.getBean("valueListService");
 
 		Map<String, Object> queryParams = new HashMap<String, Object>();
+		queryParams.put("intField", new Integer(0));
 //		queryParams.put("regex", ".*\\.xml");
 //		queryParams.put("name", "desc");
 //		queryParams.put("date", "asc");
