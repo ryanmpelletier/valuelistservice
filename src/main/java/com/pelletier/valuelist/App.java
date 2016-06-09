@@ -20,6 +20,7 @@ public class App {
 		
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
 		ValueListService valueListService = (ValueListService) applicationContext.getBean("valueListService");
+		DataAdapter<Map<String,Object>> dataAdapter = (DataAdapter<Map<String,Object>>) applicationContext.getBean("defaultJdbcDataAdapter");
 
 		Map<String, Object> queryParams = new HashMap<String, Object>();
 		queryParams.put("intField", new Integer(14));
@@ -34,7 +35,9 @@ public class App {
 			pagingInfo.setNumberPerPage(NUMBER_PER_PAGE);
 			pagingInfo.setPage(PAGE_NUMBER);
 			
-			result = (Values<Map<String,Object>>) valueListService.getValuesList("query", queryParams,pagingInfo);
+//			result = (Values<Map<String,Object>>) valueListService.getValuesList("query", queryParams,pagingInfo);
+			result = (Values<Map<String,Object>>) dataAdapter.query(queryParams, pagingInfo);
+
 			System.out.println(result);
 			
 		} catch (RuntimeException e) {	
