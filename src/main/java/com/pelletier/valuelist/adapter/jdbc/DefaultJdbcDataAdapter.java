@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
 import com.pelletier.valuelist.DataAdapter;
-import com.pelletier.valuelist.PagingInfo;
 import com.pelletier.valuelist.DefaultValues;
 import com.pelletier.valuelist.PagingInfo;
 import com.pelletier.valuelist.Values;
@@ -28,18 +28,19 @@ import com.pelletier.valuelist.transformer.QueryParameterMapper;
  * @author Ryan Pelletier
  *
  */
-public class DefaultJdbcDataAdapter implements DataAdapter<Map<String, Object>> {
+public class DefaultJdbcDataAdapter<T> implements DataAdapter<T> {
 
 	private String sql;
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	private QueryParameterMapper queryParameterMapper;
 	private PagingSupport pagingSupport;
+	private RowMapper<T> rowMapper;	//must be injected
 
 	@Override
-	public Values<Map<String, Object>> query(Map<String, Object> params, PagingInfo pagingInfo) {
+	public Values<T> query(Map<String, Object> params, PagingInfo pagingInfo) {
 		
 		//results to be returned to client
-		List<Map<String, Object>> results = null;
+		List<T> results = null;
 
 		/*
 		 * SQL after transformation
@@ -57,13 +58,13 @@ public class DefaultJdbcDataAdapter implements DataAdapter<Map<String, Object>> 
 			pagingInfo.setTotalCount(namedParameterJdbcTemplate.queryForObject(pagingSupport.getCountQuery(sqlWithParams), params, Integer.class));			
 			
 			//run paging query with query parameters
-			results = namedParameterJdbcTemplate.queryForList(pagingSupport.getPagedQuery(sqlWithParams, pagingInfo), params);
+			results = namedParameterJdbcTemplate.query(pagingSupport.getPagedQuery(sqlWithParams, pagingInfo), params, rowMapper);
 			
-			return new DefaultValues<Map<String, Object>>(results, pagingInfo);
+			return new DefaultValues<T>(results, pagingInfo);
 		} else {
-			results = namedParameterJdbcTemplate.queryForList(sqlWithParams, params);			
+			results = namedParameterJdbcTemplate.query(sqlWithParams, params, rowMapper);			
 			//if they didn't do pagination, we don't return info about pagination
-			return new DefaultValues<Map<String, Object>>(results, null);
+			return new DefaultValues<T>(results, null);
 		}
 
 	}
@@ -83,5 +84,11 @@ public class DefaultJdbcDataAdapter implements DataAdapter<Map<String, Object>> 
 	public void setPagingSupport(PagingSupport pagingSupport) {
 		this.pagingSupport = pagingSupport;
 	}
+
+	public void setRowMapper(RowMapper<T> rowMapper) {
+		this.rowMapper = rowMapper;
+	}
+	
+	
 
 }

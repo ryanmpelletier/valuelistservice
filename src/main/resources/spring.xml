@@ -18,8 +18,11 @@
 
 	<bean id="pagingSupport" class="com.pelletier.valuelist.paging.MySQLPagingSupport"/>
 
-	<!--  -->
+	<!-- Velocity query parameter mapper -->
 	<bean id="velocityQueryParameterMapper" class="com.pelletier.valuelist.transformer.VelocityQueryParameterMapper" />
+	
+	<!-- defaultJdbcRowMapper -->
+	<bean id="defaultJdbcRowMapper" class="com.pelletier.valuelist.adapter.jdbc.DefaultJdbcRowMapper" />
 
 	<bean id="defaultJdbcDataAdapter" class="com.pelletier.valuelist.adapter.jdbc.DefaultJdbcDataAdapter">
 		<property name="sql">
@@ -28,6 +31,7 @@
 		<property name="queryParameterMapper" ref="velocityQueryParameterMapper" />
 		<property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate" />
 		<property name="pagingSupport" ref="pagingSupport"/>
+		<property name="rowMapper" ref="defaultJdbcRowMapper"/>
 	</bean>
 
 	<!-- if name is a key, create a name filefilter and filter results on that -->
