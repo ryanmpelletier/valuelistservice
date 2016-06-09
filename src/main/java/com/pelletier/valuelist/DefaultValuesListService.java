@@ -19,9 +19,13 @@ public class DefaultValuesListService<T> implements ValueListService {
 
 	@Override
 	public Values<T> getValuesList(String adapterKey, Map<String, Object> queryParams, PagingInfo pagingInfo) throws RuntimeException {
+		if(adapters == null){
+			throw new RuntimeException("DataAdapters are null, please configure adapters property for DefaultValuesListService.");
+		}
 		if(adapters.get(adapterKey) == null){
 			throw new RuntimeException("Query could not be found for " + adapterKey + ", please check the Spring configuration.");
 		}
+
 		return adapters.get(adapterKey).query(queryParams, pagingInfo);
 	}
 
