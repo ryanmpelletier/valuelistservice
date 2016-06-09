@@ -1,3 +1,4 @@
+package com.pelletier.valuelist.transformer;
 import static org.junit.Assert.assertEquals;
 
 import java.io.StringWriter;
