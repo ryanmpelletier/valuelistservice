@@ -1,5 +1,6 @@
 package com.pelletier.valuelist;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,10 +22,11 @@ public class App {
 		ValueListService valueListService = (ValueListService) applicationContext.getBean("valueListService");
 
 		Map<String, Object> queryParams = new HashMap<String, Object>();
-		queryParams.put("intField", new Integer(0));
+//		queryParams.put("intField", new Integer(0));
 //		queryParams.put("regex", ".*\\.xml");
 //		queryParams.put("name", "desc");
 //		queryParams.put("date", "asc");
+		queryParams.put("date", new Date());
 
 		Values<Map<String,Object>> result = null;
 		try {

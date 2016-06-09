@@ -26,7 +26,7 @@
 
 	<bean id="defaultJdbcDataAdapter" class="com.pelletier.valuelist.adapter.jdbc.DefaultJdbcDataAdapter">
 		<property name="sql">
-			<value>SELECT * FROM test #if($intField) WHERE intField > -1 order by intField#end</value>
+			<value>SELECT * FROM test #if($date) WHERE time &lt; :date#end</value>
 		</property>
 		<property name="queryParameterMapper" ref="velocityQueryParameterMapper" />
 		<property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate" />

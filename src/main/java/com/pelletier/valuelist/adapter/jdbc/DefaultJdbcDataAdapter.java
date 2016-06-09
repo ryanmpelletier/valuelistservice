@@ -20,7 +20,8 @@ import com.pelletier.valuelist.transformer.QueryParameterMapper;
  * a NamedParameterJdbcTemplate, which allows Spring to map params with parameter names in the query,
  * a QueryParameterMapper, which is a way of pre-parameter mapping before Spring. It is suggested to use the
  * VelocityQueryParameterMapper, 
- * and optionally PagingSupport.
+ * a RowMapper which will determine the type of object returned from the DataAdapter.Can use DefaultJdbcRowMapper.
+ * Optionally PagingSupport.
  * 
  * Note: If pagingSupport is null, everything is returned from the query, and the returned
  * pagingInfo is null.
@@ -33,8 +34,9 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T> {
 	private String sql;
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	private QueryParameterMapper queryParameterMapper;
+	private RowMapper<T> rowMapper;
 	private PagingSupport pagingSupport;
-	private RowMapper<T> rowMapper;	//must be injected
+
 
 	@Override
 	public Values<T> query(Map<String, Object> params, PagingInfo pagingInfo) {
