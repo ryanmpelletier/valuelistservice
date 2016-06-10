@@ -12,6 +12,7 @@ import com.pelletier.valuelist.PagingInfo;
 import com.pelletier.valuelist.Values;
 import com.pelletier.valuelist.paging.PagingSupport;
 import com.pelletier.valuelist.transformer.QueryParameterMapper;
+import com.pelletier.valuelist.util.ParameterConversionService;
 
 /**
  * Default Jdbc implementation, which does have a dependency to Spring. 
@@ -31,9 +32,11 @@ import com.pelletier.valuelist.transformer.QueryParameterMapper;
  */
 public class DefaultJdbcDataAdapter<T> implements DataAdapter<T> {
 
+	//TODO move comments above down here where they actually make sense. Also make decent javadocs
 	private String sql;
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	private QueryParameterMapper queryParameterMapper;
+	private ParameterConversionService parameterConversionService;
 	private RowMapper<T> rowMapper;
 	private PagingSupport pagingSupport;
 
@@ -41,8 +44,13 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T> {
 	@Override
 	public Values<T> query(Map<String, Object> params, PagingInfo pagingInfo) {
 		
-		//results to be returned to client
-		List<T> results = null;
+		
+		//I want to do this before any velocity transformation I think
+		if(parameterConversionService != null){
+			for(String paramKey : params.keySet()){
+				parameterConversionService.convertIfNeeded(paramKey, params.get(paramKey));
+			}
+		}
 
 		/*
 		 * SQL after transformation
@@ -60,11 +68,11 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T> {
 			pagingInfo.setTotalCount(namedParameterJdbcTemplate.queryForObject(pagingSupport.getCountQuery(sqlWithParams), params, Integer.class));			
 			
 			//run paging query with query parameters
-			results = namedParameterJdbcTemplate.query(pagingSupport.getPagedQuery(sqlWithParams, pagingInfo), params, rowMapper);
+			List<T> results = namedParameterJdbcTemplate.query(pagingSupport.getPagedQuery(sqlWithParams, pagingInfo), params, rowMapper);
 			
 			return new DefaultValues<T>(results, pagingInfo);
 		} else {
-			results = namedParameterJdbcTemplate.query(sqlWithParams, params, rowMapper);			
+			List<T> results = namedParameterJdbcTemplate.query(sqlWithParams, params, rowMapper);			
 			//if they didn't do pagination, we don't return info about pagination
 			return new DefaultValues<T>(results, null);
 		}
