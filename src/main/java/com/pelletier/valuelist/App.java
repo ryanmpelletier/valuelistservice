@@ -1,6 +1,5 @@
 package com.pelletier.valuelist;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,11 +22,12 @@ public class App {
 		DataAdapter<Map<String,Object>> dataAdapter = (DataAdapter<Map<String,Object>>) applicationContext.getBean("defaultJdbcDataAdapter");
 
 		Map<String, Object> queryParams = new HashMap<String, Object>();
-		queryParams.put("intField", new Integer(14));
+//		queryParams.put("intField", "14");
+		queryParams.put("startDate", "05-15-2017");
 //		queryParams.put("regex", ".*\\.xml");
 //		queryParams.put("name", "desc");
 //		queryParams.put("date", "asc");
-		queryParams.put("date", new Date());
+//		queryParams.put("date", new Date());
 
 		Values<Map<String,Object>> result = null;
 		try {
@@ -35,8 +35,8 @@ public class App {
 			pagingInfo.setNumberPerPage(NUMBER_PER_PAGE);
 			pagingInfo.setPage(PAGE_NUMBER);
 			
-//			result = (Values<Map<String,Object>>) valueListService.getValuesList("query", queryParams,pagingInfo);
-			result = (Values<Map<String,Object>>) dataAdapter.query(queryParams, pagingInfo);
+			result = (Values<Map<String,Object>>) valueListService.getValuesList("query", queryParams,pagingInfo);
+//			result = (Values<Map<String,Object>>) dataAdapter.query(queryParams, pagingInfo);
 
 			System.out.println(result);
 			

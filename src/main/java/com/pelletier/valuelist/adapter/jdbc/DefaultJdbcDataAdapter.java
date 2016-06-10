@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.apache.commons.collections.set.SynchronizedSortedSet;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.pelletier.valuelist.DataAdapter;
@@ -48,7 +49,7 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T> {
 		//I want to do this before any velocity transformation I think
 		if(parameterConversionService != null){
 			for(String paramKey : params.keySet()){
-				parameterConversionService.convertIfNeeded(paramKey, params.get(paramKey));
+				params.put(paramKey,parameterConversionService.convertIfNeeded(paramKey, params.get(paramKey)));
 			}
 		}
 
@@ -59,15 +60,13 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T> {
 		 * inject the values of parameters directly into the SQL without Spring.
 		 */
 		String sqlWithParams = queryParameterMapper.transform(sql, params);
-		
+
 		//need both paging support and pagingInfo to run paging
 		if (pagingSupport != null && pagingInfo != null) {
 			
 			//create PagingInfo object to be returned to client
 
 			pagingInfo.setTotalCount(namedParameterJdbcTemplate.queryForObject(pagingSupport.getCountQuery(sqlWithParams), params, Integer.class));			
-			
-			//run paging query with query parameters
 			List<T> results = namedParameterJdbcTemplate.query(pagingSupport.getPagedQuery(sqlWithParams, pagingInfo), params, rowMapper);
 			
 			return new DefaultValues<T>(results, pagingInfo);
@@ -98,6 +97,12 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T> {
 	public void setRowMapper(RowMapper<T> rowMapper) {
 		this.rowMapper = rowMapper;
 	}
+
+	public void setParameterConversionService(ParameterConversionService parameterConversionService) {
+		this.parameterConversionService = parameterConversionService;
+	}
+	
+	
 	
 	
 
