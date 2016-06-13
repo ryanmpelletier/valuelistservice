@@ -9,8 +9,7 @@ import com.pelletier.valuelist.PagingInfo;
  * Pre and post SQL can be injected, note that post SQL must have place-holders
  * pageNumber and numberPerPage
  * 
- * Note: In Oracle ROWNUM is 1 based.
- * Note: This hasn't been tested.
+ * Note: In Oracle ROWNUM is 1 based. Note: This hasn't been tested.
  * 
  * 
  * @author Ryan Pelletier
@@ -29,11 +28,11 @@ public class OraclePagingSupport implements PagingSupport
 	@Override
 	public String getPagedQuery(String query, PagingInfo pagingInfo)
 	{
-		return "SELECT * FROM (SELECT INNER.*, ROWNUM as RECORDNUM FROM (" + query + ") INNER ) WRAPPED " + 
-				"WHERE WRAPPED.RECORDNUM BETWEEN "+
-				(((pagingInfo.getPage() - 1) * pagingInfo.getNumberPerPage()) + 1)  + 
-				" AND " + 
-				(pagingInfo.getPage()) * pagingInfo.getNumberPerPage();
+		return "SELECT * FROM (SELECT INNER.*, ROWNUM as RECORDNUM FROM (" + query + ") INNER ) WRAPPED "
+				+ "WHERE WRAPPED.RECORDNUM BETWEEN "
+				+ (((pagingInfo.getPage() - 1) * pagingInfo.getNumberPerPage()) + 1) 
+				+ " AND "
+				+ (pagingInfo.getPage()) * pagingInfo.getNumberPerPage();
 	}
 
 }

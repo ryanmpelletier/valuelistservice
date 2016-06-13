@@ -37,7 +37,9 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T> {
 	private String sql;
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	private QueryParameterMapper queryParameterMapper;
+	//TODO: [MLW] A default implementation may be nice here.
 	private ParameterConversionService parameterConversionService;
+	//TODO: [MLW] If this is left null does it crash and burn?
 	private RowMapper<T> rowMapper;
 	private PagingSupport pagingSupport;
 
@@ -45,7 +47,7 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T> {
 	@Override
 	public Values<T> query(Map<String, Object> params, PagingInfo pagingInfo) {
 		
-		
+		//TODO: [MLW] This is a bad assumption that you can modify this map.
 		//I want to do this before any velocity transformation I think
 		if(parameterConversionService != null){
 			for(String paramKey : params.keySet()){
