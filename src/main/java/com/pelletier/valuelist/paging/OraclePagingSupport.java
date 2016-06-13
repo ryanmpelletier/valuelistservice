@@ -24,12 +24,25 @@ public class OraclePagingSupport implements PagingSupport {
 	}
 
 		
-	//I think this query string can be simplified, but I would like to double check with Matt.
+	public class OraclePagingSupport implements PagingSupport
+{
+
 	@Override
-	public String getPagedQuery(String query, PagingInfo pagingInfo) {
-    	return "SELECT * FROM (SELECT INNER.*, ROWNUM as RECORDNUM FROM (" + 
-				query + 
-				String.format(") INNER ) WRAPPED WHERE WRAPPED.RECORDNUM BETWEEN ((%1$s-1)*%2$s+1) AND (%1$s)*%2$s", new Integer(pagingInfo.getPage()).toString(),new Integer(pagingInfo.getNumberPerPage()).toString());
+	public String getCountQuery(String query)
+	{
+		return "SELECT count(*) FROM (" + query + ")";
 	}
+
+	@Override
+	public String getPagedQuery(String query, PagingInfo pagingInfo)
+	{
+		return "SELECT * FROM (SELECT INNER.*, ROWNUM as RECORDNUM FROM (" + query + ") INNER ) WRAPPED " + 
+				"WHERE WRAPPED.RECORDNUM BETWEEN "+
+				(((pagingInfo.getPage() - 1) * pagingInfo.getNumberPerPage()) + 1)  + 
+				" AND " + 
+				(pagingInfo.getPage()) * pagingInfo.getNumberPerPage();
+	}
+
+}
 
 }
