@@ -27,6 +27,11 @@
 	<!-- testPOJOMapper -->
 	<bean id="testPOJOMapper" class="com.pelletier.valuelist.adapter.jdbc.TestPOJOMapper" />
 	
+	<bean id="defaultPagingInfo" class="com.pelletier.valuelist.PagingInfo">
+		<property name="page" value="1"/>
+		<property name="numberPerPage" value="15"/>
+	</bean>
+	
 	<!-- parent map for paramType -->
 	 <bean id="globalParamTypeMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
@@ -84,6 +89,7 @@
 		<property name="rowMapper" ref="testPOJOMapper"/>
 		<property name="parameterConversionService" ref="parameterConversionService">
 		</property>
+		<property name="defaultPagingInfo" ref="defaultPagingInfo"/>
 	</bean>
 
 	<bean id="valueListService" class="com.pelletier.valuelist.DefaultValuesListService">

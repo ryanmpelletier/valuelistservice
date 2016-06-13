@@ -40,11 +40,16 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T> {
 	private ParameterConversionService parameterConversionService;
 	private RowMapper<T> rowMapper;
 	private PagingSupport pagingSupport;
+	private PagingInfo defaultPagingInfo;
 
 
 	@Override
 	public Values<T> query(Map<String, Object> params, PagingInfo pagingInfo) {
 		
+		//if a default paging info is set up, and one isn't supplied, use default
+		if(pagingInfo == null && defaultPagingInfo != null){
+			pagingInfo = defaultPagingInfo;
+		}
 		
 		//I want to do this before any velocity transformation I think
 		if(parameterConversionService != null){
@@ -101,9 +106,9 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T> {
 	public void setParameterConversionService(ParameterConversionService parameterConversionService) {
 		this.parameterConversionService = parameterConversionService;
 	}
-	
-	
-	
-	
+
+	public void setDefaultPagingInfo(PagingInfo defaultPagingInfo) {
+		this.defaultPagingInfo = defaultPagingInfo;
+	}
 
 }
