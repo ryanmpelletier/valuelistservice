@@ -30,13 +30,35 @@ public class OraclePagingSupportTest {
 	
 	
 	@Test
-	public void testGetPagingQuery(){
+	public void testGetPagingQuery_Page1PerPage10(){
 		testPagingInfo.setNumberPerPage(10);
 		testPagingInfo.setPage(1);
-		testPagingInfo.setTotalCount(10);
 		
-		assertEquals("SELECT * FROM (SELECT INNER.*, ROWNUM as RECORDNUM FROM (" + testQuery + ") INNER ) WRAPPED WHERE WRAPPED.RECORDNUM BETWEEN ((1-1)*10+1) AND (1)*10",oraclePagingSupport.getPagedQuery(testQuery, testPagingInfo));	
+		assertEquals("SELECT * FROM (SELECT INNER.*, ROWNUM as RECORDNUM FROM (SELECT * FROM test) INNER ) WRAPPED WHERE WRAPPED.RECORDNUM BETWEEN 1 AND 10", oraclePagingSupport.getPagedQuery(testQuery, testPagingInfo));	
+	}
+	
+	@Test
+	public void testGetPagingQuery_Page5PerPage10(){
+		testPagingInfo.setNumberPerPage(10);
+		testPagingInfo.setPage(5);
 		
+		assertEquals("SELECT * FROM (SELECT INNER.*, ROWNUM as RECORDNUM FROM (SELECT * FROM test) INNER ) WRAPPED WHERE WRAPPED.RECORDNUM BETWEEN 41 AND 50", oraclePagingSupport.getPagedQuery(testQuery, testPagingInfo));	
+	}
+	
+	@Test
+	public void testGetPagingQuery_Page2PerPage3(){
+		testPagingInfo.setNumberPerPage(3);
+		testPagingInfo.setPage(2);
 		
+		assertEquals("SELECT * FROM (SELECT INNER.*, ROWNUM as RECORDNUM FROM (SELECT * FROM test) INNER ) WRAPPED WHERE WRAPPED.RECORDNUM BETWEEN 4 AND 6", oraclePagingSupport.getPagedQuery(testQuery, testPagingInfo));	
+	}
+	
+	@Test
+	public void testGetPagingQuery_BadArguments(){
+		testPagingInfo.setNumberPerPage(-1);
+		testPagingInfo.setPage(50);
+		
+		//As long as it generates valid SQL we should be fine.
+		assertEquals("SELECT * FROM (SELECT INNER.*, ROWNUM as RECORDNUM FROM (SELECT * FROM test) INNER ) WRAPPED WHERE WRAPPED.RECORDNUM BETWEEN -48 AND -50", oraclePagingSupport.getPagedQuery(testQuery, testPagingInfo));	
 	}
 }

@@ -13,10 +13,12 @@ public class DefaultStringToDateConverter implements Converter<String, Date> {
 
 	@Override
 	public Date convert(String source) {
+		//TODO: [MLW] Move the construction of this object into the setter. Efficiency.
         DateFormat dateFormat = new SimpleDateFormat(stringDateFormat);
         try {
             return dateFormat.parse(source);
         } catch (ParseException e) {
+        	//TODO: [MLW] Use a logger. We need to talk about conversion errors.
             e.printStackTrace();
             return null;
         }
