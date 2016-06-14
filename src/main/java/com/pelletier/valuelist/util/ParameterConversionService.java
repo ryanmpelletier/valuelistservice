@@ -20,12 +20,6 @@ import com.pelletier.valuelist.adapter.AdapterConversionService;
  */
 public class ParameterConversionService extends DefaultConversionService implements AdapterConversionService {
 	
-    /*
-     * ParamTypeMap and converters are able to be optionally configured
-     * to inherit from a global paramTypeMap and converters list using
-     * MapFactoryBean and ListFactoryBean, respectively.  
-     */
-	
 	/**
 	 * This is a map of parameter names, and Classes. If the String param start_date must
 	 * be changed to java.util.Date, the entry would be ("start_date", Class.forName("java.util.Date")).
@@ -41,6 +35,19 @@ public class ParameterConversionService extends DefaultConversionService impleme
      */
     private List<Converter> converters;
 
+    
+    /**
+     * @param paramKey
+     * 
+     * 
+     * @param paramValue
+     * 
+     * 
+     * @return 
+     * 
+     * Attempts to convert the type if necessary, if no conversion is needed
+     * returns the current object in the map.
+     */
     @Override
     public <T> T convertIfNeeded(String paramKey, Object paramValue){
     	
@@ -55,11 +62,10 @@ public class ParameterConversionService extends DefaultConversionService impleme
     }
 
     /**
-     * 
-     * @param converters
-     * 
      * Adds converters to the registry of converters in DefaultConversionService
      * 
+     * @param converters
+     * converters to add to internal registry
      */
     public void setConverters(List<Converter> converters) {
         this.converters = converters;
