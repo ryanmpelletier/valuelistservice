@@ -2,6 +2,13 @@ package com.pelletier.valuelist;
 
 import java.util.List;
 
+/**
+ * 
+ * @author Ryan Pelletier
+ *
+ * @param <T>
+ * The type of Java Object which will be returned to the client. 
+ */
 public class DefaultValues<T> implements Values<T>{
 	
 	
@@ -23,7 +30,10 @@ public class DefaultValues<T> implements Values<T>{
 		return pagingInfo;
 	}
 	
-	//to simplify debugging override toString
+	/*
+	 *To simplify debugging.
+	 *Note: Does not do null checks. 
+	 */
 	@Override
 	public String toString(){
 		return values.toString() + 

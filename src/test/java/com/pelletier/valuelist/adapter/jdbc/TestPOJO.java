@@ -2,6 +2,10 @@ package com.pelletier.valuelist.adapter.jdbc;
 
 import java.util.Date;
 
+/**
+ * @author Ryan Pelletier
+ * Simple POJO used in testing DefaultJdbcAdapter with TestPOJOMapper.
+ */
 public class TestPOJO {
 	
 	private String id;
@@ -37,7 +41,4 @@ public class TestPOJO {
 	public void setTime(Date time) {
 		this.time = time;
 	}
-	
-	
-
 }

@@ -5,6 +5,13 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
+/**
+ * 
+ * @author Ryan Pelletier
+ * 
+ * RowMapper used for testing DefaultJdbcDataAdapter with TestPOJO
+ *
+ */
 public class TestPOJOMapper implements RowMapper<TestPOJO> {
 
 	@Override
