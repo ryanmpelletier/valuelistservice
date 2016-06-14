@@ -3,9 +3,9 @@ package com.pelletier.valuelist.adapter.jdbc;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.apache.commons.collections.set.SynchronizedSortedSet;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import com.pelletier.valuelist.DataAdapter;
 import com.pelletier.valuelist.DefaultValues;
@@ -13,6 +13,7 @@ import com.pelletier.valuelist.PagingInfo;
 import com.pelletier.valuelist.Values;
 import com.pelletier.valuelist.paging.PagingSupport;
 import com.pelletier.valuelist.transformer.QueryParameterMapper;
+import com.pelletier.valuelist.transformer.VelocityQueryParameterMapper;
 import com.pelletier.valuelist.util.ParameterConversionService;
 
 /**
@@ -31,7 +32,7 @@ import com.pelletier.valuelist.util.ParameterConversionService;
  * @author Ryan Pelletier
  *
  */
-public class DefaultJdbcDataAdapter<T> implements DataAdapter<T> {
+public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBean {
 
 	//TODO move comments above down here where they actually make sense. Also make decent javadocs
 	private String sql;
@@ -45,6 +46,20 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T> {
 	private PagingInfo defaultPagingInfo;
 
 
+	@Override
+	public void afterPropertiesSet() throws Exception
+	{
+		if( queryParameterMapper == null)
+		{
+			queryParameterMapper = new VelocityQueryParameterMapper();
+		}
+		if( rowMapper == null)
+		{
+			//set default here
+		}
+		//TODO: finish this...
+	}
+	
 	@Override
 	public Values<T> query(Map<String, Object> params, PagingInfo pagingInfo) {
 		
