@@ -46,7 +46,7 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBe
 	 */
 	//TODO: [MLW] A default implementation may be nice here.
 	//Fixed: changed to interface and added ParameterConversionService as default.
-	private AdapterConversionService adapterConversionService = new ParameterConversionService();
+	private AdapterConversionService adapterConversionService;
 	
 	/**
 	 * RowMapper which maps query result set to Java Objects. T is
@@ -72,13 +72,16 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBe
 	@Override
 	public void afterPropertiesSet() throws Exception
 	{
-		if( queryParameterMapper == null)
+		if(queryParameterMapper == null)
 		{
 			queryParameterMapper = new VelocityQueryParameterMapper();
 		}
-		if( rowMapper == null)
+		if(rowMapper == null)
 		{
 			 rowMapper = (RowMapper<T>) new ColumnMapRowMapper();		
+		}
+		if(adapterConversionService == null){
+			adapterConversionService = new ParameterConversionService();
 		}
 	}
 	
