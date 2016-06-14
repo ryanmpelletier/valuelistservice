@@ -26,10 +26,17 @@ public class DefaultValues<T> implements Values<T>{
 	//to simplify debugging override toString
 	@Override
 	public String toString(){
-		return values.toString() + 
-				"\n Page Number: " + pagingInfo.getPage() +
-				"\n Items Per Page: " + pagingInfo.getNumberPerPage() + 
-				"\n Total Count: " + pagingInfo.getTotalCount();
+		StringBuilder builder = new StringBuilder(values.toString());
+		
+		if( pagingInfo != null)
+		{
+			builder.append("\n Page Number: ").append(pagingInfo.getPage());
+			builder.append("\n Items Per Page: ").append(pagingInfo.getNumberPerPage());
+			builder.append("\n Total Count: ").append(pagingInfo.getTotalCount());
+		}
+		
+		return builder.toString();
+
 	}
 
 }
