@@ -80,11 +80,12 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T> {
 		//Fixed: created new map.
 		
 		Map<String, Object> queryParams = new HashMap<>();
-		queryParams.putAll(params);
 		if(adapterConversionService != null){
 			for(String paramKey : params.keySet()){
 				queryParams.put(paramKey,adapterConversionService.convertIfNeeded(paramKey, params.get(paramKey)));
 			}
+		}else{
+			queryParams.putAll(params);
 		}
 
 		/*
