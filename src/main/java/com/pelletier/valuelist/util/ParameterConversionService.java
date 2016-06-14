@@ -50,7 +50,7 @@ public class ParameterConversionService extends DefaultConversionService impleme
     @Override
     public <T> T convertIfNeeded(String paramKey, Object paramValue){
     	
-        if(paramTypeMap.get(paramKey) != null){
+        if(paramTypeMap != null && paramTypeMap.get(paramKey) != null){
             return (T) convert(paramValue, paramTypeMap.get(paramKey));
         }
         return (T) paramValue;
