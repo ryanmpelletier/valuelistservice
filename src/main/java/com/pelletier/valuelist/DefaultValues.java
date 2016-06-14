@@ -4,6 +4,8 @@ import java.util.List;
 
 /**
  * 
+ * Essentially wraps List<T> and PagingInfo into one object.
+ * 
  * @author Ryan Pelletier
  *
  * @param <T>
@@ -30,10 +32,7 @@ public class DefaultValues<T> implements Values<T>{
 		return pagingInfo;
 	}
 	
-	/*
-	 *To simplify debugging.
-	 *Note: Does not do null checks. 
-	 */
+
 	@Override
 	public String toString(){
 		StringBuilder builder = new StringBuilder(values.toString());

@@ -12,17 +12,17 @@ import com.pelletier.valuelist.DataAdapter;
 import com.pelletier.valuelist.DefaultValues;
 import com.pelletier.valuelist.PagingInfo;
 import com.pelletier.valuelist.Values;
-import com.pelletier.valuelist.adapter.AdapterConversionService;
 import com.pelletier.valuelist.paging.PagingSupport;
 import com.pelletier.valuelist.transformer.QueryParameterMapper;
 import com.pelletier.valuelist.transformer.VelocityQueryParameterMapper;
+import com.pelletier.valuelist.util.AdapterConversionService;
 import com.pelletier.valuelist.util.ParameterConversionService;
 
 /** 
- * @author Ryan Pelletier
  * 
  * Default JDBC implementation of DataAdapter.
  * Fulfills most SQL querying purposes.
+ * @author Ryan Pelletier
  *
  */
 public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBean {
@@ -44,16 +44,12 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBe
 	/**
 	 * Optionally convert parameters to different types before Spring runs query.
 	 */
-	//TODO: [MLW] A default implementation may be nice here.
-	//Fixed: changed to interface and added ParameterConversionService as default.
 	private AdapterConversionService adapterConversionService;
 	
 	/**
 	 * RowMapper which maps query result set to Java Objects. T is
 	 * the type of the object put into the Values<T> object for this Adapter.
 	 */
-	//TODO: [MLW] If this is left null does it crash and burn?
-	//Fixed: Defaults to ColumnMapRowMapper
 	private RowMapper<T> rowMapper;
 	
 	/**
@@ -93,9 +89,7 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBe
 			pagingInfo = defaultPagingInfo;
 		}
 		
-		//TODO: [MLW] This is a bad assumption that you can modify this map.
-		//Fixed: created new map.
-		
+		//convert parameters if necessary
 		Map<String, Object> queryParams = new HashMap<>();
 		if(adapterConversionService != null){
 			for(String paramKey : params.keySet()){

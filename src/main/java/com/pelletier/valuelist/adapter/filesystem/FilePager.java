@@ -8,6 +8,14 @@ import com.pelletier.valuelist.PagingInfo;
 
 public class FilePager{
 
+	/**
+	 * 
+	 * @param files
+	 * List of files to page.
+	 * 
+	 * @param pagingInfo
+	 * Requested pages and items per page.
+	 */
 	public static void filter(List<File> files, PagingInfo pagingInfo) {		
 		int count = 0;
 		Iterator<File> iterator = files.iterator();

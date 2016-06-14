@@ -7,26 +7,31 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 /**
  * 
- * @author Ryan Pelletier
  * 
  * Depends on Apache Velocity
  * Uses velocity to map params, evaluate velocity expressions, and otherwise handle 
  * configured parameters the provided SQL.
+ * 
+ * @author Ryan Pelletier
  */
 public class VelocityQueryParameterMapper implements QueryParameterMapper {
 	
+	/**
+	 * @param query
+	 * A SQL query to be run through the Velocity engine.
+	 * 
+	 * @param params
+	 * Parameters which Velocity will attempt to apply to the provided SQL.
+	 * 
+	 * @return 
+	 * Return Velocity processed SQL.
+	 */
 	@Override
 	public String transform(String query, Map<String, Object> params) {
 	   	 	
 		Velocity.init();
 		
 		VelocityContext velocityContext = new VelocityContext();
-		
-		/*
-		 * put parameters onto velocity context, note that if velocity does not find a param in a String
-		 * it will leave the param alone, for example if $test was not in the param map in the velocity context,
-		 * then the String "This is a $test" would be evaluated by velocity as "This is a $test"
-		 */
 		
 		for(String key : params.keySet()){
 			velocityContext.put(key, params.get(key));

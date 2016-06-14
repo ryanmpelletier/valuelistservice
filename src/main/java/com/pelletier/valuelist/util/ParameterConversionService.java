@@ -6,8 +6,6 @@ import java.util.Map;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.DefaultConversionService;
 
-import com.pelletier.valuelist.adapter.AdapterConversionService;
-
 /**
  * 
  * @author Ryan Pelletier
@@ -38,10 +36,11 @@ public class ParameterConversionService extends DefaultConversionService impleme
     
     /**
      * @param paramKey
-     * 
+     * The parameter name to be converted. This is looked up in the
+     * map to find the target conversion type.
      * 
      * @param paramValue
-     * 
+     * The object to be converted.
      * 
      * @return 
      * 

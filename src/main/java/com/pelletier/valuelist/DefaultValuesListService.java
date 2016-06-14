@@ -3,11 +3,13 @@ package com.pelletier.valuelist;
 import java.util.Map;
 /**
  * 
+ * Configurable map of DataAdapters allows for flexible data sources and queries.
+ * 
  * @author Ryan Pelletier
  *
  * @param <T>
  * The type of the transfer object which will be returned to the client, 
- * as well as potentially paging information.
+ * as well as (potentially) paging information.
  */
 
 public class DefaultValuesListService<T> implements ValueListService {

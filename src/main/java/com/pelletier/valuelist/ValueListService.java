@@ -3,12 +3,11 @@ package com.pelletier.valuelist;
 import java.util.Map;
 
 /**
- * 
- * @author Ryan Pelletier
- * 
  * This is the client facing interface.
  * Returns a Values<? extends Object> which is essentially
  * a List<? extends Object> and PagingInfo.
+ * 
+ * @author Ryan Pelletier
  *
  */
 public interface ValueListService {

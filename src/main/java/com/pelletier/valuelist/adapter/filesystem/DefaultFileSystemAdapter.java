@@ -17,16 +17,7 @@ import com.pelletier.valuelist.Values;
  * Simple file system adapter for directory listings.
  * This class was built as an example of the flexibility of adapters.
  * 
- * Paging is not supported.
- * 
- * 
- * The user should be able to configure fileFilters to apply
- * to the files which are retrieved. 
- * So basically what will happen, we get the path, and get our
- * list of files.
- * 
- * Then after we get the list of files, we pass it through the filter chain
- * file filter will be an interface which has one method, filter
+ * Sorting by date or name, and filtering by name are supported.
  * 
  * @author Ryan Pelletier
  *
@@ -39,7 +30,8 @@ public class DefaultFileSystemAdapter implements DataAdapter<List<File>> {
 	
 	/**
 	 * @param params
-	 * 	User must supply param "path" with String of path to list Files from
+	 * 	User must supply param "path" with String of path to list Files from,
+	 *  this is appended to optionally configured baseDirectory to load the actual files.
 	 */
 	@Override
 	public Values<List<File>> query(final Map<String, Object> params, PagingInfo pagingInfo) {

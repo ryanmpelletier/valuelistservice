@@ -6,11 +6,21 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.core.convert.converter.Converter;
-
+/**
+ * Provides simple String to java.util.Date conversion.
+ * 
+ * @author Ryan Pelletier
+ *
+ */
 public class DefaultStringToDateConverter implements Converter<String, Date> {
 	
 	private DateFormat dateFormat;
 
+	/**
+	 * @param source
+	 * Converts source into java.util.Date using SimpleDateFormat
+	 * 
+	 */
 	@Override
 	public Date convert(String source) {
         try {

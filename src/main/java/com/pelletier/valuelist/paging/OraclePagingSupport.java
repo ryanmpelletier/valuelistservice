@@ -20,12 +20,18 @@ import com.pelletier.valuelist.PagingInfo;
 public class OraclePagingSupport implements PagingSupport
 {
 
+	/**
+	 * Wraps user provided query in count query.
+	 */
 	@Override
 	public String getCountQuery(String query)
 	{
 		return "SELECT count(*) FROM (" + query + ")";
 	}
 
+	/**
+	 * Wraps user provided query in Oracle paging query with user provided paging information.
+	 */
 	@Override
 	public String getPagedQuery(String query, PagingInfo pagingInfo)
 	{
