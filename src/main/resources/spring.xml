@@ -91,6 +91,8 @@
 		</property>
 		<property name="defaultPagingInfo" ref="defaultPagingInfo"/>
 	</bean>
+	
+	
 
 	<bean id="valueListService" class="com.pelletier.valuelist.DefaultValuesListService">
 		<property name="adapters">

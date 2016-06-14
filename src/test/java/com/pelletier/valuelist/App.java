@@ -35,8 +35,12 @@ public class App {
 			pagingInfo.setNumberPerPage(NUMBER_PER_PAGE);
 			pagingInfo.setPage(PAGE_NUMBER);
 			
-			result = (Values<Map<String,Object>>) valueListService.getValuesList("query", queryParams, null);
-//			result = (Values<Map<String,Object>>) dataAdapter.query(queryParams, pagingInfo);
+			result = (Values<Map<String,Object>>) valueListService.getValuesList("query", queryParams, pagingInfo);	
+			
+			/*
+			 * You can also use DataAdapter<T> without service. 
+			 */
+			//result = (Values<Map<String,Object>>) dataAdapter.query(queryParams, pagingInfo);
 
 			System.out.println(result);
 			
