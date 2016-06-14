@@ -6,6 +6,8 @@ import java.util.Map;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.DefaultConversionService;
 
+import com.pelletier.valuelist.adapter.AdapterConversionService;
+
 /**
  * 
  * @author Ryan Pelletier
@@ -16,7 +18,7 @@ import org.springframework.core.convert.support.DefaultConversionService;
  * to turn String values into different types before Spring runs queries.
  *
  */
-public class ParameterConversionService extends DefaultConversionService {
+public class ParameterConversionService extends DefaultConversionService implements AdapterConversionService {
 	
     /*
      * ParamTypeMap and converters are able to be optionally configured
@@ -39,7 +41,7 @@ public class ParameterConversionService extends DefaultConversionService {
      */
     private List<Converter> converters;
 
-
+    @Override
     public <T> T convertIfNeeded(String paramKey, Object paramValue){
     	
         if(paramTypeMap.get(paramKey) != null){

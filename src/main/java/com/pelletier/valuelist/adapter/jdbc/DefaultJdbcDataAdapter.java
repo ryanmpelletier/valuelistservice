@@ -1,48 +1,71 @@
 package com.pelletier.valuelist.adapter.jdbc;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-
+import org.springframework.jdbc.core.ColumnMapRowMapper;
+import org.springframework.jdbc.core.RowMapper;
 import com.pelletier.valuelist.DataAdapter;
 import com.pelletier.valuelist.DefaultValues;
 import com.pelletier.valuelist.PagingInfo;
 import com.pelletier.valuelist.Values;
+import com.pelletier.valuelist.adapter.AdapterConversionService;
 import com.pelletier.valuelist.paging.PagingSupport;
 import com.pelletier.valuelist.transformer.QueryParameterMapper;
 import com.pelletier.valuelist.transformer.VelocityQueryParameterMapper;
 import com.pelletier.valuelist.util.ParameterConversionService;
 
-/**
- * Default Jdbc implementation, which does have a dependency to Spring. 
- * 
- * Depends on sql, which is a SQL query to run, 
- * a NamedParameterJdbcTemplate, which allows Spring to map params with parameter names in the query,
- * a QueryParameterMapper, which is a way of pre-parameter mapping before Spring. It is suggested to use the
- * VelocityQueryParameterMapper, 
- * a RowMapper which will determine the type of object returned from the DataAdapter.Can use DefaultJdbcRowMapper.
- * Optionally PagingSupport.
- * 
- * Note: If pagingSupport is null, everything is returned from the query, and the returned
- * pagingInfo is null.
- * 
+/** 
  * @author Ryan Pelletier
+ * 
+ * Default JDBC implementation of DataAdapter.
+ * Fulfills most SQL querying purposes.
  *
  */
 public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBean {
 
-	//TODO move comments above down here where they actually make sense. Also make decent javadocs
+	/**
+	 * The sql to be run against the database.
+	 */
 	private String sql;
+	
+	/**
+	 * Template which allows Spring to map params with parameter names in query.
+	 */
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	
+	/**
+	 * Processes sql before Spring, 
+	 */
 	private QueryParameterMapper queryParameterMapper;
+	/**
+	 * Optionally convert parameters to different types before Spring runs query.
+	 */
 	//TODO: [MLW] A default implementation may be nice here.
-	private ParameterConversionService parameterConversionService;
+	//Fixed: changed to interface and added ParameterConversionService as default.
+	private AdapterConversionService adapterConversionService = new ParameterConversionService();
+	
+	/**
+	 * RowMapper which maps query result set to Java Objects. T is
+	 * the type of the object put into the Values<T> object for this Adapter.
+	 */
 	//TODO: [MLW] If this is left null does it crash and burn?
+	//Fixed: Defaults to ColumnMapRowMapper
 	private RowMapper<T> rowMapper;
+	
+	/**
+	 * Optionally allow pagination using PagingSupport object. When left null, 
+	 * full query results are returned. 
+	 */
 	private PagingSupport pagingSupport;
+	
+	/**
+	 * Optionally inject defaultPagingInfo. Will be used if request does
+	 * not include pagingInfo. 
+	 */
 	private PagingInfo defaultPagingInfo;
 
 
@@ -55,26 +78,28 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBe
 		}
 		if( rowMapper == null)
 		{
-			//set default here
+			 rowMapper = (RowMapper<T>) new ColumnMapRowMapper();		
 		}
-		//TODO: finish this...
 	}
 	
 	@Override
 	public Values<T> query(Map<String, Object> params, PagingInfo pagingInfo) {
 		
-
 		//if a default paging info is set up, and one isn't supplied, use default
 		if(pagingInfo == null && defaultPagingInfo != null){
 			pagingInfo = defaultPagingInfo;
 		}
 		
 		//TODO: [MLW] This is a bad assumption that you can modify this map.
-		//I want to do this before any velocity transformation I think
-		if(parameterConversionService != null){
+		//Fixed: created new map.
+		
+		Map<String, Object> queryParams = new HashMap<>();
+		if(adapterConversionService != null){
 			for(String paramKey : params.keySet()){
-				params.put(paramKey,parameterConversionService.convertIfNeeded(paramKey, params.get(paramKey)));
+				queryParams.put(paramKey,adapterConversionService.convertIfNeeded(paramKey, params.get(paramKey)));
 			}
+		}else{
+			queryParams.putAll(params);
 		}
 
 		/*
@@ -83,20 +108,17 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBe
 		 * This is used to include sql based on the existence of a parameter, and also to 
 		 * inject the values of parameters directly into the SQL without Spring.
 		 */
-		String sqlWithParams = queryParameterMapper.transform(sql, params);
+		String sqlWithParams = queryParameterMapper.transform(sql, queryParams);
 
 		//need both paging support and pagingInfo to run paging
 		if (pagingSupport != null && pagingInfo != null) {
 			
-			//create PagingInfo object to be returned to client
-
-			pagingInfo.setTotalCount(namedParameterJdbcTemplate.queryForObject(pagingSupport.getCountQuery(sqlWithParams), params, Integer.class));			
-			List<T> results = namedParameterJdbcTemplate.query(pagingSupport.getPagedQuery(sqlWithParams, pagingInfo), params, rowMapper);
+			pagingInfo.setTotalCount(namedParameterJdbcTemplate.queryForObject(pagingSupport.getCountQuery(sqlWithParams), queryParams, Integer.class));			
+			List<T> results = namedParameterJdbcTemplate.query(pagingSupport.getPagedQuery(sqlWithParams, pagingInfo), queryParams, rowMapper);
 			
 			return new DefaultValues<T>(results, pagingInfo);
 		} else {
-			List<T> results = namedParameterJdbcTemplate.query(sqlWithParams, params, rowMapper);			
-			//if they didn't do pagination, we don't return info about pagination
+			List<T> results = namedParameterJdbcTemplate.query(sqlWithParams, queryParams, rowMapper);			
 			return new DefaultValues<T>(results, null);
 		}
 
@@ -122,8 +144,8 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBe
 		this.rowMapper = rowMapper;
 	}
 
-	public void setParameterConversionService(ParameterConversionService parameterConversionService) {
-		this.parameterConversionService = parameterConversionService;
+	public void setAdapterConversionService(AdapterConversionService adapterConversionService) {
+		this.adapterConversionService = adapterConversionService;
 	}
 
 	public void setDefaultPagingInfo(PagingInfo defaultPagingInfo) {
