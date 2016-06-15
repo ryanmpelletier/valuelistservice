@@ -111,6 +111,7 @@
 						contains one method to get back a <strong>Values</strong> object
 						which holds results.
 					</p>
+					<img src="images/valuelistservice_interface.jpg" alt="ValueListService Interface"/>
 					<p>The intention of these parameters is the following.</p>
 					<ol>
 						<li><strong>key:</strong> Used to identify a query which the
@@ -125,7 +126,7 @@
 						The method returns <strong>Values&lt;? extends Object&gt;</strong>.
 						Let&rsquo;s break that down.
 					</p>
-					<img src="images/valuelistservice_interface.jpg" alt="ValueListService Interface"/>
+					<img src="images/values.jpg" alt="Values"/>
 					<p>As you can see, a Values is nothing more than a List and
 						paging information, which tells the client the total number of
 						items, page, and items per page. &nbsp;</p>
@@ -148,6 +149,7 @@
 					<p>
 						Let&rsquo;s take a look at <strong>DataAdapter&lt;T&gt;.</strong>
 					</p>
+					<img src="images/dataadapter.jpg" alt="DataAdapter Interface"/>					
 					<p>
 						Here we can see that the adapter returns the same type as the
 						service does, in fact, the method is almost exactly the same as
@@ -172,11 +174,13 @@
 					</ol>
 					<p>It is important to use NamedParameterJdbcTemplate for
 						reasons we will see later.</p>
+						<img src="images/datasource_config.jpg" alt="DataSource Config"/>						
 					<ol start="2">
 						<li><strong>Configure DefaultJdbcAdapter</strong></li>
 					</ol>
 					<p>Here I will be querying a sample MySQL table for employee
 						department names.</p>
+						<img src="images/jdbcadapter_config.jpg" alt="DefaultJdbcAdapter Config"/>						
 					<ol start="3">
 						<li><strong>Call standalone adapter.</strong></li>
 					</ol>
@@ -188,6 +192,7 @@
 						Optionally, a <strong>RowMapper</strong>&lt;T&gt; can be injected
 						into the adapter to return a different type.
 					</p>
+						<img src="images/example_main.jpg" alt="ValueListService Interface"/>					
 					<p>&nbsp;</p>
 					<p>&nbsp;</p>
 					<p>&nbsp;</p>
@@ -200,6 +205,7 @@
 						standalone adapter. The <strong>DefaultValueListService </strong>can
 						be configured with the following XML.
 					</p>
+						<img src="images/valuelistservice_config.jpg" alt="ValueListService Interface"/>					
 					<p>Additional adapters can be injected into the map, which are
 						able to be accessed by key in the actual service.</p>
 					<p>&nbsp;</p>
@@ -215,6 +221,7 @@
 						</strong>into our adapter. When finished, the adapter configuration will
 						look like this:
 					</p>
+					<img src="images/paging_config.jpg" alt="ValueListService Interface"/>					
 					<p>
 						Now, we can create a <strong>PagingInfo </strong>object, set the <em>numberPerPage</em>
 						property, and the <em>page</em> property, and pass it to the
@@ -233,8 +240,9 @@
 					</p>
 					<p>
 						Let&rsquo;s write a query that takes advantage of velocity, as
-						well as the <strong>NamedParameterJdbcTemplate</strong>.
+						well as the <strong>NamedParameterJdbcTemplate</strong>.						
 					</p>
+					<img src="images/velocity_config.jpg" alt="ValueListService Interface"/>					
 					<p>&nbsp;</p>
 					<p>&nbsp;</p>
 					<p>&nbsp;</p>
@@ -318,6 +326,7 @@
 						When configured, the adapter will convert parameters from one type
 						to another, based on the adapter requirements.
 					</p>
+					<img src="images/adapterconversion_interface.jpg" alt="ValueListService Interface"/>					
 					<p>&nbsp;</p>
 					<p>
 						&nbsp;By default, the adapter uses <strong>ParameterConversionService</strong>,
@@ -335,6 +344,7 @@
 						Let&rsquo;s see an example of how to configure this. Here is the
 						configuration for a <strong>ParameterConversionService </strong>bean.
 					</p>
+					<img src="images/adapterconversion_bean.jpg" alt="ValueListService Interface"/>					
 					<p>
 						Here we can see that we have set up query parameter maps with keys
 						&ldquo;birth_date&rdquo; or &ldquo;hire_date&rdquo; to have their
