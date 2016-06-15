@@ -294,15 +294,13 @@
 					</p>
 					<p>The original purpose of this project was to get JSON
 						results. An example of this being done is in a Spring MVC project
-						with Jackson JSON processing.</p>
-					<p>
-						An example service can be found here: <a
-							href="https://github.com/ryanp102694/valuelistservice_webservice">https://github.com/ryanp102694/valuelistservice_webservice</a>
+						with Jackson JSON processing.
 					</p>
 					<p>
 						Let&rsquo;s take a look at our <strong>ValueListServiceController</strong>,
 						which is really the only code in the project.
 					</p>
+					<!-- insert image of ValuesListServiceController -->
 					<p>&nbsp;</p>
 					<p>Basically, this is what is going on here.</p>
 					<ol>
@@ -311,13 +309,15 @@
 							defined in a Spring xml file.
 						</li>
 						<li>Parameters are taken from the request and put into a
-							parameter map.</li>
+							parameter map.
+						</li>
 						<li>A <strong>PagingInfo </strong>object is constructed from
 							specific parameters <em>page </em>and <em>numberPerPage</em>.
 						</li>
 						<li><strong>ValueListService </strong>is called, getting the
 							Values. The Values are then marshalled to JSON by the Jackson
-							library, before being sent in the response body.</li>
+							library, before being sent in the response body.
+						</li>
 					</ol>
 					<p>
 						When using <strong>ValueListService </strong>in a web service, a
@@ -327,7 +327,7 @@
 						all, Spring needs a java.util.Date to run the correct SQL query.
 					</p>
 					<p>
-						<strong>Configuring the AdapterConversionService</strong>
+						<h3><strong>Configuring the AdapterConversionService</strong></h3>
 					</p>
 					<p>
 						The <strong>DefaultJdbcDataAdapter </strong>has a property <strong>AdapterConversionService</strong>.
@@ -335,7 +335,7 @@
 						to another, based on the adapter requirements.
 					</p>
 					<div class="code">
-						<img src="images/adapterconversion_interface.jpg" alt="ValueListService Interface"/>
+						<img src="images/adapterconversion_interface.jpg" alt="ValueListService Interface" style="height: 75px"/>
 					</div>					
 					<p>&nbsp;</p>
 					<p>
@@ -349,13 +349,12 @@
 						target class type.
 					</p>
 					<p>&nbsp;</p>
-					<p>&nbsp;</p>
 					<p>
 						Let&rsquo;s see an example of how to configure this. Here is the
 						configuration for a <strong>ParameterConversionService </strong>bean.
 					</p>
 					<div class="code">
-						<img src="images/adapterconversion_config.jpg" alt="Adapter Conversion Config" style="height: 75px"/>
+						<img src="images/adapterconversion_config.jpg" alt="Adapter Conversion Config"/>
 					</div>					
 					<p>
 						Here we can see that we have set up query parameter maps with keys
