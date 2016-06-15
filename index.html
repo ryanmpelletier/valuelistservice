@@ -78,7 +78,7 @@
 		<div id="contentBox">
 			<div class="section">
 				<h2>
-					About valuelistservice<a name="About_valuelistservice"></a>
+					Getting Started with ValueListService<a name="About_valuelistservice"></a>
 				</h2>
 				<a name="About_valuelistservice"></a>
 				<p>
@@ -171,8 +171,7 @@
 						data from a MySQL database.
 					</p>
 					<ol>
-						<li><strong>Configure a DataSource and
-								NamedParameterJdbcTemplate.</strong></li>
+						<h3><li><strong>Configure a DataSource and NamedParameterJdbcTemplate.</strong></li></h3>
 					</ol>
 					<p>It is important to use NamedParameterJdbcTemplate for
 						reasons we will see later.</p>
@@ -180,7 +179,7 @@
 							<img src="images/datasource_config.jpg" alt="DataSource Config"/>
 						</div>						
 					<ol start="2">
-						<li><strong>Configure DefaultJdbcAdapter</strong></li>
+						<h3><li><strong>Configure DefaultJdbcAdapter</strong></li></h3>
 					</ol>
 					<p>Here I will be querying a sample MySQL table for employee
 						department names.</p>
@@ -188,7 +187,7 @@
 							<img src="images/jdbcadapter_config.jpg" alt="DefaultJdbcAdapter Config"/>
 						</div>					
 					<ol start="3">
-						<li><strong>Call standalone adapter.</strong></li>
+						<h3><li><strong>Call standalone adapter.</strong></li></h3>
 					</ol>
 					<p>
 						You can use adapters apart from the service if you wish, in the
@@ -203,8 +202,7 @@
 					</div>					
 					<p>&nbsp;</p>
 					<ol start="4">
-						<li><strong>Inject adapter into default
-								ValueListService.</strong></li>
+						<h3><li><strong>Inject adapter into default ValueListService.</strong></li></h3>
 					</ol>
 					<p>
 						Ultimately, we will want to use the service, rather than the
@@ -357,7 +355,7 @@
 						configuration for a <strong>ParameterConversionService </strong>bean.
 					</p>
 					<div class="code">
-						<img src="images/adapterconversion_config.jpg" alt="Adapter Conversion Config"/>
+						<img src="images/adapterconversion_config.jpg" alt="Adapter Conversion Config" style="height: 75px"/>
 					</div>					
 					<p>
 						Here we can see that we have set up query parameter maps with keys
