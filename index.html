@@ -111,7 +111,9 @@
 						contains one method to get back a <strong>Values</strong> object
 						which holds results.
 					</p>
-					<img src="images/valuelistservice_interface.jpg" alt="ValueListService Interface"/>
+					<div class="code">
+						<img src="images/valuelistservice_interface.jpg" alt="ValueListService Interface"/>
+					</div>
 					<p>The intention of these parameters is the following.</p>
 					<ol>
 						<li><strong>key:</strong> Used to identify a query which the
@@ -126,7 +128,9 @@
 						The method returns <strong>Values&lt;? extends Object&gt;</strong>.
 						Let&rsquo;s break that down.
 					</p>
-					<img src="images/values.jpg" alt="Values"/>
+					<div class="code">
+						<img src="images/values.jpg" alt="Values"/>
+					</div>
 					<p>As you can see, a Values is nothing more than a List and
 						paging information, which tells the client the total number of
 						items, page, and items per page. &nbsp;</p>
@@ -142,14 +146,12 @@
 						actually what run the queries, and return the appropriate type
 						from the service.
 					</p>
-					<p>&nbsp;</p>
-					<p>&nbsp;</p>
-					<p>&nbsp;</p>
-					<p>&nbsp;</p>
 					<p>
 						Let&rsquo;s take a look at <strong>DataAdapter&lt;T&gt;.</strong>
 					</p>
-					<img src="images/dataadapter.jpg" alt="DataAdapter Interface"/>					
+					<div class="code">
+						<img src="images/dataadapter.jpg" alt="DataAdapter Interface"/>
+					</div>				
 					<p>
 						Here we can see that the adapter returns the same type as the
 						service does, in fact, the method is almost exactly the same as
@@ -344,7 +346,7 @@
 						Let&rsquo;s see an example of how to configure this. Here is the
 						configuration for a <strong>ParameterConversionService </strong>bean.
 					</p>
-					<img src="images/adapterconversion_bean.jpg" alt="ValueListService Interface"/>					
+					<img src="images/adapterconversion_config.jpg" alt="Adapter Conversion Config"/>					
 					<p>
 						Here we can see that we have set up query parameter maps with keys
 						&ldquo;birth_date&rdquo; or &ldquo;hire_date&rdquo; to have their
