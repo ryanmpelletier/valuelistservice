@@ -6,4 +6,8 @@ h3 {
 	background-color: white;
 	color:black;
 	border: none;
+	font-size: large;
+}
+p{
+	font-size: 14px;
 }

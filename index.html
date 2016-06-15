@@ -170,25 +170,19 @@
 						Let&rsquo;s see how we can easily configure this in Spring to read
 						data from a MySQL database.
 					</p>
-					<ol>
-						<h3><li><strong>Configure a DataSource and NamedParameterJdbcTemplate.</strong></li></h3>
-					</ol>
+					<h3><strong>1. Configure a DataSource and NamedParameterJdbcTemplate</strong></h3>
 					<p>It is important to use NamedParameterJdbcTemplate for
 						reasons we will see later.</p>
 						<div class="code">
 							<img src="images/datasource_config.jpg" alt="DataSource Config"/>
 						</div>						
-					<ol start="2">
-						<h3><li><strong>Configure DefaultJdbcAdapter</strong></li></h3>
-					</ol>
+					<h3><strong>2. Configure DefaultJdbcAdapter</strong></h3>
 					<p>Here I will be querying a sample MySQL table for employee
 						department names.</p>
 						<div class="code">
 							<img src="images/jdbcadapter_config.jpg" alt="DefaultJdbcAdapter Config"/>
 						</div>					
-					<ol start="3">
-						<h3><li><strong>Call standalone adapter.</strong></li></h3>
-					</ol>
+					<h3><strong>3. Call standalone adapter</strong></h3>
 					<p>
 						You can use adapters apart from the service if you wish, in the
 						following example program, we see our adapter query method
@@ -201,13 +195,12 @@
 						<img src="images/example_main.jpg" alt="ValueListService Interface" style="height: 200px;"/>
 					</div>					
 					<p>&nbsp;</p>
-					<ol start="4">
-						<h3><li><strong>Inject adapter into default ValueListService.</strong></li></h3>
-					</ol>
+					<h3><strong>4. Inject adapter into default ValueListService</strong></h3>
 					<p>
 						Ultimately, we will want to use the service, rather than the
 						standalone adapter. The <strong>DefaultValueListService </strong>can
-						be configured with the following XML.
+						be configured with the following XML. Like the example Main class above, we can
+						get our valueListService bean, and call getValuesList to get our results.
 					</p>
 					<div class="code">
 						<img src="images/valuelistservice_config.jpg" alt="ValueListService Interface"/>
@@ -216,7 +209,7 @@
 						able to be accessed by key in the actual service.</p>
 					<p>&nbsp;</p>
 					<p>
-						<strong>Paging</strong>
+						<h3><strong>Paging</strong></h3>
 					</p>
 					<p>
 						Some result sets will be extremely large. The user may want only
@@ -237,7 +230,7 @@
 						selected page.
 					</p>
 					<p>
-						<strong>Complex Queries</strong>
+						<h3><strong>Complex Queries</strong></h3>
 					</p>
 					<p>
 						By default, the <strong>DefaultJdbcDataAdapter </strong>will use a
@@ -258,27 +251,19 @@
 						(&ldquo;dept_name&rdquo;, &ldquo;Customer Service&rdquo;).</p>
 					<p>Two things will happen before the SQL is actually run.</p>
 					<ol>
-						<li>Velocity will process the SQL, transforming it into:</li>
+						<li>Velocity will process the SQL, transforming it into: <strong><code>SELECT * FROM employees.departments WHERE dept_name = :dept_name</code></strong></li>
 					</ol>
-					<p>
-						<em>SELECT * FROM employees.departments WHERE dept_name =
-							:dept_name</em>
-					</p>
+					
 					<ol start="2">
-						<li>The Spring template will insert the value of the
-							parameter in place of &lt;:dept_name&gt; The final query becomes:</li>
+						<li>The Spring template will insert the value of the parameter in place of &lt;:dept_name&gt; The final query becomes:<code><strong>SELECT * FROM employees.departments WHERE dept_name = &ldquo;Customer Service&rdquo;</code></strong></li>
 					</ol>
-					<p>
-						<em>SELECT * FROM employees.departments WHERE dept_name =
-							&ldquo;Customer Service&rdquo;</em>
-					</p>
 					<p>
 						<strong>Using Velocity templating allows the defined
 							queries to be flexible and allow filtering and sorting based on
 							the existence of certain parameters.</strong>
 					</p>
 					<p>
-						<strong>Further Extension</strong>
+						<h3><strong>Further Extension</strong></h3>
 					</p>
 					<p>
 						If necessary, classes can be written which build upon the existing
@@ -290,7 +275,7 @@
 					</p>
 					<p>&nbsp;</p>
 					<p>
-						<h1><strong>Using ValueListService in a Web Service</strong></h1>
+						<h1><strong>Using ValueListService in a Spring MVC Project</strong></h1>
 					</p>
 					<p>The original purpose of this project was to get JSON
 						results. An example of this being done is in a Spring MVC project
@@ -372,8 +357,7 @@
 						lists and maps inherit values. This is useful if a global type
 						conversion map or converters list must be configured.
 					</p>
-					<p>Our adapter can now convert parameters from one type to
-						another in order to run its query.</p>
+					<p>Our adapter can now convert parameters from one type to another in order to run its query.</p>
 				</p>
 			</div>
 		</div>
