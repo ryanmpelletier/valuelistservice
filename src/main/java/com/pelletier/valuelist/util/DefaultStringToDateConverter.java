@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.springframework.core.convert.converter.Converter;
 /**
  * Provides simple String to java.util.Date conversion.
@@ -15,6 +16,8 @@ import org.springframework.core.convert.converter.Converter;
 public class DefaultStringToDateConverter implements Converter<String, Date> {
 	
 	private DateFormat dateFormat;
+	final static Logger logger = Logger.getLogger(DefaultStringToDateConverter.class);
+
 
 	/**
 	 * @param source
@@ -26,8 +29,7 @@ public class DefaultStringToDateConverter implements Converter<String, Date> {
         try {
             return dateFormat.parse(source);
         } catch (ParseException e) {
-        	//TODO: [MLW] Use a logger. We need to talk about conversion errors.
-            e.printStackTrace();
+        	logger.error("Could not convert create date from " + source + ".", e);
             return null;
         }
 	}

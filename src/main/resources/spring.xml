@@ -87,7 +87,7 @@
 		<property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate" />
 		<property name="pagingSupport" ref="pagingSupport"/>
 		<property name="rowMapper" ref="testPOJOMapper"/>
-		<property name="parameterConversionService" ref="parameterConversionService">
+		<property name="adapterConversionService" ref="parameterConversionService">
 		</property>
 		<property name="defaultPagingInfo" ref="defaultPagingInfo"/>
 	</bean>
