@@ -306,17 +306,20 @@
 						is being used. It may be necessary to implement the <strong>SQLPagingSupport
 						</strong>interface to support paging.
 					</p>
+					<p>
+						The user could also choose to create their own DataAdapters, and wire them into their service.
+					</p>
 					<p>&nbsp;</p>
 					<p>
 						<h1><strong>Using ValueListService in a Spring MVC Project</strong></h1>
 					</p>
 					<p>The original purpose of this project was to get JSON
-						results. An example of this being done is in a Spring MVC project
+						results. An example of this being done is in a <a href="https://github.com/ryanp102694/valuelistservice_webservice/commits?author=ryanp102694">Spring MVC</a> project
 						with Jackson JSON processing.
 					</p>
 					<p>
 						Let&rsquo;s take a look at our <strong>ValueListServiceController</strong>,
-						which is really the only code in the project.
+						which is in the <strong>valuelistservice.jar</strong>.
 					</p>
 					<img src="images/valuelistservice_controller.jpg" alt="ValueListServiceController"/>
 					<p>&nbsp;</p>
@@ -337,6 +340,14 @@
 							library, before being sent in the response body.
 						</li>
 					</ol>
+				<p>
+					In order for this to work, the jar must be put in a Spring project which uses the component-scan and annotation-driven xml.
+					Note that one of the base-packages being scanned must be com.pelletier, which is the package for the controller.
+				</p>
+				<p>
+					&lt;context:component-scan base-package="com.pelletier"/&gt;<br>
+					&lt;mvc:annotation-driven/&gt;
+				</p>
 			</div>
 		</div>
 	</div>
