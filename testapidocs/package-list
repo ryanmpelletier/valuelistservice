@@ -1,0 +1,4 @@
+com.pelletier.valuelist
+com.pelletier.valuelist.adapter.jdbc
+com.pelletier.valuelist.paging
+com.pelletier.valuelist.transformer

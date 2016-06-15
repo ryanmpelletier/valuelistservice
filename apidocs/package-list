@@ -1,0 +1,6 @@
+com.pelletier.valuelist
+com.pelletier.valuelist.adapter.filesystem
+com.pelletier.valuelist.adapter.jdbc
+com.pelletier.valuelist.paging
+com.pelletier.valuelist.transformer
+com.pelletier.valuelist.util
