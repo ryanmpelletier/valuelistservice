@@ -1,18 +1,19 @@
 package com.pelletier;
 
-import com.pelletier.valuelist.PagingInfo;
-import com.pelletier.valuelist.ValueListService;
-import com.pelletier.valuelist.Values;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
+import com.pelletier.valuelist.PagingInfo;
+import com.pelletier.valuelist.ValueListService;
+import com.pelletier.valuelist.Values;
 
 /**
  * Created by Ryan Pelletier on 6/10/2016.
