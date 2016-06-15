@@ -20,21 +20,32 @@ import com.pelletier.valuelist.Values;
  *
  *
  *
- * So basically, this class is going to get torn out of here, and be put in my jar.
+ *This class is intended to be included in a Spring project which uses component-scan and annotation-driven in the Spring XML file.
  *
- * Then, I should be able to configure in XML the request mapping value for this jar.
- * Thats it.
  *
- * So the first step would be just moving this class as it is to my other project, then repackaging the
- * jar and putting it back in here with the same component scan thing.
- *
+ * Spring should pick up and wire in the configured ValueListService into this controller,
+ * and the controller will accept HTTP GET requests to /valueslistservice/values relative URL.
  */
 @RestController
 public class ValueListServiceController {
 	
+	/**
+	 * The autowired valueListService.
+	 */
     @Autowired
     ValueListService valueListService;
 
+    /**
+     * 
+     * @param request
+     * The HttpServletRequest object.
+     * 
+     * @param response
+     * The HttpServletResponse object.
+     * 
+     * @return
+     * Returns a Values object which will contain a list of whatever the valueListService is configured to return.
+     */
     @RequestMapping(value = "/valueslistservice/values", method = RequestMethod.GET)
     public Values<? extends Object> getValueList(HttpServletRequest request, HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:63342");
