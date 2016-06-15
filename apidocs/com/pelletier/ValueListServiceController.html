@@ -104,10 +104,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 
 
 
-This class is intended to be included in a Spring project which uses the following in the Spring XML file.
-
-    <context:component-scan base-package="com.pelletier"/>
-     <mvc:annotation-driven/>
+This class is intended to be included in a Spring project which uses component-scan and annotation-driven in the Spring XML file.
 
  Spring should pick up and wire in the configured ValueListService into this controller,
  and the controller will accept HTTP GET requests to /valueslistservice/values relative URL.</div>
