@@ -39,7 +39,7 @@
 		<dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>4.1.4.RELEASE</version>
+            <version>3.2.4.RELEASE</version>
         </dependency>
 
 		<!-- datasource and db driver-->
@@ -54,7 +54,7 @@
 		<dependency>
 		    <groupId>mysql</groupId>
 		    <artifactId>mysql-connector-java</artifactId>
-		    <version>6.0.2</version>
+		    <version>5.1.38</version>
 		</dependency>
 		
 
@@ -66,7 +66,7 @@
 			<scope>test</scope>
 		</dependency>
 		
-				<!-- http://mvnrepository.com/artifact/org.apache.velocity/velocity -->
+		<!-- http://mvnrepository.com/artifact/org.apache.velocity/velocity -->
 		<dependency>
 		    <groupId>org.apache.velocity</groupId>
 		    <artifactId>velocity</artifactId>
@@ -102,6 +102,11 @@
 	
 	<reporting>
 	    <plugins>
+	      <plugin>
+          	<groupId>org.apache.maven.plugins</groupId>
+          	<artifactId>maven-surefire-plugin</artifactId>
+          	<version>2.19.1</version>
+       	  </plugin>
 	      <plugin>
 	        <groupId>org.apache.maven.plugins</groupId>
 	        <artifactId>maven-javadoc-plugin</artifactId>
