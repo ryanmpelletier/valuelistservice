@@ -4,10 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.management.RuntimeErrorException;
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.core.env.MissingRequiredPropertiesException;
 import org.springframework.jdbc.core.ColumnMapRowMapper;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
 import com.pelletier.valuelist.DataAdapter;
 import com.pelletier.valuelist.DefaultValues;
 import com.pelletier.valuelist.PagingInfo;
@@ -72,12 +77,20 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBe
 		{
 			queryParameterMapper = new VelocityQueryParameterMapper();
 		}
+		
 		if(rowMapper == null)
 		{
 			 rowMapper = (RowMapper<T>) new ColumnMapRowMapper();		
 		}
-		if(adapterConversionService == null){
+		
+		if(adapterConversionService == null)
+		{
 			adapterConversionService = new ParameterConversionService();
+		}
+		
+		if( namedParameterJdbcTemplate == null)
+		{
+			throw new RuntimeException("namedParameterJdbcTemplate or dataSource is required");
 		}
 	}
 	
@@ -125,6 +138,10 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBe
 		this.sql = sql;
 	}
 
+	public void setDataSource(DataSource dataSource)
+	{
+		this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+	}
 	public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
 		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
 	}
