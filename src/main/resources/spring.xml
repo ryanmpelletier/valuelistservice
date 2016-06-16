@@ -24,9 +24,6 @@
 	<!-- defaultJdbcRowMapper -->
 	<bean id="defaultJdbcRowMapper" class="org.springframework.jdbc.core.ColumnMapRowMapper" />
 	
-	<!-- testPOJOMapper -->
-	<bean id="testPOJOMapper" class="com.pelletier.valuelist.adapter.jdbc.TestPOJOMapper" />
-	
 	<bean id="defaultPagingInfo" class="com.pelletier.valuelist.PagingInfo">
 		<property name="page" value="1"/>
 		<property name="numberPerPage" value="15"/>
@@ -80,13 +77,15 @@
 	</bean>
 
 	<bean id="defaultJdbcDataAdapter" class="com.pelletier.valuelist.adapter.jdbc.DefaultJdbcDataAdapter">
-		<property name="sql" value="SELECT * FROM test #if($intField &amp;&amp; $startDate) WHERE intField = :intField AND time &gt; :startDate#end#if($intField &amp;&amp; !$startDate) WHERE intField = :intField#end#if(!$intField &amp;&amp; $startDate) WHERE time &lt; :startDate#end">		
-
+		<property name="sql">		
+			<value>
+				SELECT * FROM employees.employees #if($birth_date)WHERE birth_date &lt; Date(:birth_date)#end
+			</value>
 		</property>
 		<property name="queryParameterMapper" ref="velocityQueryParameterMapper" />
 		<property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate" />
 		<property name="pagingSupport" ref="pagingSupport"/>
-		<property name="rowMapper" ref="testPOJOMapper"/>
+		<property name="rowMapper" ref="defaultJdbcRowMapper"/>
 		<property name="adapterConversionService" ref="parameterConversionService">
 		</property>
 		<property name="defaultPagingInfo" ref="defaultPagingInfo"/>

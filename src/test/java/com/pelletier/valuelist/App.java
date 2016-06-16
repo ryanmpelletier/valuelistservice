@@ -15,7 +15,7 @@ public class App {
 	public static void main(String[] args) {
 		
 		final int PAGE_NUMBER = 1;
-		final int NUMBER_PER_PAGE = 2;
+		final int NUMBER_PER_PAGE = 10;
 		
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
 		ValueListService valueListService = (ValueListService) applicationContext.getBean("valueListService");
@@ -23,7 +23,7 @@ public class App {
 
 		Map<String, Object> queryParams = new HashMap<String, Object>();
 //		queryParams.put("intField", "14");
-		queryParams.put("startDate", "05-15-2017");
+		queryParams.put("birth_date", "haha");
 //		queryParams.put("regex", ".*\\.xml");
 //		queryParams.put("name", "desc");
 //		queryParams.put("date", "asc");
@@ -36,10 +36,6 @@ public class App {
 			pagingInfo.setPage(PAGE_NUMBER);
 			
 			result = (Values<Map<String,Object>>) valueListService.getValuesList("query", queryParams, pagingInfo);
-			/*
-			 * You can also use DataAdapter<T> without service. 
-			 */
-			//result = (Values<Map<String,Object>>) dataAdapter.query(queryParams, pagingInfo);
 
 			System.out.println(result);
 			
