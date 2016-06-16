@@ -7,9 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pelletier.valuelist.PagingInfo;
 import com.pelletier.valuelist.ValueListService;
@@ -26,7 +27,7 @@ import com.pelletier.valuelist.Values;
  * Spring should pick up and wire in the configured ValueListService into this controller,
  * and the controller will accept HTTP GET requests to /valueslistservice/values relative URL.
  */
-@RestController
+@Controller
 public class ValueListServiceController {
 	
 	/**
@@ -47,6 +48,7 @@ public class ValueListServiceController {
      * Returns a Values object which will contain a list of whatever the valueListService is configured to return.
      */
     @RequestMapping(value = "/valueslistservice/values", method = RequestMethod.GET)
+    @ResponseBody
     public Values<? extends Object> getValueList(HttpServletRequest request, HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:63342");
         Map<String,Object> params = new HashMap<String, Object>();
