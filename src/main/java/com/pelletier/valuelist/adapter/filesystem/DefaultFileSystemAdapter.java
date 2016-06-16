@@ -3,6 +3,7 @@ package com.pelletier.valuelist.adapter.filesystem;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -58,7 +59,7 @@ public class DefaultFileSystemAdapter implements DataAdapter<List<File>> {
 		 */
 		
 		//sort
-		files.sort(new Comparator<File>() {
+		Collections.sort(files, new Comparator<File>() {
 
 			@Override
 			public int compare(File file1, File file2) {
