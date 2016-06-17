@@ -102,30 +102,26 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBe
 		}
 		
 		//convert parameters if necessary
-		Map<String, Object> queryParams = new HashMap<>();
 		if(adapterConversionService != null){
-			queryParams.putAll(adapterConversionService.convert(params));
-		}else{
-			queryParams.putAll(params);
+			 params = adapterConversionService.convert(params);
 		}
-
 		/*
 		 * SQL after transformation
 		 * 
 		 * This is used to include sql based on the existence of a parameter, and also to 
 		 * inject the values of parameters directly into the SQL without Spring.
 		 */
-		String sqlWithParams = queryParameterMapper.transform(sql, queryParams);
+		String sqlWithParams = queryParameterMapper.transform(sql, params);
 
 		//need both paging support and pagingInfo to run paging
 		if (pagingSupport != null && pagingInfo != null) {
 			
-			pagingInfo.setTotalCount(namedParameterJdbcTemplate.queryForObject(pagingSupport.getCountQuery(sqlWithParams), queryParams, Integer.class));			
-			List<T> results = namedParameterJdbcTemplate.query(pagingSupport.getPagedQuery(sqlWithParams, pagingInfo), queryParams, rowMapper);
+			pagingInfo.setTotalCount(namedParameterJdbcTemplate.queryForObject(pagingSupport.getCountQuery(sqlWithParams), params, Integer.class));			
+			List<T> results = namedParameterJdbcTemplate.query(pagingSupport.getPagedQuery(sqlWithParams, pagingInfo), params, rowMapper);
 			
 			return new DefaultValues<T>(results, pagingInfo);
 		} else {
-			List<T> results = namedParameterJdbcTemplate.query(sqlWithParams, queryParams, rowMapper);			
+			List<T> results = namedParameterJdbcTemplate.query(sqlWithParams, params, rowMapper);			
 			return new DefaultValues<T>(results, null);
 		}
 
