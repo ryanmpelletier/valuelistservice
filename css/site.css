@@ -1,6 +1,7 @@
 /* You can override this file with your own styles */
 .code{
     border: 1px solid black;
+	overflow: hidden;
 }
 h3 {
 	background-color: white;

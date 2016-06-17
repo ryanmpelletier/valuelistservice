@@ -242,6 +242,59 @@
 							queries to be flexible and allow filtering and sorting based on
 							the existence of certain parameters.</strong>
 					</p>
+				</p>
+				<h3><strong>Configuring the AdapterConversionService</strong></h3>
+				<p>
+					When using <strong>ValueListService </strong>in a web service, a
+					problem arises. <strong>Query parameters in an
+					HttpServletRequest are Strings! </strong>What does this mean when we need
+					to pass a date in a format like &ldquo;1994-10-27&rdquo;? After
+					all, Spring needs a java.util.Date to run the correct SQL query.
+				</p>
+				<p>
+					The <strong>DefaultJdbcDataAdapter </strong>has a property <strong>AdapterConversionService</strong>.
+					When configured, the adapter will convert parameters from one type
+					to another, based on the adapter requirements.
+				</p>
+				<div class="code">
+					<img src="images/adapterconversion_interface.jpg" alt="ValueListService Interface" style="height: 75px"/>
+				</div>
+				<p>&nbsp;</p>
+				<p>
+					&nbsp;By default, the adapter uses <strong>ParameterConversionService</strong>,
+					which extends Spring <strong>DefaultConversionService</strong>. <strong>ParameterConversionService
+				</strong>has a Map&lt;String,Class&gt;, as well as a list of <strong>Converter</strong>
+					objects. When the <strong>ParameterConversionService </strong>calls
+					its implemented method, it checks to see if the name of the
+					parameter is in its map, if it is, it will use a <strong>Converter</strong>
+					from its registry to attempt to convert the parameter value to the
+					target class type.
+				</p>
+				<p>&nbsp;</p>
+				<p>
+					Let&rsquo;s see an example of how to configure this. Here is the
+					configuration for a <strong>ParameterConversionService </strong>bean.
+				</p>
+				<div class="code">
+					<img src="images/adapterconversion_config.jpg" alt="Adapter Conversion Config"/>
+				</div>
+				<p>
+					Here we can see that we have set up query parameter maps with keys
+					&ldquo;birth_date&rdquo; or &ldquo;hire_date&rdquo; to have their
+					values converted to java.util.Date. We have also implemented
+					Spring&rsquo;s <strong>Converter&lt;S,T&gt; </strong>interface in
+					the <strong>DefaultStringToDateConverter </strong>class. This
+					converter is then added to the conversion service&rsquo;s list of
+					converters. This bean will be injected into the adapter&rsquo;s
+					adapterConversionService property.
+				</p>
+				<p>
+					<strong>Note:</strong> Spring&rsquo;s MapFactoryBean and
+					ListFactoryBean can be set up as parent-child beans, so that their
+					lists and maps inherit values. This is useful if a global type
+					conversion map or converters list must be configured.
+				</p>
+				<p>Our adapter can now convert parameters from one type to another in order to run its query.</p>
 					<p>
 						<h3><strong>Further Extension</strong></h3>
 					</p>
@@ -253,17 +306,20 @@
 						is being used. It may be necessary to implement the <strong>SQLPagingSupport
 						</strong>interface to support paging.
 					</p>
+					<p>
+						The user could also choose to create their own DataAdapters, and wire them into their service.
+					</p>
 					<p>&nbsp;</p>
 					<p>
 						<h1><strong>Using ValueListService in a Spring MVC Project</strong></h1>
 					</p>
 					<p>The original purpose of this project was to get JSON
-						results. An example of this being done is in a Spring MVC project
+						results. An example of this being done is in a <a href="https://github.com/ryanp102694/valuelistservice_webservice/commits?author=ryanp102694">Spring MVC</a> project
 						with Jackson JSON processing.
 					</p>
 					<p>
 						Let&rsquo;s take a look at our <strong>ValueListServiceController</strong>,
-						which is really the only code in the project.
+						which is in the <strong>valuelistservice.jar</strong>.
 					</p>
 					<img src="images/valuelistservice_controller.jpg" alt="ValueListServiceController"/>
 					<p>&nbsp;</p>
@@ -284,60 +340,13 @@
 							library, before being sent in the response body.
 						</li>
 					</ol>
-					<p>
-						When using <strong>ValueListService </strong>in a web service, a
-						problem arises. <strong>Query parameters in an
-							HttpServletRequest are Strings! </strong>What does this mean when we need
-						to pass a date in a format like &ldquo;1994-10-27&rdquo;? After
-						all, Spring needs a java.util.Date to run the correct SQL query.
-					</p>
-					<p>
-						<h3><strong>Configuring the AdapterConversionService</strong></h3>
-					</p>
-					<p>
-						The <strong>DefaultJdbcDataAdapter </strong>has a property <strong>AdapterConversionService</strong>.
-						When configured, the adapter will convert parameters from one type
-						to another, based on the adapter requirements.
-					</p>
-					<div class="code">
-						<img src="images/adapterconversion_interface.jpg" alt="ValueListService Interface" style="height: 75px"/>
-					</div>					
-					<p>&nbsp;</p>
-					<p>
-						&nbsp;By default, the adapter uses <strong>ParameterConversionService</strong>,
-						which extends Spring <strong>DefaultConversionService</strong>. <strong>ParameterConversionService
-						</strong>has a Map&lt;String,Class&gt;, as well as a list of <strong>Converter</strong>
-						objects. When the <strong>ParameterConversionService </strong>calls
-						its implemented method, it checks to see if the name of the
-						parameter is in its map, if it is, it will use a <strong>Converter</strong>
-						from its registry to attempt to convert the parameter value to the
-						target class type.
-					</p>
-					<p>&nbsp;</p>
-					<p>
-						Let&rsquo;s see an example of how to configure this. Here is the
-						configuration for a <strong>ParameterConversionService </strong>bean.
-					</p>
-					<div class="code">
-						<img src="images/adapterconversion_config.jpg" alt="Adapter Conversion Config"/>
-					</div>					
-					<p>
-						Here we can see that we have set up query parameter maps with keys
-						&ldquo;birth_date&rdquo; or &ldquo;hire_date&rdquo; to have their
-						values converted to java.util.Date. We have also implemented
-						Spring&rsquo;s <strong>Converter&lt;S,T&gt; </strong>interface in
-						the <strong>DefaultStringToDateConverter </strong>class. This
-						converter is then added to the conversion service&rsquo;s list of
-						converters. This bean will be injected into the adapter&rsquo;s
-						adapterConversionService property.
-					</p>
-					<p>
-						<strong>Note:</strong> Spring&rsquo;s MapFactoryBean and
-						ListFactoryBean can be set up as parent-child beans, so that their
-						lists and maps inherit values. This is useful if a global type
-						conversion map or converters list must be configured.
-					</p>
-					<p>Our adapter can now convert parameters from one type to another in order to run its query.</p>
+				<p>
+					In order for this to work, the jar must be put in a Spring project which uses the component-scan and annotation-driven xml.
+					Note that one of the base-packages being scanned must be com.pelletier, which is the package for the controller.
+				</p>
+				<p>
+					&lt;context:component-scan base-package="com.pelletier"/&gt;<br>
+					&lt;mvc:annotation-driven/&gt;
 				</p>
 			</div>
 		</div>
