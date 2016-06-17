@@ -56,7 +56,7 @@ public class ValueListServiceController {
     @RequestMapping(value = "/valueslistservice/values", method = RequestMethod.GET)
     @ResponseBody
     public Values<? extends Object> getValueList(HttpServletRequest request, HttpServletResponse response){
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:63342");
+        response.setHeader("Access-Control-Allow-Origin", "*");
         Map<String,Object> params = new HashMap<String, Object>();
 
         for(Object key : request.getParameterMap().keySet()){
@@ -77,10 +77,17 @@ public class ValueListServiceController {
     @ExceptionHandler(ConversionException.class)
     @ResponseBody
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public List<ErrorInfo> exceptionHandler(Exception exception){
-        return ((ConversionException) exception).getErrorInfos();
+    public List<ErrorInfo> conversionExceptionHandler(ConversionException conversionException){
+        return conversionException.getErrorInfos();
     }
    
+    //make sure that this does not catch ConversionExceptions
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorInfo exceptionHandler(Exception exception){
+        return new ErrorInfo("Internal Server Error", "The server had an error while processing your request.",exception);
+    }
 
     
 }

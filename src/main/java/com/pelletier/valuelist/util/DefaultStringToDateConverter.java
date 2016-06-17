@@ -31,7 +31,7 @@ public class DefaultStringToDateConverter implements Converter<String, Date> {
         } catch (ParseException e) {
         	logger.error("Could not create date from " + source + ".", e);
         	String message = "Could not create date from " + source + ".";
-        	throw new RuntimeException(message);
+        	throw new RuntimeException(message,e);
         }
 	}
 	

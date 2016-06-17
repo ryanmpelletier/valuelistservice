@@ -21,11 +21,11 @@ public class ErrorInfo {
 	/**
 	 * The actual exception which is wrapped.
 	 */
-	private RuntimeException exception;
+	private Exception exception;
 	
 	public ErrorInfo(){}
 	
-	public ErrorInfo(String field,String simpleMessage, RuntimeException exception){
+	public ErrorInfo(String field,String simpleMessage, Exception exception){
 		this.field = field;
 		this.simpleMessage = simpleMessage;
 		this.exception = exception;
@@ -45,7 +45,7 @@ public class ErrorInfo {
 	}
 	
 	@JsonIgnore
-	public RuntimeException getException() {
+	public Exception getException() {
 		return exception;
 	}
 
