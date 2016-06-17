@@ -1,5 +1,7 @@
 package com.pelletier.valuelist.util;
 
+import java.util.Map;
+
 public interface AdapterConversionService {
 	/**
 	 * 
@@ -15,5 +17,5 @@ public interface AdapterConversionService {
 	 * 
 	 * paramValue converted to target type
 	 */
-    public <T> T convertIfNeeded(String paramKey, Object paramValue);
+    public <T> Map<String,T> convert(Map<String,Object> params);
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jdbc.core.ColumnMapRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.validation.Errors;
 
 import com.pelletier.valuelist.DataAdapter;
 import com.pelletier.valuelist.DefaultValues;
@@ -103,9 +104,7 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBe
 		//convert parameters if necessary
 		Map<String, Object> queryParams = new HashMap<>();
 		if(adapterConversionService != null){
-			for(String paramKey : params.keySet()){
-				queryParams.put(paramKey,adapterConversionService.convertIfNeeded(paramKey, params.get(paramKey)));
-			}
+			queryParams.putAll(adapterConversionService.convert(params));
 		}else{
 			queryParams.putAll(params);
 		}

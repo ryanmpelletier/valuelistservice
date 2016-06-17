@@ -29,8 +29,8 @@ public class DefaultStringToDateConverter implements Converter<String, Date> {
         try {
             return dateFormat.parse(source);
         } catch (ParseException e) {
-        	logger.error("Could not convert create date from " + source + ".", e);
-            return null;
+        	logger.error("Could not create date from " + source + ".", e);
+        	throw new RuntimeException("Could not create date from " + source + ".", e);
         }
 	}
 	
