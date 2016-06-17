@@ -74,6 +74,14 @@ public class ValueListServiceController {
         return valueListService.getValuesList((String) params.get("valueListQuery"), params, pagingInfo);
     }
     
+    
+    /**
+     * 
+     * @param conversionException
+     * The ConversionException that was thrown within the controller.
+     * @return
+     * Return a list of ErrorInfo objects, which contain each Exception thrown in the converting process.
+     */
     @ExceptionHandler(ConversionException.class)
     @ResponseBody
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
@@ -81,13 +89,19 @@ public class ValueListServiceController {
         return conversionException.getErrorInfos();
     }
    
-    //make sure that this does not catch ConversionExceptions
+    /**
+     * 
+     * @param exception
+     * The Exception thrown within the controller, (does not catch ConversionException)
+     * 
+     * @return
+     * Return an ErrorInfo object which contains the actual Exception
+     */
     @ExceptionHandler(Exception.class)
     @ResponseBody
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorInfo exceptionHandler(Exception exception){
         return new ErrorInfo("Internal Server Error", "The server had an error while processing your request.",exception);
     }
-
     
 }
