@@ -12,10 +12,6 @@
 		<property name="password" value="test" />
 	</bean>
 
-	<bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
-		<constructor-arg ref="dataSource" /> <!-- class does not have setDataSource method... -->
-	</bean>
-
 	<bean id="pagingSupport" class="com.pelletier.valuelist.paging.MySQLPagingSupport"/>
 
 	<!-- Velocity query parameter mapper -->
@@ -79,20 +75,20 @@
 	<bean id="defaultJdbcDataAdapter" class="com.pelletier.valuelist.adapter.jdbc.DefaultJdbcDataAdapter">
 		<property name="sql">		
 			<value>
-				SELECT * FROM employees.employees #if($birth_date)WHERE birth_date &lt; Date(:birth_date)#end
+				SELECT * FROM employees.departments
 			</value>
 		</property>
-		<property name="queryParameterMapper" ref="velocityQueryParameterMapper" />
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	
+<!-- 		<property name="queryParameterMapper" ref="velocityQueryParameterMapper" />
 		<property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate" />
 		<property name="pagingSupport" ref="pagingSupport"/>
 		<property name="rowMapper" ref="defaultJdbcRowMapper"/>
 		<property name="adapterConversionService" ref="parameterConversionService">
 		</property>
-		<property name="defaultPagingInfo" ref="defaultPagingInfo"/>
-	</bean>
-	
-	
-
+		<property name="defaultPagingInfo" ref="defaultPagingInfo"/> -->
 	<bean id="valueListService" class="com.pelletier.valuelist.DefaultValuesListService">
 		<property name="adapters">
 			<map>

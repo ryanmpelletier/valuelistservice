@@ -92,7 +92,7 @@
 						which holds results.
 					</p>
 					<div class="code">
-						<img src="images/valuelistservice_interface.jpg" alt="ValueListService Interface"/>
+						<img src="images/valuelistservice_interface.jpg" alt="ValueListService Interface" style="height:80px;"/>
 					</div>
 					<p>The intention of these parameters is the following.</p>
 					<ol>
@@ -150,9 +150,7 @@
 						Let&rsquo;s see how we can easily configure this in Spring to read
 						data from a MySQL database.
 					</p>
-					<h3><strong>1. Configure a DataSource and NamedParameterJdbcTemplate</strong></h3>
-					<p>It is important to use NamedParameterJdbcTemplate for
-						reasons we will see later.</p>
+					<h3><strong>1. Configure a DataSource</strong></h3>
 						<div class="code">
 							<img src="images/datasource_config.jpg" alt="DataSource Config"/>
 						</div>						
@@ -160,7 +158,7 @@
 					<p>Here I will be querying a sample MySQL table for employee
 						department names.</p>
 						<div class="code">
-							<img src="images/jdbcadapter_config.jpg" alt="DefaultJdbcAdapter Config"/>
+							<img src="images/jdbcadapter_config.jpg" alt="DefaultJdbcAdapter Config" style="height: 150px;"/>
 						</div>					
 					<h3><strong>3. Call standalone adapter</strong></h3>
 					<p>
@@ -201,7 +199,7 @@
 						look like this:
 					</p>
 					<div class="code">
-						<img src="images/paging_config.jpg" alt="ValueListService Interface"/>
+						<img src="images/paging_config.jpg" alt="ValueListService Interface" style="height:150px;"/>
 					</div>				
 					<p>
 						Now, we can create a <strong>PagingInfo </strong>object, set the <em>numberPerPage</em>
@@ -224,7 +222,7 @@
 						well as the <strong>NamedParameterJdbcTemplate</strong>.						
 					</p>
 					<div class="code">
-						<img src="images/velocity_config.jpg" alt="ValueListService Interface"/>
+						<img src="images/velocity_config.jpg" alt="ValueListService Interface" style="height:60px;"/>
 					</div>					
 					<p>&nbsp;</p>
 					<p>Suppose we pass in a map with our parameters which includes
@@ -270,13 +268,17 @@
 					from its registry to attempt to convert the parameter value to the
 					target class type.
 				</p>
+				<p>
+					<strong>NOTE: </strong> ParameterConversionService will throw unchecked exceptions if 
+					there is a conversion error, we will talk about this later.
+				</p>
 				<p>&nbsp;</p>
 				<p>
 					Let&rsquo;s see an example of how to configure this. Here is the
 					configuration for a <strong>ParameterConversionService </strong>bean.
 				</p>
 				<div class="code">
-					<img src="images/adapterconversion_config.jpg" alt="Adapter Conversion Config"/>
+					<img src="images/adapterconversion_config.jpg" alt="Adapter Conversion Config" style="height:375px;"/>
 				</div>
 				<p>
 					Here we can see that we have set up query parameter maps with keys
@@ -321,7 +323,9 @@
 						Let&rsquo;s take a look at our <strong>ValueListServiceController</strong>,
 						which is in the <strong>valuelistservice.jar</strong>.
 					</p>
-					<img src="images/valuelistservice_controller.jpg" alt="ValueListServiceController"/>
+					<div class="code">
+						<img src="images/valuelistservice_controller.jpg" alt="ValueListServiceController" style="height:325px;"/>
+					</div>
 					<p>&nbsp;</p>
 					<p>Basically, this is what is going on here.</p>
 					<ol>
@@ -347,6 +351,47 @@
 				<p>
 					&lt;context:component-scan base-package="com.pelletier"/&gt;<br>
 					&lt;mvc:annotation-driven/&gt;
+				</p>
+				<p>
+					<strong>NOTE: </strong> Query parameter "valueListQuery" is necessary to select a query from 
+					the configured map of queries in <strong>DefaultValueListService</strong>. Also in order for paging to work,
+					parameters "page" and "numberPerPage" are required.
+				</p>
+				<h3><strong>Calling the Web Service</strong></h3>
+				<p>
+					A simple curl command can call the webservice. An example of this would be the following.
+				</p>
+				<p>
+					<code>
+					curl -X GET -H "Cache-Control: no-cache" "http://localhost:8080/valueslistservice/values?valueListQuery=query&page=1&numberPerPage=10"
+					</code>
+				</p>
+				<p>
+					The response should be whatever Java objects the service returns, serialized into JSON.
+				</p>
+				<h3><strong>Handling Errors</strong></h3>
+				<p>
+					Before, we mentioned how the <strong>ParameterConversionService</strong> can throw runtime exceptions.
+					The <strong>ParameterConversionService</strong> specifically will throw <strong>ConversionException</strong>.
+					What happens when one of these exceptions is thrown? What happens if a different type of exception is thrown,
+					for example, some sort of SQL exception?
+				</p>
+				<p>
+					The following exception handlers will catch any exceptions thrown from within the controller.
+				</p>
+				<div class="code">
+					<img src="images/exception_handlers.JPG" alt="Exception Handlers" style="height:225px;"/>
+				</div>
+				<p>
+					Here, you can see there are two exception handlers. Both of these return <strong>ErrorInfo</strong> objects. 
+					These contain more user friendly messages that are nice to display on the front-end, but also wrap the
+					Exception. These ErrorInfo objects are also serialized into JSON.
+				</p>
+				<p>
+					Note that the top handler returns a <strong>List&lt;ErrorInfo&gt;</strong>, this is because this
+					handler specifically maps to <strong>ConvertionExceptions</strong> which wrap multiple exceptions.
+					The reason for this is because, if multiple exceptions are thrown in conversions, the client needs to know all of the
+					conversion errors. The bottom handler will catch any other exceptions that are thrown in the controller. 				
 				</p>
 			</div>
 		</div>

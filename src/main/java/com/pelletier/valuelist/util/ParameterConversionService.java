@@ -51,8 +51,6 @@ public class ParameterConversionService extends DefaultConversionService impleme
 	 * @return
 	 * Return a new map, with entries which have possibly been converted.
 	 * 
-	 * 
-	 * So in here I will basically need to collect errors, then at the end, if there are errors, I will need to throw my custom error.
 	 */
 	@Override
 	public <T> Map<String,T> convert(Map<String, Object> params) {
