@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.DefaultConversionService;
 
@@ -39,6 +40,9 @@ public class ParameterConversionService extends DefaultConversionService impleme
 	 * current list of converters in DefaultConversionService.
 	 */
 	private List<Converter> converters;
+	
+	final static Logger logger = Logger.getLogger(ParameterConversionService.class);
+
 
 	/**
 	 * @param params
@@ -62,7 +66,7 @@ public class ParameterConversionService extends DefaultConversionService impleme
 				try{
 					returnMap.put(paramKey, (T) convert(params.get(paramKey), paramTypeMap.get(paramKey)));
 				}catch(RuntimeException exception){
-					//add exception to ConversionException
+					logger.info("Caught exception while converting, adding to ConversionException" );
 					if(conversionException == null){
 						conversionException = new ConversionException();
 					}
