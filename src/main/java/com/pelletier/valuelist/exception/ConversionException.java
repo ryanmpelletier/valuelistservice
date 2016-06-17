@@ -5,12 +5,7 @@ import java.util.List;
 
 public class ConversionException extends RuntimeException {
 	
-	/**
-	 * I don't really know what this is doing.
-	 */
-	private static final long serialVersionUID = 1L;
-
-	public final static int INVALID = 0;
+	private static final long serialVersionUID = -194977504061004798L;
 	
 	private List<ErrorInfo> errorInfos;
 	
@@ -24,9 +19,4 @@ public class ConversionException extends RuntimeException {
 	public List<ErrorInfo> getErrorInfos() {
 		return errorInfos;
 	}
-	
-	
-	
-	
-	
 }

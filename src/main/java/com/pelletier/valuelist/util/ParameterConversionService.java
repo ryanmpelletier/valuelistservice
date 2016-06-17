@@ -39,8 +39,6 @@ public class ParameterConversionService extends DefaultConversionService impleme
 	 * current list of converters in DefaultConversionService.
 	 */
 	private List<Converter> converters;
-	
-	private ConversionException conversionException;
 
 	/**
 	 * @param params
@@ -55,6 +53,8 @@ public class ParameterConversionService extends DefaultConversionService impleme
 	@Override
 	public <T> Map<String,T> convert(Map<String, Object> params) {
 
+		ConversionException conversionException = null;
+		
 		Map<String,T> returnMap = new HashMap<String, T>();
 		
 		for (String paramKey : params.keySet()) {
@@ -63,10 +63,10 @@ public class ParameterConversionService extends DefaultConversionService impleme
 					returnMap.put(paramKey, (T) convert(params.get(paramKey), paramTypeMap.get(paramKey)));
 				}catch(RuntimeException exception){
 					//add exception to ConversionException
-					if(this.conversionException == null){
+					if(conversionException == null){
 						conversionException = new ConversionException();
 					}
-					conversionException.addErrorInfo(new ErrorInfo(ConversionException.INVALID, paramKey,exception));
+					conversionException.addErrorInfo(new ErrorInfo(paramKey,"Unable to convert " + params.get(paramKey) + " to " + paramTypeMap.get(paramKey),exception));
 				}
 			}else{
 				returnMap.put(paramKey, (T) params.get(paramKey));
