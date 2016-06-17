@@ -1,10 +1,26 @@
 package com.pelletier.valuelist.exception;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+/**
+ * 
+ * @author Ryan Pelletier
+ *
+ *	Wraps an Exception with a message, and field name. 
+ *	Useful for serialized JSON response in front-end.
+ */
 public class ErrorInfo {
+	/**
+	 * The field which this error applies to
+	 */
 	private String field;
+	
+	/**
+	 * A user-friendly message explaining the reason for the exception.
+	 */
 	private String simpleMessage;
+	/**
+	 * The actual exception which is wrapped.
+	 */
 	private RuntimeException exception;
 	
 	public ErrorInfo(){}
