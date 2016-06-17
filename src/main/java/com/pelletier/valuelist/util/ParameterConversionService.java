@@ -62,7 +62,7 @@ public class ParameterConversionService extends DefaultConversionService impleme
 				try{
 					returnMap.put(paramKey, (T) convert(params.get(paramKey), paramTypeMap.get(paramKey)));
 				}catch(RuntimeException exception){
-					//add exception to custom exception
+					//add exception to ConversionException
 					if(this.conversionException == null){
 						conversionException = new ConversionException();
 					}
