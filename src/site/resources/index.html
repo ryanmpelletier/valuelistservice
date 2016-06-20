@@ -23,7 +23,6 @@
 	</div>
 	<div id="breadcrumbs">
 
-
 		<div class="xleft">
 			<span id="publishDate">Last Published: 2016-06-14</span> &nbsp;| <span
 				id="projectVersion">Version: 0.0.1-SNAPSHOT</span>
@@ -70,8 +69,25 @@
 				</h2>
 				<a name="About_valuelistservice"></a>
 				<p>
+					<h2 class="table_of_contents">Table of Contents</h2>
+				</p>
+				<ul>
+				  <li><a href="#project_overview">Project Overview</a></li>
+				  <li><a href="#interface_overview">Interface Overview</a></li>
+				  <li>Quick Start
+				  	<ul>
+				  		<li><a href="#using_default_implementations">Using Default Implementations</a></li>
+				  		<li><a href="#paging_results">Paging Results</a></li>
+				  		<li><a href="#complex_queries">Complex Queries</a></li>
+				  		<li><a href="#configuring_adapterconversionservice">Configuring the AdapterConversionService</a></li>
+				  		<li><a href="#further_extension">Further Extension</a></li>
+				  	</ul>
+				  </li>
+				  <li><a href="#using_in_webservice">Using in Spring MVC</a></li>
+				</ul>
+				<p>
 					<p>
-						<h1><strong>Project Overview|<a href="http://ryanp102694.github.io/valuelistservice/apidocs/index.html">JavaDocs</a>|<a href="https://github.com/ryanp102694/valuelistservice">Code</a></strong></h1>
+						<h1 id="project_overview"><strong>Project Overview|<a href="http://ryanp102694.github.io/valuelistservice/apidocs/index.html">JavaDocs</a>|<a href="https://github.com/ryanp102694/valuelistservice">Code</a></strong></h1>
 					</p>
 					<p>The idea of ValueListService is simple.</p>
 					<ol>
@@ -84,7 +100,7 @@
 						sets.
 					</p>
 					<p>
-						<h1><strong>Interface Overview</strong></h1>
+						<h1 id="interface_overview"><strong>Interface Overview</strong></h1>
 					</p>
 					<p>
 						The <strong>ValueListService</strong> interface is very simple, it
@@ -115,7 +131,7 @@
 						paging information, which tells the client the total number of
 						items, page, and items per page. &nbsp;</p>
 					<p>
-						<h1><strong>Using Default Implementations</strong></h1>
+						<h1 id="using_default_implementations"><strong>Using Default Implementations</strong></h1>
 					</p>
 					<p>
 						The <strong>DefaultValuesListService&lt;T&gt; </strong>is a simple
@@ -124,7 +140,7 @@
 						Essentially the default service has a map of adapters, which are
 						accessible by the query key mentioned earlier. The adapters are
 						actually what run the queries, and return the appropriate type
-						from the service.
+						to the service.
 					</p>
 					<p>
 						Let&rsquo;s take a look at <strong>DataAdapter&lt;T&gt;.</strong>
@@ -187,7 +203,7 @@
 						able to be accessed by key in the actual service.</p>
 					<p>&nbsp;</p>
 					<p>
-						<h3><strong>Paging</strong></h3>
+						<h3 id="paging_results"><strong>Paging</strong></h3>
 					</p>
 					<p>
 						Some result sets will be extremely large. The user may want only
@@ -208,7 +224,7 @@
 						selected page.
 					</p>
 					<p>
-						<h3><strong>Complex Queries</strong></h3>
+						<h3 id="complex_queries"><strong>Complex Queries</strong></h3>
 					</p>
 					<p>
 						By default, the <strong>DefaultJdbcDataAdapter </strong>will use a
@@ -241,7 +257,7 @@
 							the existence of certain parameters.</strong>
 					</p>
 				</p>
-				<h3><strong>Configuring the AdapterConversionService</strong></h3>
+				<h3 id="configuring_adapterconversionservice"><strong>Configuring the AdapterConversionService</strong></h3>
 				<p>
 					When using <strong>ValueListService </strong>in a web service, a
 					problem arises. <strong>Query parameters in an
@@ -278,7 +294,7 @@
 					configuration for a <strong>ParameterConversionService </strong>bean.
 				</p>
 				<div class="code">
-					<img src="images/adapterconversion_config.jpg" alt="Adapter Conversion Config" style="height:375px;"/>
+					<img src="images/adapterconversion_config.jpg" alt="Adapter Conversion Config" style="height:385px;"/>
 				</div>
 				<p>
 					Here we can see that we have set up query parameter maps with keys
@@ -298,7 +314,7 @@
 				</p>
 				<p>Our adapter can now convert parameters from one type to another in order to run its query.</p>
 					<p>
-						<h3><strong>Further Extension</strong></h3>
+						<h3 id="further_extension"><strong>Further Extension</strong></h3>
 					</p>
 					<p>
 						If necessary, classes can be written which build upon the existing
@@ -313,7 +329,7 @@
 					</p>
 					<p>&nbsp;</p>
 					<p>
-						<h1><strong>Using ValueListService in a Spring MVC Project</strong></h1>
+						<h1 id="using_in_webservice"><strong>Using ValueListService in a Spring MVC Project</strong></h1>
 					</p>
 					<p>The original purpose of this project was to get JSON
 						results. An example of this being done is in a <a href="https://github.com/ryanp102694/valuelistservice_webservice/commits?author=ryanp102694">Spring MVC</a> project
@@ -324,7 +340,7 @@
 						which is in the <strong>valuelistservice.jar</strong>.
 					</p>
 					<div class="code">
-						<img src="images/valuelistservice_controller.jpg" alt="ValueListServiceController" style="height:325px;"/>
+						<img src="images/valuelistservice_controller.jpg" alt="ValueListServiceController" style="height:350px;"/>
 					</div>
 					<p>&nbsp;</p>
 					<p>Basically, this is what is going on here.</p>
@@ -380,7 +396,7 @@
 					The following exception handlers will catch any exceptions thrown from within the controller.
 				</p>
 				<div class="code">
-					<img src="images/exception_handlers.JPG" alt="Exception Handlers" style="height:225px;"/>
+					<img src="images/exception_handlers.JPG" alt="Exception Handlers" style="height:250px;"/>
 				</div>
 				<p>
 					Here, you can see there are two exception handlers. Both of these return <strong>ErrorInfo</strong> objects. 

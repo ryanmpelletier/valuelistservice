@@ -3,6 +3,12 @@
 	overflow: hidden;
 }
 
+.table_of_contents{
+	border:none;
+	color:black;
+	background-color:white;	
+}
+
 p{
 	font-size:14px;
 }
