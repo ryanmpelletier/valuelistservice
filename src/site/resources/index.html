@@ -14,7 +14,9 @@
 <meta http-equiv="Content-Language" content="en" />
 
 </head>
-<body class="composite">
+<body class="composite" ng-app="ValueListPageManager">
+<div ng-controller="PageManagerController">
+{{greeting}}
 	<div id="banner">
 		<div id="bannerLeft">valuelistservice</div>
 		<div class="clear">
@@ -65,29 +67,32 @@
 		<div id="contentBox">
 			<div class="section">
 				<h2>
-					Getting Started with ValueListService<a name="About_valuelistservice"></a>
+					Getting Started with ValueListService
+					|<a href="http://ryanp102694.github.io/valuelistservice/apidocs/index.html">JavaDocs</a>
+					|<a href="https://github.com/ryanp102694/valuelistservice">Code</a>
 				</h2>
 				<a name="About_valuelistservice"></a>
 				<p>
 					<h2 class="table_of_contents">Table of Contents</h2>
 				</p>
 				<ul>
-				  <li><a href="#project_overview">Project Overview</a></li>
-				  <li><a href="#interface_overview">Interface Overview</a></li>
+				  <li><a ng-click="currentPageName = 'ProjectOverview'">Project Overview</a></li>
+				  <li><a ng-click="currentPageName = 'InterfaceOverview'">Interface Overview</a></li>
 				  <li>Quick Start
 				  	<ul>
-				  		<li><a href="#using_default_implementations">Using Default Implementations</a></li>
-				  		<li><a href="#paging_results">Paging Results</a></li>
-				  		<li><a href="#complex_queries">Complex Queries</a></li>
-				  		<li><a href="#configuring_adapterconversionservice">Configuring the AdapterConversionService</a></li>
-				  		<li><a href="#further_extension">Further Extension</a></li>
+				  		<li><a ng-click="currentPageName = 'UsingDefaultImplementations'">Using Default Implementations</a></li>
+				  		<li><a ng-click="currentPageName = 'PagingResults'">Paging Results</a></li>
+				  		<li><a ng-click="currentPageName = 'ComplexQueries'">Complex Queries</a></li>
+				  		<li><a ng-click="currentPageName = 'ConfiguringAdapterConversionService'">Configuring the AdapterConversionService</a></li>
+				  		<li><a ng-click="currentPageName = 'FurtherExtension'">Further Extension</a></li>
 				  	</ul>
 				  </li>
-				  <li><a href="#using_in_webservice">Using in Spring MVC</a></li>
+				  <li><a ng-click="currentPageName = 'UsingInSpringMVC'">Using in Spring MVC</a></li>
 				</ul>
 				<p>
+					<div ng-hide="currentPageName != 'ProjectOverview'">
 					<p>
-						<h1 id="project_overview"><strong>Project Overview|<a href="http://ryanp102694.github.io/valuelistservice/apidocs/index.html">JavaDocs</a>|<a href="https://github.com/ryanp102694/valuelistservice">Code</a></strong></h1>
+						<h1 id="project_overview"><strong>Project Overview</strong></h1>
 					</p>
 					<p>The idea of ValueListService is simple.</p>
 					<ol>
@@ -99,6 +104,8 @@
 						support queries to filter, sort, and page through large result
 						sets.
 					</p>
+					</div>
+					<div ng-hide="currentPageName != 'InterfaceOverview'">					
 					<p>
 						<h1 id="interface_overview"><strong>Interface Overview</strong></h1>
 					</p>
@@ -129,9 +136,12 @@
 					</div>
 					<p>As you can see, a Values is nothing more than a List and
 						paging information, which tells the client the total number of
-						items, page, and items per page. &nbsp;</p>
+						items, page, and items per page. &nbsp;
+					</p>
+					</div>
+					<div ng-hide="currentPageName != 'UsingDefaultImplementations'">
 					<p>
-						<h1 id="using_default_implementations"><strong>Using Default Implementations</strong></h1>
+						<h1><strong>Using Default Implementations</strong></h1>
 					</p>
 					<p>
 						The <strong>DefaultValuesListService&lt;T&gt; </strong>is a simple
@@ -202,6 +212,8 @@
 					<p>Additional adapters can be injected into the map, which are
 						able to be accessed by key in the actual service.</p>
 					<p>&nbsp;</p>
+					</div>
+					<div ng-hide="currentPageName != 'PagingResults'">
 					<p>
 						<h3 id="paging_results"><strong>Paging</strong></h3>
 					</p>
@@ -223,6 +235,8 @@
 						service. The result will only show the correct information for the
 						selected page.
 					</p>
+					</div>
+					<div ng-hide="currentPageName != 'ComplexQueries'"/>
 					<p>
 						<h3 id="complex_queries"><strong>Complex Queries</strong></h3>
 					</p>
@@ -256,6 +270,9 @@
 							queries to be flexible and allow filtering and sorting based on
 							the existence of certain parameters.</strong>
 					</p>
+					</div>
+					
+					<div ng-hide="currentPageName != 'ConfiguringAdapterConversionService'">
 				</p>
 				<h3 id="configuring_adapterconversionservice"><strong>Configuring the AdapterConversionService</strong></h3>
 				<p>
@@ -313,6 +330,8 @@
 					conversion map or converters list must be configured.
 				</p>
 				<p>Our adapter can now convert parameters from one type to another in order to run its query.</p>
+				</div>
+				<div ng-hide="currentPageName != 'FurtherExtension'">
 					<p>
 						<h3 id="further_extension"><strong>Further Extension</strong></h3>
 					</p>
@@ -328,6 +347,8 @@
 						The user could also choose to create their own DataAdapters, and wire them into their service.
 					</p>
 					<p>&nbsp;</p>
+					</div>
+					<div ng-hide="currentPageName != 'UsingInSpringMVC'">
 					<p>
 						<h1 id="using_in_webservice"><strong>Using ValueListService in a Spring MVC Project</strong></h1>
 					</p>
@@ -409,19 +430,24 @@
 					The reason for this is because, if multiple exceptions are thrown in conversions, the client needs to know all of the
 					conversion errors. The bottom handler will catch any other exceptions that are thrown in the controller. 				
 				</p>
+				</div>
 			</div>
 		</div>
 	</div>
-	<div class="clear">
-		<hr />
-	</div>
-	<div id="footer">
-		<div class="xright">Copyright &#169; 2016. All Rights Reserved.
-
-		</div>
 		<div class="clear">
 			<hr />
 		</div>
+		<div id="footer">
+			<div class="footer_text">
+				Copyright &#169; 2016. All Rights Reserved.
+			</div>
+			<div class="clear">
+				<hr />
+			</div>
+		</div>
 	</div>
+	<!-- angular imports -->
+	<script src="js/angular.min.js"></script>
+	<script src="js/app.js"></script>
 </body>
 </html>
