@@ -14,7 +14,6 @@ app.controller('PageManagerController', function($scope){
 		console.log("currentPageName is " + $scope.currentPageName);
 		$scope.currentPageName = "ProjectOverview";
 		console.log("set new page to Interface Overview");
-
 	};
 	
 });

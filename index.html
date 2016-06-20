@@ -75,7 +75,7 @@
 				<p>
 					<h2 class="table_of_contents">Table of Contents</h2>
 				</p>
-				<ul>
+				<ul class="nav_options">
 				  <li><a ng-click="currentPageName = 'ProjectOverview'">Project Overview</a></li>
 				  <li><a ng-click="currentPageName = 'InterfaceOverview'">Interface Overview</a></li>
 				  <li>Quick Start
@@ -89,55 +89,70 @@
 				  </li>
 				  <li><a ng-click="currentPageName = 'UsingInSpringMVC'">Using in Spring MVC</a></li>
 				</ul>
-				<p>
 					<div ng-hide="currentPageName != 'ProjectOverview'">
-					<p>
-						<h1 id="project_overview"><strong>Project Overview</strong></h1>
-					</p>
-					<p>The idea of ValueListService is simple.</p>
-					<ol>
-						<li>Configure in XML SQL queries to run.</li>
-						<li>Send HTTP request and get query results in JSON.</li>
-					</ol>
-					<p>
-						The <em>valuelistservice.jar</em> provides a flexible framework to
-						support queries to filter, sort, and page through large result
-						sets.
-					</p>
+						<p>
+						<h1 id="project_overview">
+							<strong>Project Overview</strong>
+						</h1>
+						</p>
+						<p>The idea of ValueListService is simple.</p>
+						<ol>
+							<li>Configure in XML SQL queries to run.</li>
+							<li>Send HTTP request and get query results in JSON.</li>
+						</ol>
+						<p>
+							The <em>valuelistservice.jar</em> provides a flexible framework to
+							support queries to filter, sort, and page through large result sets.
+						</p>
+						<div class="next_footer" ng-click="currentPageName = 'InterfaceOverview'">
+							InterfaceOverview
+						</div>
 					</div>
-					<div ng-hide="currentPageName != 'InterfaceOverview'">					
+					<div ng-hide="currentPageName != 'InterfaceOverview'">
 					<p>
-						<h1 id="interface_overview"><strong>Interface Overview</strong></h1>
-					</p>
-					<p>
-						The <strong>ValueListService</strong> interface is very simple, it
-						contains one method to get back a <strong>Values</strong> object
-						which holds results.
-					</p>
-					<div class="code">
-						<img src="images/valuelistservice_interface.jpg" alt="ValueListService Interface" style="height:80px;"/>
-					</div>
-					<p>The intention of these parameters is the following.</p>
-					<ol>
-						<li><strong>key:</strong> Used to identify a query which the
-							ValueListService is capable of running.</li>
-						<li><strong>queryParams: </strong>Parameters used to by the
-							query specified by</li>
-						<li><strong>pagingInfo: </strong>An object which encapsulates
-							requested page, and number of items per page for specified query.
-							(This can be left null if paging is not necessary)</li>
-					</ol>
-					<p>
-						The method returns <strong>Values&lt;? extends Object&gt;</strong>.
-						Let&rsquo;s break that down.
-					</p>
-					<div class="code">
-						<img src="images/values.jpg" alt="Values"/>
-					</div>
-					<p>As you can see, a Values is nothing more than a List and
-						paging information, which tells the client the total number of
-						items, page, and items per page. &nbsp;
-					</p>
+						<h1 id="interface_overview">
+						    <strong>Interface Overview</strong>
+						</h1>
+						</p>
+						<p>
+						    The <strong>ValueListService</strong> interface is very simple, it
+						    contains one method to get back a <strong>Values</strong> object which
+						    holds results.
+						</p>
+						<div class="code">
+						    <img src="images/valuelistservice_interface.jpg" alt="ValueListService Interface" style="height: 80px;" />
+						</div>
+						<p>The intention of these parameters is the following.</p>
+						<ol>
+						    <li><strong>key:</strong> Used to identify a query which the
+						        ValueListService is capable of running.
+						    </li>
+						    <li><strong>queryParams: </strong>Parameters used to by the query
+						        specified by
+						    </li>
+						    <li><strong>pagingInfo: </strong>An object which encapsulates
+						        requested page, and number of items per page for specified query.
+						        (This can be left null if paging is not necessary)
+						     </li>
+						</ol>
+						<p>
+						    The method returns <strong>Values&lt;? extends Object&gt;</strong>.
+						    Let&rsquo;s break that down.
+						</p>
+						<div class="code">
+						    <img src="images/values.jpg" alt="Values" />
+						</div>
+						<p>As you can see, a Values is nothing more than a List and paging
+						    information, which tells the client the total number of items, page,
+						    and items per page. &nbsp;
+						</p>
+						<div class="back_footer" ng-click="currentPageName = 'ProjectOverview'">
+						    Project Overview
+						</div>
+						<div class="next_footer"
+						     ng-click="currentPageName = 'UsingDefaultImplementations'">Using
+						    Default Implementations
+						</div>
 					</div>
 					<div ng-hide="currentPageName != 'UsingDefaultImplementations'">
 					<p>
@@ -212,6 +227,12 @@
 					<p>Additional adapters can be injected into the map, which are
 						able to be accessed by key in the actual service.</p>
 					<p>&nbsp;</p>
+					<div class="back_footer" ng-click="currentPageName = 'InterfaceOverview'">
+						Interface Overview
+					</div>
+					<div class="next_footer" ng-click="currentPageName = 'PagingResults'">
+						Paging Results
+					</div>
 					</div>
 					<div ng-hide="currentPageName != 'PagingResults'">
 					<p>
@@ -235,6 +256,12 @@
 						service. The result will only show the correct information for the
 						selected page.
 					</p>
+					<div class="back_footer" ng-click="currentPageName = 'UsingDefaultImplementations'">
+						Using Default Implementations
+					</div>
+					<div class="next_footer" ng-click="currentPageName = 'ComplexQueries'">
+						Complex Queries
+					</div>
 					</div>
 					<div ng-hide="currentPageName != 'ComplexQueries'"/>
 					<p>
@@ -270,6 +297,12 @@
 							queries to be flexible and allow filtering and sorting based on
 							the existence of certain parameters.</strong>
 					</p>
+					<div class="back_footer" ng-click="currentPageName = 'PagingResults'">
+						Paging Results
+					</div>
+					<div class="next_footer" ng-click="currentPageName = 'ConfiguringAdapterConversionService'">
+						Configuring the AdapterConversionService
+					</div>
 					</div>
 					
 					<div ng-hide="currentPageName != 'ConfiguringAdapterConversionService'">
@@ -330,6 +363,12 @@
 					conversion map or converters list must be configured.
 				</p>
 				<p>Our adapter can now convert parameters from one type to another in order to run its query.</p>
+					<div class="back_footer" ng-click="currentPageName = 'ComplexQueries'">
+						Complex Queries
+					</div>
+					<div class="next_footer" ng-click="currentPageName = 'FurtherExtension'">
+						Further Extension
+					</div>
 				</div>
 				<div ng-hide="currentPageName != 'FurtherExtension'">
 					<p>
@@ -347,6 +386,12 @@
 						The user could also choose to create their own DataAdapters, and wire them into their service.
 					</p>
 					<p>&nbsp;</p>
+					<div class="back_footer" ng-click="currentPageName = 'ConfiguringAdapterConversionService'">
+						Configuring the AdapterConversionService
+					</div>
+					<div class="next_footer" ng-click="currentPageName = 'UsingInSpringMVC'">
+						Using In Spring MVC
+					</div>
 					</div>
 					<div ng-hide="currentPageName != 'UsingInSpringMVC'">
 					<p>
@@ -430,6 +475,9 @@
 					The reason for this is because, if multiple exceptions are thrown in conversions, the client needs to know all of the
 					conversion errors. The bottom handler will catch any other exceptions that are thrown in the controller. 				
 				</p>
+					<div class="back_footer" ng-click="currentPageName = 'FurtherExtension'">
+						Further Extension
+					</div>
 				</div>
 			</div>
 		</div>
