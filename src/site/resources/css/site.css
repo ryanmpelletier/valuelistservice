@@ -19,4 +19,18 @@ p{
 
 .nav_options{
 	cursor: pointer;
+	color: #0645AD;
+}
+
+.back_footer{
+	text-align: left;
+	color: #0645AD;
+	cursor: pointer;
+}
+
+
+.next_footer{
+	text-align: right;
+	color: #0645AD;
+	cursor: pointer;
 }
