@@ -87,6 +87,8 @@
 				  	</ul>
 				  </li>
 				  <li><a ng-click="currentPageName = 'UsingInSpringMVC'">Using in Spring MVC</a></li>
+				  <li><a ng-click="currentPageName = 'CreatingAngularFrontEnd'">Creating an Angular Front End using valuelist.js</a></li>
+				  
 				</ul>
 					<div ng-hide="currentPageName != 'ProjectOverview'">
 						<p>
@@ -480,6 +482,148 @@
 					<div class="back_footer" ng-click="currentPageName = 'FurtherExtension'">
 						Further Extension
 					</div>
+					<div class="next_footer" ng-click="currentPageName = 'CreatingAngularFrontEnd'">
+						Creating an Angular Front End using valuelist.js
+					</div>
+				</div>
+				<div ng-hide="currentPageName != 'CreatingAngularFrontEnd'">
+					<h1><strong>Creating an Angular Front End using valuelist.js</strong></h1>
+					<p>
+						The valuelistservice.jar is really nice. It allows you to specify queries in XML for a service, then 
+						call that service to get the results. Its even better when valuelistservice is used inside of a Spring MVC app,
+						then you can get nice JSON responses over the web for your queries. 
+					</p>
+					<p>
+					<strong>Note: </strong>This was build for Angular 1.X
+					</p>
+					<p>
+						One of the most popular front-end frameworks currently available is AngularJS. Fortunately, an Angular module,
+						specifically made with valuelistservice in mind, is available. Lets see how we can use valuelist.js in an angular project
+						to quickly build a front end for our Java valuelistservice.
+					</p>
+					<p>
+						First, you will need to download valuelist.js, which can be found <a href="https://github.com/ryanp102694/valuelistservice_demo">here</a>.
+					</p>
+					<p>
+						Create an html file, and import the Angular and valuelist scripts.
+						<div class="code">
+							<pre>
+								<code>
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;UTF-8&quot;&gt;
+        &lt;title&gt;valuelist.js - example&lt;/title&gt;
+        &lt;script src=&quot;js/angular.min.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;js/valuelist.js&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+
+    &lt;/body&gt;
+&lt;/html&gt;
+								</code>
+							</pre>
+						</div>
+						<p>
+							Next, we will create our app.js file and inject the valuelist module.
+						</p>
+						<p>
+							<div class="code">
+								<code>
+									angular.module('ValueListDemo',['valueList']);
+								</code>
+							</div>
+						</p>
+						<p>
+							Now we can include app.js in our html page, and use the ng-app attribute on the body element to initialize our angular app.
+						</p>
+						<p>
+							<div class="code">
+								<pre>
+									<code>
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;UTF-8&quot;&gt;
+        &lt;title&gt;valuelist.js - example&lt;/title&gt;
+        &lt;script src=&quot;js/angular.min.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;js/valuelist.js&quot;&gt;&lt;/script&gt;
+        &lt;script src = &quot;js/app.js&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body ng-app=&quot;ValueListDemo&quot;&gt;
+
+    &lt;/body&gt;
+&lt;/html&gt;
+									</code>
+								</pre>
+							</div>
+						</p>
+						<p>
+							The valuelist module must be configured with a base url. This will be the url which maps to the controller
+							where the Java service is running. Lets create a file called valuelist_config.js, and put the following configuration inside of it.
+							<strong>You will also need to include this file in the html page after valuelist.js</strong>
+						</p>
+						<div class="code">
+							<pre>
+								<code>
+angular.module('valueList').config(function(valueListServiceProvider){
+    valueListServiceProvider.setBaseUrl("http://localhost:8080/valueslistservice/values");
+});								
+								</code>
+							</pre>
+						</div>
+						<p>
+							Now that we have the valuelist module injected, and the provider configured, lets create a controller
+							and inject our valueListService into it. Lets also call the service and add the data to our controller $scope.
+							Put the following code into MainController.js.
+						</p>
+						<div class="code">
+							<pre>
+								<code>
+angular.module('ValueListDemo').controller('MainController',function($scope,valueListService){
+
+    var params = {
+        valueListQuery: "query",
+        page: 1,
+        numberPerPage: 15
+    };
+
+    valueListService.getValues(params).then(function(data){
+        $scope.results = JSON.stringify(data);
+    })
+});
+								
+								</code>
+							</pre>
+						</div>
+						<p>
+							Note what is happening above in <strong>MainController.js</strong>. First, we create an object called params, which will
+							be used to create the url for the http call to the Java service. Next, we call getValues from the service, and set the JSON serialized
+							result to our $scope.results object.
+						</p>
+						<p>
+							In order to see these results on our page, add the MainController.js file to the html page after app.js, and inside the body element,
+							insert the following html.
+						</p>
+						<p>
+							<div class="code">
+								<pre>
+									<code>
+&lt;div ng-controller=&quot;MainController&quot;&gt;
+      &#123;&#123;results&#125;&#125;
+&lt;/div&gt;									
+									</code>
+								</pre>
+							</div>
+						</p>
+						<p>
+							You should see the JSON response from the service. This includes the values that were returned, as well as the valuesInfo, which is paging information.
+						</p>
+						<div class="back_footer" ng-click="currentPageName = 'UsingInSpringMVC'">
+							Using ValueListService in a Spring MVC Project
+						</div>
+						</div>
+					</p>
 				</div>
 			</div>
 		</div>
