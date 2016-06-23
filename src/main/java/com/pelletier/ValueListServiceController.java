@@ -80,7 +80,9 @@ public class ValueListServiceController {
      * @param conversionException
      * The ConversionException that was thrown within the controller.
      * @return
-     * Return a list of ErrorInfo objects, which contain each Exception thrown in the converting process.
+     * Return an Map<String,Map<String,String>> which contains exception information. Top level map will 
+     * include an entry for each parameter name which could not be converted, with its value being another map
+     * which includes simple_message and exception_message.
      */
     @ExceptionHandler(ConversionException.class)
     @ResponseBody
@@ -104,7 +106,7 @@ public class ValueListServiceController {
      * The Exception thrown within the controller, (does not catch ConversionException)
      * 
      * @return
-     * Return an ErrorInfo object which contains the actual Exception
+     * Return an Map<String,Map<String,String>> which contains exception information.
      */
     @ExceptionHandler(Exception.class)
     @ResponseBody
