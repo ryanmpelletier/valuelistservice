@@ -85,8 +85,17 @@ public class ValueListServiceController {
     @ExceptionHandler(ConversionException.class)
     @ResponseBody
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public List<ErrorInfo> conversionExceptionHandler(ConversionException conversionException){
-        return conversionException.getErrorInfos();
+    public Map<String,Map<String,String>> conversionExceptionHandler(ConversionException conversionException){
+    	Map<String,Map<String,String>> errorInfoMap = new HashMap<>();
+    	
+    	for(ErrorInfo errorInfo : conversionException.getErrorInfos()){
+    		Map<String,String> messageMap = new HashMap<>();
+    		messageMap.put("simple_message", errorInfo.getSimpleMessage());
+    		messageMap.put("exception_message", errorInfo.getExceptionMessage());
+    		errorInfoMap.put(errorInfo.getKey(), messageMap);
+    	}
+    	
+        return errorInfoMap;
     }
    
     /**
@@ -100,8 +109,16 @@ public class ValueListServiceController {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorInfo exceptionHandler(Exception exception){
-        return new ErrorInfo("Internal Server Error", "The server had an error while processing your request.",exception);
+    public Map<String,Map<String,String>> exceptionHandler(Exception exception){
+    	
+    	Map<String,Map<String,String>> errorInfoMap = new HashMap<>();
+
+		Map<String,String> messageMap = new HashMap<>();
+		messageMap.put("simple_message", "The server had an error while processing your request.");
+		messageMap.put("exception_message", exception.getMessage());
+		errorInfoMap.put("Internal Server Error", messageMap);
+    	
+		return errorInfoMap;
     }
     
 }

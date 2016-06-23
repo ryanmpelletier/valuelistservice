@@ -113,7 +113,7 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBe
 		//need both paging support and pagingInfo to run paging
 		if (pagingSupport != null && pagingInfo != null) {
 			
-			pagingInfo.setTotalCount(namedParameterJdbcTemplate.queryForObject(pagingSupport.getCountQuery(sqlWithParams), params, Integer.class));			
+			pagingInfo.setTotalCount(namedParameterJdbcTemplate.queryForObject(pagingSupport.getCountQuery(sqlWithParams), params, Integer.class));
 			List<T> results = namedParameterJdbcTemplate.query(pagingSupport.getPagedQuery(sqlWithParams, pagingInfo), params, rowMapper);
 			
 			return new DefaultValues<T>(results, pagingInfo);
