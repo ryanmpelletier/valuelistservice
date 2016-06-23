@@ -16,6 +16,7 @@
 </head>
 <body class="composite" ng-app="ValueListPageManager">
 <div ng-controller="PageManagerController">
+{{greeting}}
 	<div id="banner">
 		<div id="bannerLeft">valuelistservice</div>
 		<div class="clear">
@@ -461,18 +462,21 @@
 					The following exception handlers will catch any exceptions thrown from within the controller.
 				</p>
 				<div class="code">
-					<img src="images/exception_handlers.JPG" alt="Exception Handlers" style="height:250px;"/>
+					<img src="images/exception_handlers.JPG" alt="Exception Handlers" style="height:425px;"/>
 				</div>
 				<p>
-					Here, you can see there are two exception handlers. Both of these return <strong>ErrorInfo</strong> objects. 
-					These contain more user friendly messages that are nice to display on the front-end, but also wrap the
-					Exception. These ErrorInfo objects are also serialized into JSON.
+					Here, you can see there are two exception handlers. Both of these return <strong>Maps</strong>.
+					These maps contain information about exceptions that were thrown in the controller. The reason for maps
+					being returned is that they provide a natural structure for JSON objects, which are easy to use on the front end.
+					These maps will contain exception messages, and potentially a more user-friendly message as well.
 				</p>
 				<p>
-					Note that the top handler returns a <strong>List&lt;ErrorInfo&gt;</strong>, this is because this
-					handler specifically maps to <strong>ConvertionExceptions</strong> which wrap multiple exceptions.
+					Note that the top handler specifically catches <strong>ConvertionExceptions</strong> which wrap multiple exceptions.
 					The reason for this is because, if multiple exceptions are thrown in conversions, the client needs to know all of the
-					conversion errors. The bottom handler will catch any other exceptions that are thrown in the controller. 				
+					conversion errors. Conveniently, there will be an entry in the topmost level map for the parameter that could not be converted.
+					The second level map will contain a simple_message entry, and an exception_message entry. The simple_message holds a user friendly message,
+					while the exception_message will hold the exceptions actual message.
+					The bottom handler will catch any other exceptions that are thrown in the controller, and return a similar object. 				
 				</p>
 					<div class="back_footer" ng-click="currentPageName = 'FurtherExtension'">
 						Further Extension
