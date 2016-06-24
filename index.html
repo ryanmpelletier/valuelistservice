@@ -87,6 +87,8 @@
 				  	</ul>
 				  </li>
 				  <li><a ng-click="currentPageName = 'UsingInSpringMVC'">Using in Spring MVC</a></li>
+				  <li><a ng-click="currentPageName = 'CreatingAngularFrontEnd'">Creating an Angular Front End using valuelist.js</a></li>
+				  
 				</ul>
 					<div ng-hide="currentPageName != 'ProjectOverview'">
 						<p>
@@ -480,6 +482,351 @@
 					<div class="back_footer" ng-click="currentPageName = 'FurtherExtension'">
 						Further Extension
 					</div>
+					<div class="next_footer" ng-click="currentPageName = 'CreatingAngularFrontEnd'">
+						Creating an Angular Front End using valuelist.js
+					</div>
+				</div>
+				<div ng-hide="currentPageName != 'CreatingAngularFrontEnd'">
+					<h1><strong>Creating an Angular Front End using valuelist.js</strong></h1>
+					<p>
+						The valuelistservice.jar is really nice. It allows you to specify queries in XML for a service, then 
+						call that service to get the results. Its even better when valuelistservice is used inside of a Spring MVC app,
+						then you can get nice JSON responses over the web for your queries. 
+					</p>
+					<p>
+					<strong>Note: </strong>This was built for Angular 1.X
+					</p>
+					<p>
+						One of the most popular front-end frameworks currently available is AngularJS. Fortunately, an Angular module,
+						specifically made with valuelistservice in mind, is available. Lets see how we can use valuelist.js in an Angular project
+						to quickly build a front end for our Java valuelistservice.
+					</p>
+					<h3><strong>Using the plain valueListService to get data.</strong></h3>
+					<p>
+						Full code for this example can be found <a href="https://github.com/ryanp102694/valuelistservice_demo/tree/master/simpleDemo">here</a>.
+					</p>
+					<p>
+						First, you will need to download valuelist.js, which can be found <a href="https://github.com/ryanp102694/valuelistservice_demo">here</a>.
+					</p>
+					<p>
+						Create an html file, and import the Angular and valuelist scripts.
+						<div class="code">
+							<pre>
+								<code>
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;UTF-8&quot;&gt;
+        &lt;title&gt;valuelist.js - example&lt;/title&gt;
+        &lt;script src=&quot;js/angular.min.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;js/valuelist.js&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+
+    &lt;/body&gt;
+&lt;/html&gt;
+								</code>
+							</pre>
+						</div>
+						<p>
+							Next, we will create our app.js file and inject the valuelist module.
+						</p>
+						<p>
+							<div class="code">
+								<code>
+									angular.module('ValueListDemo',['valueList']);
+								</code>
+							</div>
+						</p>
+						<p>
+							Now we can include app.js in our html page, and use the ng-app attribute on the body element to initialize our angular app.
+						</p>
+						<p>
+							<div class="code">
+								<pre>
+									<code>
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;UTF-8&quot;&gt;
+        &lt;title&gt;valuelist.js - example&lt;/title&gt;
+        &lt;script src=&quot;js/angular.min.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;js/valuelist.js&quot;&gt;&lt;/script&gt;
+        &lt;script src = &quot;js/app.js&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body ng-app=&quot;ValueListDemo&quot;&gt;
+
+    &lt;/body&gt;
+&lt;/html&gt;
+									</code>
+								</pre>
+							</div>
+						</p>
+						<p>
+							The valuelist module must be configured with a base url. This will be the url which maps to the controller
+							where the Java service is running. Lets create a file called valuelist_config.js, and put the following configuration inside of it.
+							<strong>You will also need to include this file in the html page after valuelist.js</strong>
+						</p>
+						<div class="code">
+							<pre>
+								<code>
+angular.module('valueList').config(function(valueListServiceProvider){
+    valueListServiceProvider.setBaseUrl("http://localhost:8080/valueslistservice/values");
+});								
+								</code>
+							</pre>
+						</div>
+						<p>
+							Now that we have the valuelist module injected, and the provider configured, lets create a controller
+							and inject our valueListService into it. Lets also call the service and add the data to our controller $scope.
+							Put the following code into MainController.js.
+						</p>
+						<div class="code">
+							<pre>
+								<code>
+angular.module('ValueListDemo').controller('MainController',function($scope,valueListService){
+
+    var params = {
+        valueListQuery: "query",
+        page: 1,
+        numberPerPage: 15
+    };
+
+    valueListService.getValues(params).then(function(data){
+        $scope.results = JSON.stringify(data);
+    })
+});
+								
+								</code>
+							</pre>
+						</div>
+						<p>
+							Note what is happening above in <strong>MainController.js</strong>. First, we create an object called params, which will
+							be used to create the url for the http call to the Java service. Next, we call getValues from the service, and set the JSON serialized
+							result to our $scope.results object.
+						</p>
+						<p>
+							In order to see these results on our page, add the MainController.js file to the html page after app.js, and inside the body element,
+							insert the following html.
+						</p>
+						<p>
+							<div class="code"ng-non-bindable>
+								<pre>
+									<code>
+&lt;div ng-controller=&quot;MainController&quot;&gt;
+      {{results}}
+&lt;/div&gt;									
+									</code>
+								</pre>
+							</div>
+						</p>
+						<p>
+							You should see the JSON response from the service. This includes the values that were returned, as well as the valuesInfo, which is paging information.
+						</p>
+						<h3><strong>Using the ValueListServiceController</strong></h3>
+						<p>
+							Full code for this example can be found <a href="https://github.com/ryanp102694/valuelistservice_demo/tree/master/simpleDemo2">here</a>.
+						</p>
+						<p>
+							The valuelist.js module comes with <strong>ValueListServiceController</strong>, this controller supports using
+							the service with common features such as pagination, sorting, and is particularly useful for creating table views.
+						</p>
+						<p>
+							Lets see an example of this. We will start with the following html file. Make sure all of the script tags are including the files.
+							Also make sure that <strong>app.js</strong> is injecting the 'valuelist' into your app's module, as in the above example.
+						</p>
+						<p>
+							<div class="code">
+								<pre>
+									<code>
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;UTF-8&quot;&gt;
+        &lt;title&gt;valuelist.js - example&lt;/title&gt;
+        &lt;script src=&quot;js/angular.min.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;js/valuelist.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;js/valuelist_config.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;js/app.js&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body ng-app=&quot;ValueListDemo&quot;&gt;
+        &lt;div ng-controller=&quot;ValueListServiceController&quot;&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+									</code>
+								</pre>
+							</div>
+						</p>
+						<p>
+							Since we aren't writing our own controller like in the first example, we will need to configure the built in <strong>ValueListServiceController</strong>.
+							This will need to know the default <strong>page</strong>, <strong>numberPerPage</strong>, and <strong>valueListQuery</strong> params to use.
+						</p>
+						<p>
+							Here is my valuelist_config.js file. You may need to adjust yours to suit your needs.
+						</p>
+						<p>
+							<div class="code">
+								<pre>
+									<code>
+angular.module('valueList').config(function(valueListServiceProvider){
+    valueListServiceProvider.setBaseUrl("http://localhost:8080/valueslistservice/values");
+}).value("defaultParams",{page:1, numberPerPage:15, valueListQuery: 'query'});									
+									</code>
+								</pre>
+							</div>
+						</p>
+						<h4><strong>Creating a Basic Table</strong></h4>
+						<p>
+							Now, lets put a simple table on our page. My query returns values with the properties emp_no, first_name, last_name, gender, birth_date, and hire_date.
+							As you can see, my table is modeled accordingly. Put the following inside of the div that references the controller,adjusting the table headers
+							and row definitions to match your JSON response.
+						</p>
+						<p>
+							<div class="code" ng-non-bindable>
+								<pre>
+									<code>
+&lt;button ng-click=&quot;getValues()&quot;&gt;Load Results&lt;/button&gt;
+&lt;table&gt;
+    &lt;tbody&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Employee Number&lt;/th&gt;
+        &lt;th&gt;First Name&lt;/th&gt;
+        &lt;th&gt;Last Name&lt;/th&gt;
+        &lt;th&gt;Birth Date&lt;/th&gt;
+        &lt;th&gt;Gender&lt;/th&gt;
+        &lt;th&gt;Hire Date&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr ng-repeat=&quot;value in results.values&quot;&gt;
+        &lt;td&gt;{{ value.emp_no }}&lt;/td&gt;
+        &lt;td&gt;{{ value.first_name }}&lt;/td&gt;
+        &lt;td&gt;{{ value.last_name}}&lt;/td&gt;
+        &lt;td&gt;{{ value.birth_date}}&lt;/td&gt;
+        &lt;td&gt;{{ value.gender}}&lt;/td&gt;
+        &lt;td&gt;{{ value.hire_date }}&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
+									</code>
+								</pre>
+							</div>
+							</p>
+							<p>
+								After clicking the button, you will have a table which is displaying the results of your XML query from the back-end. This happens
+								when ng-click tells the scope to call <strong>getValues</strong>, which loads the results from the service into the controller's model.
+								Notice how each result from your query is put into <strong>results.values</strong>.
+							</p>
+							<h4><strong>Adding Form Parameters</strong></h4>
+							<p>
+								The next logical step would be allowing the user to enter parameters into a form.
+								The <strong>ValueListServiceController</strong> supports forms easily. Lets make a simple form on our page.
+								My form will give the user the option to enter either the first name, or the last name, which correspond to first_name and
+								last_name parameters in my SQL.
+							</p>
+							<p>
+								<div class="code">
+									<pre>
+										<code>
+&lt;form&gt;
+    &lt;label&gt;First Name: &lt;/label&gt;&lt;input type=&quot;text&quot; ng-model=&quot;queryParams.first_name&quot;/&gt;
+    &lt;label&gt;Last Name: &lt;/label&gt;&lt;input type=&quot;text&quot; ng-model=&quot;queryParams.last_name&quot;/&gt;
+&lt;/form&gt;
+										</code>
+									</pre>
+								</div>
+							</p>
+							<p>
+								The important thing to notice here is the <strong>ng-model</strong> attribute on the form element.
+								This binds the input value to <strong>queryParams</strong> properties. Note that in order for the queries to 
+								be passed the parameter from the input element, the ng-bind attribute must be set to <strong>queryParams.&lt;your_parameter_name&gt;</strong>
+							</p>
+							<p>
+								In this way, assuming that your SQL configured in the back-end takes advantage of the new parameters, the user can now enter search parameters.
+							</p>
+							<p>
+								Here is what my example looks like when the user enters "Georgi" for the first name.</br>
+								<div class="code">
+									<img src="images/table_with_parameters.JPG" style="height:402px;width:540px"/>
+								</div>
+							</p>
+							<h4><strong>Paging</strong></h4>
+							<p>
+								Fortunately, valuelist.js also supports paging out of the box with <strong>ValueListServiceController</strong>.
+								Lets add buttons in at the bottom of the table to page through our results. After all, paging support is one of the
+								primary reasons to use the back-end we are using.
+							</p>
+							<p>
+								Add the following html after the closing table element.
+							</p>
+							<p>
+								<div class="code">
+									<pre>
+										<code>
+&lt;button ng-click=&quot;backPage()&quot;&gt;Back&lt;/button&gt;
+&lt;button ng-click=&quot;nextPage()&quot;&gt;Next&lt;/button&gt;
+										</code>
+									</pre>
+								</div>
+							</p>
+							<p>
+								Just like that, the user can page through the results of the query. The controller manages
+								the page the user is on. If you would like to allow more control over paging yourself, simply bind an input to
+								<strong>queryParams.page</strong> or <strong>queryParams.numberPerPage</strong>, or manually set those values.
+							</p>
+							<h4><strong>Sorting</strong></h4>
+							<p>
+								Sorting results is also extremely easy with <strong>ValueListServiceController</strong>, simply call a function from the controller.
+							</p>
+							<p>
+								Add the following buttons in html (or something similar), which will call the controller's sort function. 
+								I will allow my user to sort by Employee Number, either ascending or descending.
+							</p>
+							<p>
+								<div class="code">
+									<pre>
+										<code>
+&lt;button ng-click=&quot;sort('emp_no','asc')&quot;&gt;Sort employees asc&lt;/button&gt;
+&lt;button ng-click=&quot;sort('emp_no','desc')&quot;&gt;Sort employees desc&lt;/button&gt;										
+										</code>
+									</pre>
+								</div>
+							</p>
+							<p>
+								Note that once the sorting parameters are applied, they will remain on the queryParams until they are changed or removed.
+							</p>
+							<h4><strong>Error Handling</strong></h4>
+							<p>
+								One of the nicest things about the Java side of this project is that when it is deployed in a web project
+								you will get nice JSON error responses that you can display to your user. One common area where this is useful is conversion errors.
+								Lets say you have a field for a user to enter a date in the form YYYY-MM-DD. Likely you have also configured the back end to convert
+								that date into a java.util.Date before running the query against the database.
+							</p>
+							<p>
+								In this situation, if the user were to enter something like 'today' into the date field, this would throw a ConversionException
+								on the server side, and the response from the server would include the JSON error messages. Lets see how we can use this to
+								display error messages.
+							</p>
+							<p>
+								I will add an input for date, and a span to bind to the error message, if it is present.
+							</p>
+							<p>
+								<div class="code">
+									<pre>
+										<code>
+&lt;label&gt;Hire Date: &lt;/label&gt;&lt;input type=&quot;text&quot; ng-model=&quot;queryParams.hire_date&quot; placeholder=&quot;YYYY-MM-DD&quot;/&gt;
+&lt;span ng-hide=&quot;results.errorData.hire_date == undefined&quot; ng-bind=&quot;results.errorData.hire_date.simple_message&quot;&gt;&lt;/span&gt;
+										</code>
+									</pre>
+								</div>
+							</p>
+							<p>
+								Note, any conversion error can be retrieved by using <strong>results.errorData.&lt;your_parameter_name&gt;</strong>.
+							</p>
+						<div class="back_footer" ng-click="currentPageName = 'UsingInSpringMVC'">
+							Using ValueListService in a Spring MVC Project
+						</div>
+						</div>
+					</p>
 				</div>
 			</div>
 		</div>
