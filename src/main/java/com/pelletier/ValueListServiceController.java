@@ -118,7 +118,7 @@ public class ValueListServiceController {
 		Map<String,String> messageMap = new HashMap<>();
 		messageMap.put("simple_message", "The server had an error while processing your request.");
 		messageMap.put("exception_message", exception.getMessage());
-		errorInfoMap.put("Internal Server Error", messageMap);
+		errorInfoMap.put("internal_server_error", messageMap);
     	
 		return errorInfoMap;
     }
