@@ -188,7 +188,7 @@
 						<em>JdbcDataAdapter</em>, or even <em>MongoDBDataAdapter</em>.
 					</p>
 					<p>
-						In fact, valueslistservice.jar includes a JDBC adapter, <strong>DefaultJdbcDataAdapter</strong>.
+						In fact, valuelistservice.jar includes a JDBC adapter, <strong>DefaultJdbcDataAdapter</strong>.
 						Let&rsquo;s see how we can easily configure this in Spring to read
 						data from a MySQL database.
 					</p>
@@ -446,7 +446,7 @@
 				</p>
 				<p>
 					<code>
-					curl -X GET -H "Cache-Control: no-cache" "http://localhost:8080/valueslistservice/values?valueListQuery=query&page=1&numberPerPage=10"
+					curl -X GET -H "Cache-Control: no-cache" "http://localhost:8080/valuelistservice/values?valueListQuery=query&page=1&numberPerPage=10"
 					</code>
 				</p>
 				<p>
@@ -563,15 +563,17 @@
 							</div>
 						</p>
 						<p>
-							The valuelist module must be configured with a base url. This will be the url which maps to the controller
-							where the Java service is running. Lets create a file called valuelist_config.js, and put the following configuration inside of it.
-							<strong>You will also need to include this file in the html page after valuelist.js</strong>
+							The valuelist module can be configured with the service url. (It is advised to configure it manually) This will be the url which maps to the controller
+							where the Java value list service is running. Lets create a file called valuelist_config.js, and put the following configuration inside of it.
+							<strong>You will also need to include this file in the html page after valuelist.js</strong></br>
+							Note that you do not need to configure the service url, and it will default to {protocol}://{host}:{port}/{webappName}/valuelist/valuelistservice/values.
+							This can come in handy if the angular app is running in the same webapp as the Java service.
 						</p>
 						<div class="code">
 							<pre>
 								<code>
 angular.module('valueList').config(function(valueListServiceProvider){
-    valueListServiceProvider.setBaseUrl("http://localhost:8080/valueslistservice/values");
+    valueListServiceProvider.setServiceUrl("http://localhost:8080/valuelistservice/values");
 });								
 								</code>
 							</pre>
@@ -670,7 +672,7 @@ angular.module('ValueListDemo').controller('MainController',function($scope,valu
 								<pre>
 									<code>
 angular.module('valueList').config(function(valueListServiceProvider){
-    valueListServiceProvider.setBaseUrl("http://localhost:8080/valueslistservice/values");
+    valueListServiceProvider.setServiceUrl("http://localhost:8080/valuelistservice/values");
 }).value("defaultParams",{page:1, numberPerPage:15, valueListQuery: 'query'});									
 									</code>
 								</pre>
@@ -821,6 +823,7 @@ angular.module('valueList').config(function(valueListServiceProvider){
 							</p>
 							<p>
 								Note, any conversion error can be retrieved by using <strong>results.errorData.&lt;your_parameter_name&gt;</strong>.
+								It is also worth mentioning that an angular module ngMessages can be useful for displaying this type of information. 
 							</p>
 						<div class="back_footer" ng-click="currentPageName = 'UsingInSpringMVC'">
 							Using ValueListService in a Spring MVC Project
