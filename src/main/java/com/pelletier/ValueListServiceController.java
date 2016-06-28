@@ -53,7 +53,7 @@ public class ValueListServiceController {
      * @return
      * Returns a Values object which will contain a list of whatever the valueListService is configured to return.
      */
-    @RequestMapping(value = "/valueslistservice/values", method = RequestMethod.GET)
+    @RequestMapping(value = "/valuelistservice/values", method = RequestMethod.GET)
     @ResponseBody
     public Values<? extends Object> getValueList(HttpServletRequest request, HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin", "*");
