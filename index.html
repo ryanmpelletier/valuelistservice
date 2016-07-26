@@ -737,8 +737,8 @@ angular.module('valueList').config(function(valueListServiceProvider){
 									<pre>
 										<code>
 &lt;form&gt;
-    &lt;label&gt;First Name: &lt;/label&gt;&lt;input type=&quot;text&quot; ng-model=&quot;queryParams.first_name&quot;/&gt;
-    &lt;label&gt;Last Name: &lt;/label&gt;&lt;input type=&quot;text&quot; ng-model=&quot;queryParams.last_name&quot;/&gt;
+    &lt;label&gt;First Name: &lt;/label&gt;&lt;input type=&quot;text&quot; ng-model=&quot;queryParams['query'].first_name&quot;/&gt;
+    &lt;label&gt;Last Name: &lt;/label&gt;&lt;input type=&quot;text&quot; ng-model=&quot;queryParams['query'].last_name&quot;/&gt;
 &lt;/form&gt;
 										</code>
 									</pre>
@@ -771,8 +771,8 @@ angular.module('valueList').config(function(valueListServiceProvider){
 								<div class="code">
 									<pre>
 										<code>
-&lt;button ng-click=&quot;backPage()&quot;&gt;Back&lt;/button&gt;
-&lt;button ng-click=&quot;nextPage()&quot;&gt;Next&lt;/button&gt;
+&lt;button ng-click=&quot;backPage('query')&quot;&gt;Back&lt;/button&gt;
+&lt;button ng-click=&quot;nextPage('query')&quot;&gt;Next&lt;/button&gt;
 										</code>
 									</pre>
 								</div>
@@ -780,7 +780,7 @@ angular.module('valueList').config(function(valueListServiceProvider){
 							<p>
 								Just like that, the user can page through the results of the query. The controller manages
 								the page the user is on. If you would like to allow more control over paging yourself, simply bind an input to
-								<strong>queryParams.page</strong> or <strong>queryParams.numberPerPage</strong>, or manually set those values.
+								<strong>queryParams['query'].page</strong> or <strong>queryParams['query'].numberPerPage</strong>, or manually set those values.
 							</p>
 							<h4><strong>Sorting</strong></h4>
 							<p>
@@ -794,8 +794,8 @@ angular.module('valueList').config(function(valueListServiceProvider){
 								<div class="code">
 									<pre>
 										<code>
-&lt;button ng-click=&quot;sort('emp_no','asc')&quot;&gt;Sort employees asc&lt;/button&gt;
-&lt;button ng-click=&quot;sort('emp_no','desc')&quot;&gt;Sort employees desc&lt;/button&gt;										
+&lt;button ng-click=&quot;sort('emp_no','asc','query')&quot;&gt;Sort employees asc&lt;/button&gt;
+&lt;button ng-click=&quot;sort('emp_no','desc','query')&quot;&gt;Sort employees desc&lt;/button&gt;										
 										</code>
 									</pre>
 								</div>
@@ -806,7 +806,7 @@ angular.module('valueList').config(function(valueListServiceProvider){
 							<h4><strong>Error Handling</strong></h4>
 							<p>
 								One of the nicest things about the Java side of this project is that when it is deployed in a web project
-								you will get nice JSON error responses that you can display to your user. One common area where this is useful is conversion errors.
+								you will get easy JSON error responses that you can display to your user. One common area where this is useful is conversion errors.
 								Lets say you have a field for a user to enter a date in the form YYYY-MM-DD. Likely you have also configured the back end to convert
 								that date into a java.util.Date before running the query against the database.
 							</p>
@@ -822,14 +822,14 @@ angular.module('valueList').config(function(valueListServiceProvider){
 								<div class="code">
 									<pre>
 										<code>
-&lt;label&gt;Hire Date: &lt;/label&gt;&lt;input type=&quot;text&quot; ng-model=&quot;queryParams.hire_date&quot; placeholder=&quot;YYYY-MM-DD&quot;/&gt;
-&lt;span ng-hide=&quot;results.errorData.hire_date == undefined&quot; ng-bind=&quot;results.errorData.hire_date.simple_message&quot;&gt;&lt;/span&gt;
+&lt;label&gt;Hire Date: &lt;/label&gt;&lt;input type=&quot;text&quot; ng-model=&quot;queryParams['query'].hire_date&quot; placeholder=&quot;YYYY-MM-DD&quot;/&gt;
+&lt;span ng-hide=&quot;results['query'].errorData.hire_date == undefined&quot; ng-bind=&quot;results['query'].errorData.hire_date.simple_message&quot;&gt;&lt;/span&gt;
 										</code>
 									</pre>
 								</div>
 							</p>
 							<p>
-								Note, any conversion error can be retrieved by using <strong>results.errorData.&lt;your_parameter_name&gt;</strong>.
+								Note, any conversion error can be retrieved by using <strong>results['query'].errorData.&lt;parameter_name&gt;</strong>.
 								It is also worth mentioning that an angular module ngMessages can be useful for displaying this type of information. 
 							</p>
 						<div class="back_footer" ng-click="currentPageName = 'UsingInSpringMVC'">
