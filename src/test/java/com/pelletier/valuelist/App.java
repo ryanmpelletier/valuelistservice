@@ -19,11 +19,11 @@ public class App {
 		
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
 		ValueListService valueListService = (ValueListService) applicationContext.getBean("valueListService");
-		DataAdapter<Map<String,Object>> dataAdapter = (DataAdapter<Map<String,Object>>) applicationContext.getBean("defaultJdbcDataAdapter");
+//		DataAdapter<Map<String,Object>> dataAdapter = (DataAdapter<Map<String,Object>>) applicationContext.getBean("defaultJdbcDataAdapter");
 
 		Map<String, Object> queryParams = new HashMap<String, Object>();
 //		queryParams.put("intField", "14");
-		queryParams.put("birth_date", "haha");
+//		queryParams.put("birth_date", "haha");
 //		queryParams.put("regex", ".*\\.xml");
 //		queryParams.put("name", "desc");
 //		queryParams.put("date", "asc");
