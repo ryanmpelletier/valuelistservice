@@ -737,8 +737,8 @@ angular.module('valueList').config(function(valueListServiceProvider){
 									<pre>
 										<code>
 &lt;form&gt;
-    &lt;label&gt;First Name: &lt;/label&gt;&lt;input type=&quot;text&quot; ng-model=&quot;queryParams.first_name&quot;/&gt;
-    &lt;label&gt;Last Name: &lt;/label&gt;&lt;input type=&quot;text&quot; ng-model=&quot;queryParams.last_name&quot;/&gt;
+    &lt;label&gt;First Name: &lt;/label&gt;&lt;input type=&quot;text&quot; ng-model=&quot;queryParams['query'].first_name&quot;/&gt;
+    &lt;label&gt;Last Name: &lt;/label&gt;&lt;input type=&quot;text&quot; ng-model=&quot;queryParams['query'].last_name&quot;/&gt;
 &lt;/form&gt;
 										</code>
 									</pre>
@@ -771,8 +771,8 @@ angular.module('valueList').config(function(valueListServiceProvider){
 								<div class="code">
 									<pre>
 										<code>
-&lt;button ng-click=&quot;backPage()&quot;&gt;Back&lt;/button&gt;
-&lt;button ng-click=&quot;nextPage()&quot;&gt;Next&lt;/button&gt;
+&lt;button ng-click=&quot;backPage('query')&quot;&gt;Back&lt;/button&gt;
+&lt;button ng-click=&quot;nextPage('query')&quot;&gt;Next&lt;/button&gt;
 										</code>
 									</pre>
 								</div>
@@ -780,7 +780,7 @@ angular.module('valueList').config(function(valueListServiceProvider){
 							<p>
 								Just like that, the user can page through the results of the query. The controller manages
 								the page the user is on. If you would like to allow more control over paging yourself, simply bind an input to
-								<strong>queryParams.page</strong> or <strong>queryParams.numberPerPage</strong>, or manually set those values.
+								<strong>queryParams['query'].page</strong> or <strong>queryParams['query'].numberPerPage</strong>, or manually set those values.
 							</p>
 							<h4><strong>Sorting</strong></h4>
 							<p>
