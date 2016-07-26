@@ -573,7 +573,7 @@
 							<pre>
 								<code>
 angular.module('valueList').config(function(valueListServiceProvider){
-    valueListServiceProvider.setServiceUrl("http://localhost:8080/valuelistservice/values");
+    valueListServiceProvider.setServiceUrl("http://localhost:8080/valuelist/valuelistservice/values");
 });								
 								</code>
 							</pre>
@@ -591,7 +591,7 @@ angular.module('ValueListDemo').controller('MainController',function($scope,valu
     var params = {
         valueListQuery: "query",
         page: 1,
-        numberPerPage: 15
+        numberPerPage: 10
     };
 
     valueListService.getValues(params).then(function(data){
@@ -631,7 +631,7 @@ angular.module('ValueListDemo').controller('MainController',function($scope,valu
 						</p>
 						<p>
 							The valuelist.js module comes with <strong>ValueListServiceController</strong>, this controller supports using
-							the service with common features such as pagination, sorting, and is particularly useful for creating table views.
+							the service with common features such as pagination, sorting, and is particularly useful for creating tabular views.
 						</p>
 						<p>
 							Lets see an example of this. We will start with the following html file. Make sure all of the script tags are including the files.
@@ -662,7 +662,8 @@ angular.module('ValueListDemo').controller('MainController',function($scope,valu
 						</p>
 						<p>
 							Since we aren't writing our own controller like in the first example, we will need to configure the built in <strong>ValueListServiceController</strong>.
-							This will need to know the default <strong>page</strong>, <strong>numberPerPage</strong>, and <strong>valueListQuery</strong> params to use.
+							This will need to know the default <strong>page</strong>, <strong>numberPerPage</strong>, and <strong>valueListQuery</strong> params for each query you may have.
+							This is important, because we will use the key we configure here to access our results, and also supply appropriate parameters on our page. 
 						</p>
 						<p>
 							Here is my valuelist_config.js file. You may need to adjust yours to suit your needs.
@@ -672,8 +673,14 @@ angular.module('ValueListDemo').controller('MainController',function($scope,valu
 								<pre>
 									<code>
 angular.module('valueList').config(function(valueListServiceProvider){
-    valueListServiceProvider.setServiceUrl("http://localhost:8080/valuelistservice/values");
-}).value("defaultParams",{page:1, numberPerPage:15, valueListQuery: 'query'});									
+    valueListServiceProvider.setServiceUrl("http://localhost:8080/valuelist/valuelistservice/values");
+}).value("startingQueryParams",{//this only does stuff when using the default controller
+    'query':{
+        valueListQuery:'query',
+        page:1,
+        numberPerPage: 25
+    }
+});							
 									</code>
 								</pre>
 							</div>
@@ -688,7 +695,7 @@ angular.module('valueList').config(function(valueListServiceProvider){
 							<div class="code" ng-non-bindable>
 								<pre>
 									<code>
-&lt;button ng-click=&quot;getValues()&quot;&gt;Load Results&lt;/button&gt;
+&lt;button ng-click=&quot;getValues('query')&quot;&gt;Load Results&lt;/button&gt;
 &lt;table&gt;
     &lt;tbody&gt;
     &lt;tr&gt;
@@ -699,7 +706,7 @@ angular.module('valueList').config(function(valueListServiceProvider){
         &lt;th&gt;Gender&lt;/th&gt;
         &lt;th&gt;Hire Date&lt;/th&gt;
     &lt;/tr&gt;
-    &lt;tr ng-repeat=&quot;value in results.values&quot;&gt;
+    &lt;tr ng-repeat=&quot;value in results['query'].values&quot;&gt;
         &lt;td&gt;{{ value.emp_no }}&lt;/td&gt;
         &lt;td&gt;{{ value.first_name }}&lt;/td&gt;
         &lt;td&gt;{{ value.last_name}}&lt;/td&gt;
@@ -715,8 +722,8 @@ angular.module('valueList').config(function(valueListServiceProvider){
 							</p>
 							<p>
 								After clicking the button, you will have a table which is displaying the results of your XML query from the back-end. This happens
-								when ng-click tells the scope to call <strong>getValues</strong>, which loads the results from the service into the controller's model.
-								Notice how each result from your query is put into <strong>results.values</strong>.
+								when ng-click tells the scope to call <strong>getValues('query')</strong>, which loads the results from the service into the controller's model.
+								Notice how each result from your query is put into <strong>results['query'].values</strong>, using the key which you configured.
 							</p>
 							<h4><strong>Adding Form Parameters</strong></h4>
 							<p>
