@@ -65,8 +65,8 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBe
 	 */
 	private PagingInfo defaultPagingInfo;
 
-
 	@Override
+	@SuppressWarnings("unchecked")
 	public void afterPropertiesSet() throws Exception
 	{
 		if(queryParameterMapper == null)
