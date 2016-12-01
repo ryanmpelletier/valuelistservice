@@ -5,10 +5,13 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.jdbc.core.ColumnMapRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
 import com.pelletier.valuelist.DataAdapter;
 import com.pelletier.valuelist.DefaultValues;
 import com.pelletier.valuelist.PagingInfo;
@@ -54,6 +57,11 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBe
 	private RowMapper<T> rowMapper;
 	
 	/**
+	 * RowCallbackHandler with added state is provided via a factory bean.
+	 */
+	private FactoryBean<StatefulRowCallbackHandler<T>> statefulRowCallbackHandlerFactoryBean;
+
+	/**
 	 * Optionally allow pagination using PagingSupport object. When left null, 
 	 * full query results are returned. 
 	 */
@@ -74,7 +82,7 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBe
 			queryParameterMapper = new VelocityQueryParameterMapper();
 		}
 		
-		if(rowMapper == null)
+		if(rowMapper == null && statefulRowCallbackHandlerFactoryBean == null)
 		{
 			 rowMapper = (RowMapper<T>) new ColumnMapRowMapper();		
 		}
@@ -91,16 +99,17 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBe
 	}
 	
 	@Override
-	public Values<T> query(Map<String, Object> params, PagingInfo pagingInfo) {
-		
+	public Values<T> query(Map<String, Object> params, PagingInfo pagingInfo)
+	{
+
 		//if a default paging info is set up, and one isn't supplied, use default
 		if(pagingInfo == null && defaultPagingInfo != null){
 			pagingInfo = defaultPagingInfo;
 		}
-		
-		//convert parameters if necessary
+
+		// convert parameters if necessary
 		if(adapterConversionService != null){
-			 params = adapterConversionService.convert(params);
+			params = adapterConversionService.convert(params);
 		}
 		/*
 		 * SQL after transformation
@@ -110,18 +119,34 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBe
 		 */
 		String sqlWithParams = queryParameterMapper.transform(sql, params);
 
-		//need both paging support and pagingInfo to run paging
+		//This feature should not be used with paging as there is not a 1 to 1 mapping
+		//so check this first and if the factory exists then forget about the paging...
+		if (statefulRowCallbackHandlerFactoryBean != null)
+		{
+			// Unfortunately the FactoryBean#getObject() method has to throws
+			// an exception, so catch it and wrap it in a DataAccessException
+			// as this should never happen.
+			StatefulRowCallbackHandler<T> statefulRowCallbackHandler = null;
+			try
+			{
+				statefulRowCallbackHandler = statefulRowCallbackHandlerFactoryBean.getObject();
+			} catch (Exception e)
+			{
+				throw new DataAccessResourceFailureException("Could not create statefulRowCallbackHandler.", e);
+			}
+
+			namedParameterJdbcTemplate.query(sqlWithParams, params, statefulRowCallbackHandler);
+			return new DefaultValues<T>(statefulRowCallbackHandler.getValues(), pagingInfo);
+		}
+		
+		// need both paging support and pagingInfo to run paging
 		if (pagingSupport != null && pagingInfo != null) {
-			
 			pagingInfo.setTotalCount(namedParameterJdbcTemplate.queryForObject(pagingSupport.getCountQuery(sqlWithParams), params, Integer.class));
-			List<T> results = namedParameterJdbcTemplate.query(pagingSupport.getPagedQuery(sqlWithParams, pagingInfo), params, rowMapper);
-			
-			return new DefaultValues<T>(results, pagingInfo);
-		} else {
-			List<T> results = namedParameterJdbcTemplate.query(sqlWithParams, params, rowMapper);			
-			return new DefaultValues<T>(results, null);
+			sqlWithParams = pagingSupport.getPagedQuery(sqlWithParams, pagingInfo);
 		}
 
+		List<T> results = namedParameterJdbcTemplate.query(sqlWithParams, params, rowMapper);
+		return new DefaultValues<T>(results, pagingInfo);
 	}
 
 	public void setSql(String sql) {
@@ -146,6 +171,10 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBe
 
 	public void setRowMapper(RowMapper<T> rowMapper) {
 		this.rowMapper = rowMapper;
+	}
+	public void setStatefulRowCallbackHandlerFactoryBean(FactoryBean<StatefulRowCallbackHandler<T>> statefulRowCallbackHandlerFactoryBean)
+	{
+		this.statefulRowCallbackHandlerFactoryBean = statefulRowCallbackHandlerFactoryBean;
 	}
 
 	public void setAdapterConversionService(AdapterConversionService adapterConversionService) {
