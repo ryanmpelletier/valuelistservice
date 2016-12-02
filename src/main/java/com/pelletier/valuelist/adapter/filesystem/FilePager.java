@@ -5,7 +5,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.pelletier.valuelist.PagingInfo;
+import com.pelletier.valuelist.adapter.misc.InMemmoryPagingDataAdapter;
 
+/**
+ * @see InMemmoryPagingDataAdapter
+ * 
+ * @deprecated Use the InMemmoryPagingDataAdapter instead.
+ */
 public class FilePager{
 
 	/**

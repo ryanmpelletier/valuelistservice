@@ -16,6 +16,11 @@ public class PagingInfo {
 	private int numberPerPage = 10;
 	
 	public PagingInfo(){}
+	
+	public PagingInfo(int numberPerPage, int page){
+		this.page = page;
+		this.numberPerPage = numberPerPage;
+	}
 
 	public int getTotalCount() {
 		return totalCount;

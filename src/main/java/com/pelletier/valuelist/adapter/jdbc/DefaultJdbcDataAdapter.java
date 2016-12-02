@@ -120,7 +120,8 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBe
 		String sqlWithParams = queryParameterMapper.transform(sql, params);
 
 		//This feature should not be used with paging as there is not a 1 to 1 mapping
-		//so check this first and if the factory exists then forget about the paging...
+		//so check this first and if the factory exists then forget about the paging
+		// and let InMemmoryPagingDataAdapter handle that.
 		if (statefulRowCallbackHandlerFactoryBean != null)
 		{
 			// Unfortunately the FactoryBean#getObject() method has to throws
