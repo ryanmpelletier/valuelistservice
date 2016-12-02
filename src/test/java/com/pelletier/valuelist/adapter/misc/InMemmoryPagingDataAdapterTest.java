@@ -11,6 +11,7 @@ import org.junit.Test;
 import com.pelletier.valuelist.MockDataAdapter;
 import com.pelletier.valuelist.PagingInfo;
 import com.pelletier.valuelist.Values;
+import com.pelletier.valuelist.adapter.InMemmoryPagingDataAdapter;
 
 /**
  * @author M.L. Wilson

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.pelletier.valuelist.adapter.misc;
+package com.pelletier.valuelist.adapter;
 
 import java.util.List;
 import java.util.Map;

@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.pelletier.valuelist.PagingInfo;
-import com.pelletier.valuelist.adapter.misc.InMemmoryPagingDataAdapter;
+import com.pelletier.valuelist.adapter.InMemmoryPagingDataAdapter;
 
 /**
  * @see InMemmoryPagingDataAdapter
