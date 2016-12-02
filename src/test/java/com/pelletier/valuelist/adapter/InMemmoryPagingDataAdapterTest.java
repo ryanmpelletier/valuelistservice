@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.pelletier.valuelist.adapter.misc;
+package com.pelletier.valuelist.adapter;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -78,6 +78,18 @@ public class InMemmoryPagingDataAdapterTest
 		
 		assertEquals(10, values.getValuesInfo().getTotalCount());
 		assertArrayEquals(new String[]{"9"}, values.getValues().toArray());
+	}
+	
+	@Test
+	public void testSimplePagingPage5()
+	{
+		InMemmoryPagingDataAdapter<String> adapter = new InMemmoryPagingDataAdapter<String>();
+		adapter.setDataAdapter(new MockDataAdapter<String>("0", "1", "2", "3", "4", "5", "6", "7", "8", "9"));
+
+		Values<String> values = adapter.query(null, new PagingInfo(3,5));
+		
+		assertEquals(10, values.getValuesInfo().getTotalCount());
+		assertArrayEquals(new String[]{}, values.getValues().toArray());
 	}
 	
 	@Test

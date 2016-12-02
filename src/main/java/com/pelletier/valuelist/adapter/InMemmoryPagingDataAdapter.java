@@ -39,7 +39,7 @@ public class InMemmoryPagingDataAdapter<T> implements DataAdapter<T>, Initializi
 			List<T> values = valuesHolder.getValues();
 			pagingInfo.setTotalCount(values.size());
 			
-			if (pagingInfo.getPage() > 0)
+			if (pagingInfo.getPage() > 0 && pagingInfo.getTotalCount() > (pagingInfo.getNumberPerPage() * (pagingInfo.getPage()-1)) )
 			{
 				if (pagingInfo.getTotalCount() > pagingInfo.getNumberPerPage())
 				{
