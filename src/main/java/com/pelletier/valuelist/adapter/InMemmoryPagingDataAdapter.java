@@ -39,7 +39,7 @@ public class InMemmoryPagingDataAdapter<T> implements DataAdapter<T>, Initializi
 			List<T> values = valuesHolder.getValues();
 			pagingInfo.setTotalCount(values.size());
 			
-			if (pagingInfo.getPage() > 0 && pagingInfo.getTotalCount() > (pagingInfo.getNumberPerPage() * (pagingInfo.getPage()-1)) )
+			if (pagingInfo.getNumberPerPage() > 0 && pagingInfo.getPage() > 0 && pagingInfo.getTotalCount() > (pagingInfo.getNumberPerPage() * (pagingInfo.getPage()-1)) )
 			{
 				if (pagingInfo.getTotalCount() > pagingInfo.getNumberPerPage())
 				{
@@ -50,8 +50,8 @@ public class InMemmoryPagingDataAdapter<T> implements DataAdapter<T>, Initializi
 			else
 			{
 				// TODO: Not sure what to do here, but for now if a 
-				// negative page is passed in the list will be empty,
-				//similar to the JDBC paging support.
+				// negative page or numberPerPage is passed in the 
+				// list will be empty, similar to the JDBC paging support.
 				valuesHolder.getValues().clear();
 			}
 		}

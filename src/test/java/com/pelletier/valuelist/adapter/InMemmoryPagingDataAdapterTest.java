@@ -22,8 +22,7 @@ public class InMemmoryPagingDataAdapterTest
 	@Test
 	public void testNullPagingInfo()
 	{
-		String[] data = new String[]
-		{ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+		String[] data = new String[]{ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 		InMemmoryPagingDataAdapter<String> adapter = new InMemmoryPagingDataAdapter<String>();
 		adapter.setDataAdapter(new MockDataAdapter<String>(data));
 
@@ -98,11 +97,36 @@ public class InMemmoryPagingDataAdapterTest
 		InMemmoryPagingDataAdapter<String> adapter = new InMemmoryPagingDataAdapter<String>();
 		adapter.setDataAdapter(new MockDataAdapter<String>("0", "1", "2", "3", "4", "5", "6", "7", "8", "9"));
 
-		Values<String> values = adapter.query(null, new PagingInfo(3,-2));
+		Values<String> values = adapter.query(null, new PagingInfo(2,-2));
+		
+		//Result should be empty.
+		assertEquals(10, values.getValuesInfo().getTotalCount());
+		assertArrayEquals(new String[]{}, values.getValues().toArray());
+	}
+	
+	@Test
+	public void testNegativeNumberPerPage()
+	{
+		InMemmoryPagingDataAdapter<String> adapter = new InMemmoryPagingDataAdapter<String>();
+		adapter.setDataAdapter(new MockDataAdapter<String>("0", "1", "2", "3", "4", "5", "6", "7", "8", "9"));
+
+		Values<String> values = adapter.query(null, new PagingInfo(-1,3));
 		
 		//Result should be empty.
 		assertEquals(10, values.getValuesInfo().getTotalCount());
 		assertArrayEquals(new String[]{}, values.getValues().toArray());
 	}
 
+	@Test
+	public void testNegativeNumberPerPageandNegativePage()
+	{
+		InMemmoryPagingDataAdapter<String> adapter = new InMemmoryPagingDataAdapter<String>();
+		adapter.setDataAdapter(new MockDataAdapter<String>("0", "1", "2", "3", "4", "5", "6", "7", "8", "9"));
+
+		Values<String> values = adapter.query(null, new PagingInfo(-1,-2));
+		
+		//Result should be empty.
+		assertEquals(10, values.getValuesInfo().getTotalCount());
+		assertArrayEquals(new String[]{}, values.getValues().toArray());
+	}
 }
