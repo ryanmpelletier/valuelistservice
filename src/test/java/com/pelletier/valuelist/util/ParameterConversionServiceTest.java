@@ -11,8 +11,9 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.pelletier.valuelist.exception.ConversionException;
-import com.pelletier.valuelist.exception.ErrorInfo;
+import com.pelletier.valuelist.ConversionException;
+import com.pelletier.valuelist.ConversionException.ErrorInfo;
+
 
 public class ParameterConversionServiceTest {
 	

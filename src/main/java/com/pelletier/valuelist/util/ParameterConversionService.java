@@ -8,8 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.DefaultConversionService;
 
-import com.pelletier.valuelist.exception.ConversionException;
-import com.pelletier.valuelist.exception.ErrorInfo;
+import com.pelletier.valuelist.ConversionException;
 
 /**
  * 
@@ -68,7 +67,7 @@ public class ParameterConversionService extends DefaultConversionService impleme
 					if(conversionException == null){
 						conversionException = new ConversionException();
 					}
-					conversionException.addErrorInfo(new ErrorInfo(paramKey,"Unable to convert " + params.get(paramKey) + " to " + paramTypeMap.get(paramKey),exception));
+					conversionException.addError(paramKey, String.format("Unable to convert %s to %s", params.get(paramKey), paramTypeMap.get(paramKey)),exception);
 				}
 			}else{
 				returnMap.put(paramKey, (T) params.get(paramKey));

@@ -1,7 +1,6 @@
 package com.pelletier;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,11 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.pelletier.valuelist.ConversionException;
+import com.pelletier.valuelist.ConversionException.ErrorInfo;
 import com.pelletier.valuelist.PagingInfo;
 import com.pelletier.valuelist.ValueListService;
 import com.pelletier.valuelist.Values;
-import com.pelletier.valuelist.exception.ConversionException;
-import com.pelletier.valuelist.exception.ErrorInfo;
+
 
 /**
  * Created by Ryan Pelletier on 6/10/2016.

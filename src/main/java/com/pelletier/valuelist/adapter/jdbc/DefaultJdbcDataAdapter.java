@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.jdbc.core.ColumnMapRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -91,11 +92,6 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBe
 		{
 			adapterConversionService = new ParameterConversionService();
 		}
-		
-		if( namedParameterJdbcTemplate == null)
-		{
-			throw new RuntimeException("namedParameterJdbcTemplate or dataSource is required");
-		}
 	}
 	
 	@Override
@@ -154,12 +150,10 @@ public class DefaultJdbcDataAdapter<T> implements DataAdapter<T>, InitializingBe
 		this.sql = sql;
 	}
 
+	@Autowired
 	public void setDataSource(DataSource dataSource)
 	{
 		this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-	}
-	public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
 	}
 
 	public void setQueryParameterMapper(QueryParameterMapper queryParameterMapper) {
